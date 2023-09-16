@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5"
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/style/photos.css">
+</head>
+
+<body>
+
+    <main>
+        <h1>Image id: <%= photo.id %>
+        </h1>
+        <img src="<%= photo.src %>" alt="Zsi Satr">
+        <div class="controlls">
+            <a href="/img/<%= Number(position) - 1 %>" hx-boost="true"
+                hx-trigger="click, keyup[A] from:body   ">&leftarrow;</a>
+            <a href="/img/<%= Number(position) + 1 %>" hx-boost="true"
+                hx-trigger="click, keyup[key=='D'] from:body">&rightarrow;</a>
+        </div>
+
+    </main>
+
+    <section>
+        <h2>Tags</h2>
+
+        <div id="tags">
+            <%- include('../components/taglist.ejs', {tags, photoId: photo.id, checked: true}) %>
+        </div>
+
+
+    </section>
+
+    <section>
+        <h2>Search tags</h2>
+
+        <div class="searches">
+            <input type="text" id="promptInput" name="prompt" hx-get="/api/img/<%= photo.id %>/tag"
+                hx-trigger="keyup changed delay:500ms, search" hx-target="next #results">
+            <div id="results"></div>
+        </div>
+
+
+    </section>
+
+</body>
+
+</html>
