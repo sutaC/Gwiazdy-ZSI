@@ -95,6 +95,12 @@ app.get("/api/img/:photoid/tag", async (req, res) => {
 	});
 });
 
+// --- Error ---
+
+app.use((req, res) => {
+	res.sendStatus(404);
+});
+
 // --- Deploy ---
 
 app.listen(port, () => {
