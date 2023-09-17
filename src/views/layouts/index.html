@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Zsi Stars</title>
 </head>
+
 <body>
-    
+
     <main>
-        <h1>Visit photo</h1>
-        <form action="/visit" method="post">
-            <input type="number" name="photoid" required min="0" max="200">
+        <h1>Gwiazdy ZSI</h1>
+        <form action="/img" method="post" hx-boost="true">
+            <input type="number" name="photoid" placeholder="Id..." required min="0">
             <button type="submit">Visit</button>
         </form>
+        <a href="/img/random">Open random photo</a>
     </main>
 
+
 </body>
+
 </html>

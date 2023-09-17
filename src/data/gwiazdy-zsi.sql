@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 16 Wrz 2023, 23:13
+-- Czas generowania: 17 Wrz 2023, 15:33
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.6
 
@@ -385,9 +385,14 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 (21, 332, 47),
 (22, 332, 71),
 (23, 333, 28),
+(30, 334, 3),
 (24, 334, 28),
 (25, 335, 28),
-(5, 337, 28);
+(5, 337, 28),
+(26, 342, 38),
+(27, 471, 48),
+(29, 473, 28),
+(28, 473, 38);
 
 -- --------------------------------------------------------
 
@@ -517,7 +522,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT dla tabeli `teachers`

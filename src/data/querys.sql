@@ -1,7 +1,11 @@
--- Get image
-SELECT * FROM images LIMIT ?, 1;
--- Get images quantity
-SELECT COUNT(*) FROM images;
+-- Get image by id
+SELECT * FROM images WHERE id = ?;
+-- Get random image id
+SELECT id FROM images ORDER BY RAND() LIMIT 1;
+-- Get next image id
+SELECT id FROM images WHERE id > ? LIMIT 1;
+-- Get previous image id
+SELECT id FROM images WHERE id < ? ORDER BY id DESC LIMIT 1;
 
 -- Add tag relation
 INSERT INTO imagesteachers (id, id_images, id_teachers) VALUES (NULL, ?, ?);

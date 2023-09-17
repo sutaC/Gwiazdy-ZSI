@@ -9,25 +9,48 @@ async function getConnection() {
 }
 
 // --- Imgs ---
-
-export async function getImg(position) {
+export async function getImgById(id) {
 	const con = await getConnection();
-	const [[data]] = await con.query("SELECT * FROM images LIMIT ?, 1;", [
-		Number(position),
+	const [[data]] = await con.query("SELECT * FROM images WHERE id = ?;", [
+		Number(id),
 	]);
 	con.end();
 
 	return data;
 }
 
-export async function getMaxPosition() {
+export async function getNextImg(id) {
 	const con = await getConnection();
-	await con.query("SELECT COUNT(*) FROM images;");
+	const [[data]] = await con.query(
+		"SELECT id FROM images WHERE id > ? LIMIT 1;",
+		[Number(id)]
+	);
 	con.end();
+
+	return data.id;
+}
+export async function getPreviousImg(id) {
+	const con = await getConnection();
+	const [[data]] = await con.query(
+		"SELECT id FROM images WHERE id < ? ORDER BY id DESC LIMIT 1;",
+		[Number(id)]
+	);
+	con.end();
+
+	return data.id;
+}
+
+export async function getRandomImg() {
+	const con = await getConnection();
+	const [[data]] = await con.query(
+		"SELECT id FROM images ORDER BY RAND() LIMIT 1;"
+	);
+	con.end();
+
+	return data.id;
 }
 
 // --- Tags ---
-
 export async function addTag(imageId, teachersId) {
 	const con = await getConnection();
 	await con.query(

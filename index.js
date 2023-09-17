@@ -17,43 +17,73 @@ const options = {
 	root: path.join(directory + "/src/views"),
 };
 
-// ---
-
-const maxPosition = await db.getMaxPosition();
-
-// ---
-
+// --- Mian ---
 app.get("/", (req, res) => {
 	res.sendFile("/layouts/index.html", options);
 });
 
-app.post("/visit", (req, res) => {
-	const { photoid } = req.body;
+// --- Images ---
+app.get("/img/:photoid", async (req, res) => {
+	const { photoid } = req.params;
+	// TODO: form
 
-	if (Number(photoid) < 0 || Number(photoid) > maxPosition) {
-		return res.status(400).redirect("/");
+	if (!photoid) {
+		return res.sendStatus(400);
+	}
+
+	let photo, tags;
+
+	try {
+		photo = await db.getImgById(photoid);
+		tags = await db.getSelectedTeachers(photo.id);
+	} catch (error) {
+		return res.sendStatus(404);
+	}
+
+	res.render("./layouts/photos.ejs", { photo, tags });
+});
+
+app.get("/img/:photoid/next", async (req, res) => {
+	const { photoid } = req.params;
+
+	let newphotoid;
+
+	try {
+		newphotoid = await db.getNextImg(photoid);
+	} catch (error) {
+		return res.sendStatus(404);
+	}
+
+	res.redirect(`/img/${newphotoid}`);
+});
+
+app.get("/img/:photoid/previous", async (req, res) => {
+	const { photoid } = req.params;
+
+	let newphotoid;
+
+	try {
+		newphotoid = await db.getPreviousImg(photoid);
+	} catch (error) {
+		return res.sendStatus(404);
+	}
+
+	res.redirect(`/img/${newphotoid}`);
+});
+
+app.get("/img/random", async (req, res) => {
+	let photoid;
+
+	try {
+		photoid = await db.getRandomImg();
+	} catch (error) {
+		res.sendStatus(500);
 	}
 
 	res.redirect(`/img/${photoid}`);
 });
 
-// --- Images display ---
-
-app.get("/img/:position", async (req, res) => {
-	let { position } = req.params;
-
-	if (Number(position) < 0) {
-		return res.status(400).redirect("/img/0");
-	} else if (Number(position) > maxPosition) {
-		return res.status(400).redirect(`/img/${maxPosition}`);
-	}
-
-	const photo = await db.getImg(position);
-	const tags = await db.getSelectedTeachers(photo.id);
-
-	res.render("./layouts/photos.ejs", { photo, position, tags });
-});
-
+// --- Tags ---
 app.put("/api/img/:photoid/tag/:tagid", async (req, res) => {
 	const { photoid, tagid } = req.params;
 
@@ -61,7 +91,7 @@ app.put("/api/img/:photoid/tag/:tagid", async (req, res) => {
 
 	res.render("./components/tag.ejs", {
 		tag,
-		photoId: photoid,
+		photoid,
 		checked: true,
 	});
 });
@@ -90,7 +120,7 @@ app.get("/api/img/:photoid/tag", async (req, res) => {
 
 	res.render("./components/taglist.ejs", {
 		tags,
-		photoId: photoid,
+		photoid,
 		checked: false,
 	});
 });
