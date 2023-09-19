@@ -19,6 +19,8 @@ body {
 
 main {
     flex: 30%;
+    position: sticky;
+    top: 1rem;
 }
 
 section {
@@ -39,6 +41,10 @@ section {
     display: none;
 }
 
+#results {
+    margin: 1rem 0;
+}
+
 .tagtab, .imagetab {
     display: flex;
     justify-content: space-between;
@@ -55,7 +61,7 @@ section {
     max-width: 20%;
 }
 
-.imagetab > a {
+a {
     width: fit-content;
     font-size: 1rem;
     color: white;

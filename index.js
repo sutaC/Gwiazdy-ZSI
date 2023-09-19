@@ -28,7 +28,7 @@ app.get("/img/:photoid", async (req, res) => {
 
 	
 	if(!photoid) {
-		return res.sendStatus(400)
+		return res.status(404).render("./layouts/error.ejs", {error: {code: 400}})
 	}
 
 	let photo, tags;
@@ -37,7 +37,7 @@ app.get("/img/:photoid", async (req, res) => {
 		photo = await db.getImgById(photoid);
 		tags = await db.getSelectedTeachers(photo.id);
 	} catch (error) {
-		return res.sendStatus(404);
+		return res.status(404).render("./layouts/error.ejs", {error: {code: 404}})
 	}
 
 	res.render("./layouts/photos.ejs", { photo, tags });
@@ -47,7 +47,7 @@ app.post("/img", (req, res) => {
 	const {photoid}  = req.body;
 
 	if(!photoid) {
-		return res.sendStatus(400)
+		return res.status(400).render("./layouts/error.ejs", {error: {code: 400}})
 	}
 
 	res.redirect(`/img/${photoid}`)
@@ -61,7 +61,7 @@ app.get("/img/:photoid/next", async (req, res) => {
 	try {
 		newphotoid = await db.getNextImg(photoid);
 	} catch (error) {
-		return res.sendStatus(404);
+		return res.status(404).render("./layouts/error.ejs", {error: {code: 404}})
 	}
 
 	res.redirect(`/img/${newphotoid}`);
@@ -75,7 +75,7 @@ app.get("/img/:photoid/previous", async (req, res) => {
 	try {
 		newphotoid = await db.getPreviousImg(photoid);
 	} catch (error) {
-		return res.sendStatus(404);
+		return res.status(404).render("./layouts/error.ejs", {error: {code: 404}})
 	}
 
 	res.redirect(`/img/${newphotoid}`);
@@ -87,7 +87,7 @@ app.get("/randomimg", async (req, res) => {
 	try {
 		photoid = await db.getRandomImg();
 	} catch (error) {
-		res.sendStatus(500);
+		return res.status(500).render("./layouts/error.ejs", {error: {code: 500}})
 	}
 
 	res.redirect(`/img/${photoid}`);
@@ -172,7 +172,7 @@ app.get("/api/imagetaglist/:tagid", async (req, res) => {
 // --- Error ---
 
 app.use((req, res) => {
-	res.sendStatus(404);
+	res.status(404).render("./layouts/error.ejs", {error: {code: 404}})
 });
 
 // --- Deploy ---
