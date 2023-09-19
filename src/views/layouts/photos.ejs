@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    
+
     <aside>
         <a href="/" class="return">Home</a>
 
@@ -22,17 +22,21 @@
         <div>
             <h3>Added tags</h3>
             <div id="tags">
-                <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true}) %>
+                <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true, authorized}) %>
             </div>
         </div>
 
-        <div>
-            <h3>Search tags</h3>
-            <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-                hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
-                hx-target="next #results">
-            <div id="results"></div>
-        </div>
+        <% if(authorized){ %>
+
+            <div>
+                <h3>Search tags</h3>
+                <input type="text" id="promptInput" name="prompt" placeholder="Search..."
+                    hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
+                    hx-target="next #results">
+                <div id="results"></div>
+            </div>
+
+            <% } %>
 
     </aside>
 
@@ -43,7 +47,7 @@
         <div class="controlls">
             <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
                 hx-trigger="click, keyup[ArrowLeft]">&leftarrow;</a>
-                <a href="/randomimg">Random</a>
+            <a href="/randomimg">Random</a>
             <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
                 hx-trigger="click, keyup[ArrowRight]">&rightarrow;</a>
         </div>

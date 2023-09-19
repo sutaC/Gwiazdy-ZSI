@@ -19,7 +19,7 @@ export async function getImgById(id) {
 	return data;
 }
 
-export async function getImgsByTagId(tagid){
+export async function getImgsByTagId(tagid) {
 	const con = await getConnection();
 	const [data] = await con.query(
 		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ?;",
@@ -27,7 +27,7 @@ export async function getImgsByTagId(tagid){
 	);
 	con.end();
 
-	if(!data[0]){
+	if (!data[0]) {
 		return [];
 	}
 
@@ -113,7 +113,7 @@ export async function getSelectedTeachers(imageId) {
 	return data;
 }
 
-export async function searchTeachers(prompt){
+export async function searchTeachers(prompt) {
 	const con = await getConnection();
 	const [data] = await con.query(
 		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") LIMIT 5;',
@@ -143,16 +143,47 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 	return data;
 }
 
-// --- Users --- 
+// --- Users ---
 
-export async function getUser(login){
-	const con = await getConnection()
+export async function getUser(login) {
+	const con = await getConnection();
 
-	const [[data]] = await con.query("SELECT password FROM users WHERE login = ?;", [String(login)])
-	
-	if(!data){
+	const [[data]] = await con.query(
+		"SELECT password FROM users WHERE login = ?;",
+		[String(login)]
+	);
+	con.end();
+
+	if (!data) {
 		return null;
 	}
 
 	return data.password;
+}
+
+export async function getUserByToken(token) {
+	const con = await getConnection();
+
+	const [[data]] = await con.query(
+		"SELECT login FROM users WHERE token = ?;",
+		[String(token)]
+	);
+	con.end();
+
+	if (!data) {
+		return null;
+	}
+
+	return data.login;
+}
+
+export async function updateUserToken(login, token) {
+	const con = await getConnection();
+
+	await con.query("UPDATE users SET token = ? WHERE login = ?;", [
+		String(token),
+		String(login),
+	]);
+
+	con.end();
 }
