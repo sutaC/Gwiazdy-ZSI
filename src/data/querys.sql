@@ -41,3 +41,6 @@ HAVING      NOT id IN (
                 WHERE   imagesteachers.id_images = ? 
             ) 
 LIMIT 5;
+
+-- Get user
+SELECT password FROM users WHERE login = ?;

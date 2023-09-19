@@ -1,26 +1,55 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as db from "./src/data/db.js";
 
 const port = 3000;
+const secret = "secret"
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(secret))
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(directory + "/static")));
-
 app.set("views", path.join(directory + "/src/views"));
 
-const options = {
-	root: path.join(directory + "/src/views"),
-};
 
 // --- Main ---
 app.get("/", (req, res) => {
 	res.render("./layouts/index.ejs");
 });
+
+// --- Auth ---
+
+app.get("/login", (req, res) => {
+	res.render("./layouts/login.ejs")
+})
+
+app.post("/login", async (req, res) => {
+	const {login, password} = req.body;
+
+	console.log(req.cookies);
+
+	if(!String(login) || !String(password)){
+		return res.status(400).send("Login & password required");
+	}
+
+	const dbPassword = await db.getUser(login)
+
+	if(!dbPassword){
+		return res.status(400).send("No user with this login was found");
+	}
+
+	if(password !== dbPassword){
+		return res.status(400).send("Incorrect password");
+	}
+
+	res.cookie("auth", "1234", {signed: true})
+
+	res.status(200).send("Authenticated")
+})
 
 // --- Images ---
 app.get("/img/:photoid", async (req, res) => {

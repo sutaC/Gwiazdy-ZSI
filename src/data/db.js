@@ -142,3 +142,17 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 
 	return data;
 }
+
+// --- Users --- 
+
+export async function getUser(login){
+	const con = await getConnection()
+
+	const [[data]] = await con.query("SELECT password FROM users WHERE login = ?;", [String(login)])
+	
+	if(!data){
+		return null;
+	}
+
+	return data.password;
+}
