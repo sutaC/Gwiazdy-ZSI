@@ -98,6 +98,21 @@ export async function getSelectedTeachers(imageId) {
 	return data;
 }
 
+export async function searchTeachers(prompt){
+	const con = await getConnection();
+	const [data] = await con.query(
+		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") LIMIT 5;',
+		[String(prompt)]
+	);
+	con.end();
+
+	if (!data[0]) {
+		return [];
+	}
+
+	return data;
+}
+
 export async function searchUnselectedTeachers(imageId, prompt) {
 	const con = await getConnection();
 	const [data] = await con.query(

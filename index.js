@@ -19,7 +19,7 @@ const options = {
 
 // --- Mian ---
 app.get("/", (req, res) => {
-	res.sendFile("/layouts/index.html", options);
+	res.render("./layouts/index.ejs");
 });
 
 // --- Images ---
@@ -131,6 +131,22 @@ app.get("/api/img/:photoid/tag", async (req, res) => {
 	res.render("./components/taglist.ejs", {
 		tags,
 		photoid,
+		checked: false,
+	});
+});
+
+app.get("/api/tag", async (req, res) => {
+	const { prompt } = req.query;
+
+	if (!prompt) {
+		return res.send("");
+	}
+
+	const tags = await db.searchTeachers(prompt);
+
+	res.render("./components/taglist.ejs", {
+		tags,
+		photoid: 1,
 		checked: false,
 	});
 });

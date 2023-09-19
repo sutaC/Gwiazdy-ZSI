@@ -18,6 +18,12 @@
         <a href="/randomimg">Open random photo</a>
     </main>
 
+    <section>
+        <h2>Search images with teachers</h2>
+        <input type="text" name="prompt" hx-get="/api/tag" hx-target="next #results" hx-trigger="keyup changed delay:250ms, search">
+        <div id="results"></div>
+    </section>
+
 
 </body>
 
