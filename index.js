@@ -17,7 +17,7 @@ const options = {
 	root: path.join(directory + "/src/views"),
 };
 
-// --- Mian ---
+// --- Main ---
 app.get("/", (req, res) => {
 	res.render("./layouts/index.ejs");
 });
@@ -142,13 +142,31 @@ app.get("/api/tag", async (req, res) => {
 		return res.send("");
 	}
 
-	const tags = await db.searchTeachers(prompt);
+	const tagtabs = await db.searchTeachers(prompt);
 
-	res.render("./components/taglist.ejs", {
-		tags,
-		photoid: 1,
-		checked: false,
-	});
+	res.render("./components/tagtablist.ejs", {tagtabs})
+});
+
+app.get("/api/imagetaglist/:tagid", async (req, res) => {
+	const { tagid } = req.params;
+
+	if (!tagid) {
+		return res.sendStatus(400);
+	}
+
+	let imagetabs
+
+	try {
+		imagetabs = await db.getImgsByTagId(tagid);
+	} catch (error) {
+		return res.sendStatus(500)
+	}
+
+	if(imagetabs.length === 0){
+		return res.send("No images found")
+	}
+
+	res.render("./components/imagetablist.ejs", {imagetabs})
 });
 
 // --- Error ---

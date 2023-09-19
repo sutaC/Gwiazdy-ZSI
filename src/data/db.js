@@ -19,6 +19,21 @@ export async function getImgById(id) {
 	return data;
 }
 
+export async function getImgsByTagId(tagid){
+	const con = await getConnection();
+	const [data] = await con.query(
+		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ?;",
+		[Number(tagid)]
+	);
+	con.end();
+
+	if(!data[0]){
+		return [];
+	}
+
+	return data;
+}
+
 export async function getNextImg(id) {
 	const con = await getConnection();
 	const [[data]] = await con.query(

@@ -1,0 +1,14 @@
+<% tagtabs.forEach(tagtab => { %>
+    
+    <div class="tagtab">
+        <p><%= tagtab.name %></p>
+        <button 
+            hx-get="/api/imagetaglist/<%= tagtab.id %>" 
+            hx-trigger="click"
+            hx-target="#imagetablist" 
+            hx-on::after-request='document.querySelector("#promptInput").value = "";
+                document.querySelector("#results").innerHTML = ""'
+        >Dispaly</button>
+    </div>
+
+<% }); %>
