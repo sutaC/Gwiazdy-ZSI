@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Wrz 19, 2023 at 02:38 PM
--- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Czas generowania: 19 Wrz 2023, 22:32
+-- Wersja serwera: 10.4.24-MariaDB
+-- Wersja PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gwiazdy-zsi`
+-- Baza danych: `gwiazdy-zsi`
 --
 
 -- --------------------------------------------------------
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `src` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `images`
+-- Zrzut danych tabeli `images`
 --
 
 INSERT INTO `images` (`id`, `src`) VALUES
@@ -77,7 +77,6 @@ INSERT INTO `images` (`id`, `src`) VALUES
 (363, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/rozpoczecierokuszkolnego/13.jpg'),
 (364, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/pierwszekroki/DSC_0135.JPG'),
 (365, 'https://www.zsi.kielce.pl/wp-content/uploads/2016/09/DSC_0025.jpg'),
-(366, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0025.JPG'),
 (367, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0054.JPG'),
 (368, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0091.JPG'),
 (369, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/slubowanie/DSC_0011.JPG'),
@@ -365,10 +364,10 @@ CREATE TABLE `imagesteachers` (
   `id` int(11) NOT NULL,
   `id_images` int(11) NOT NULL,
   `id_teachers` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `imagesteachers`
+-- Zrzut danych tabeli `imagesteachers`
 --
 
 INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
@@ -392,8 +391,12 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 (83, 360, 13),
 (84, 360, 28),
 (85, 360, 47),
+(108, 365, 28),
+(110, 367, 5),
+(109, 367, 47),
 (56, 369, 28),
 (61, 371, 28),
+(107, 377, 28),
 (77, 384, 5),
 (78, 384, 6),
 (80, 384, 15),
@@ -470,10 +473,10 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 CREATE TABLE `teachers` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `teachers`
+-- Zrzut danych tabeli `teachers`
 --
 
 INSERT INTO `teachers` (`id`, `name`) VALUES
@@ -563,14 +566,14 @@ CREATE TABLE `users` (
   `login` varchar(255) NOT NULL,
   `password` text NOT NULL,
   `token` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Zrzut danych tabeli `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `token`) VALUES
-(1, 'admin', 'password', NULL);
+(1, 'admin', 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=', 'cLSq0WBCpRpObIR9ZMEKFDTlN3mQrxhq3ptTvT2E5WM=');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -604,39 +607,39 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `login` (`login`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT dla zrzuconych tabel
 --
 
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT dla tabeli `images`
 --
 ALTER TABLE `images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=643;
 
 --
--- AUTO_INCREMENT for table `imagesteachers`
+-- AUTO_INCREMENT dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
--- AUTO_INCREMENT for table `teachers`
+-- AUTO_INCREMENT dla tabeli `teachers`
 --
 ALTER TABLE `teachers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Constraints for dumped tables
+-- Ograniczenia dla zrzutów tabel
 --
 
 --
--- Constraints for table `imagesteachers`
+-- Ograniczenia dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
   ADD CONSTRAINT `imagesteachers_ibfk_1` FOREIGN KEY (`id_images`) REFERENCES `images` (`id`) ON DELETE CASCADE,

@@ -72,27 +72,29 @@ app.post("/login", async (req, res) => {
 		const dbToken = await db.getUserByToken(token);
 
 		if (dbToken) {
-			return res.status(101).redirect("/admin");
+			return res
+				.status(303)
+				.send('<script>window.location.replace("/admin")</script>');
 		}
 	}
 
 	const { login, password } = req.body;
 
 	if (!String(login) || !String(password)) {
-		return res.status(400).send("Login & password required");
+		return res.send("Login & password required");
 	}
 
 	const dbPassword = await db.getUser(login);
 
 	if (!dbPassword) {
-		return res.status(400).send("No user with this login was found");
+		return res.send("No user with this login was found");
 	}
 
 	if (
 		createHash("sha256", secret).update(password).digest("base64") !==
 		dbPassword
 	) {
-		return res.status(400).send("Incorrect password");
+		return res.send("Incorrect password");
 	}
 
 	const newToken = createHash("sha256", secret)
@@ -113,7 +115,7 @@ app.post("/login", async (req, res) => {
 		secure: true,
 	});
 
-	res.status(101).redirect("/admin");
+	res.status(303).send('<script>window.location.replace("/admin")</script>');
 });
 
 app.get("/admin", (req, res) => {
