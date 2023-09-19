@@ -13,6 +13,26 @@
 </head>
 
 <body>
+    
+    <aside>
+        <h2>Tags</h2>
+
+        <div>
+            <h3>Added tags</h3>
+            <div id="tags">
+                <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true}) %>
+            </div>
+        </div>
+
+        <div>
+            <h3>Search tags</h3>
+            <input type="text" id="promptInput" name="prompt" placeholder="Search..."
+                hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
+                hx-target="next #results">
+            <div id="results"></div>
+        </div>
+
+    </aside>
 
     <main>
         <h1>Image id: <%= photo.id %>
@@ -27,29 +47,6 @@
         </div>
 
     </main>
-
-    <section>
-        <h2>Tags</h2>
-
-        <div id="tags">
-            <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true}) %>
-        </div>
-
-
-    </section>
-
-    <section>
-        <h2>Search tags</h2>
-
-        <div class="searches">
-            <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-                hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
-                hx-target="next #results">
-            <div id="results"></div>
-        </div>
-
-
-    </section>
 
 </body>
 
