@@ -24,11 +24,11 @@ app.get("/", (req, res) => {
 
 // --- Images ---
 app.get("/img/:photoid", async (req, res) => {
-	const { photoid } = req.params;
-	// TODO: form
+	const {photoid}  = req.params;
 
-	if (!photoid) {
-		return res.sendStatus(400);
+	
+	if(!photoid) {
+		return res.sendStatus(400)
 	}
 
 	let photo, tags;
@@ -42,6 +42,16 @@ app.get("/img/:photoid", async (req, res) => {
 
 	res.render("./layouts/photos.ejs", { photo, tags });
 });
+
+app.post("/img", (req, res) => {
+	const {photoid}  = req.body;
+
+	if(!photoid) {
+		return res.sendStatus(400)
+	}
+
+	res.redirect(`/img/${photoid}`)
+})
 
 app.get("/img/:photoid/next", async (req, res) => {
 	const { photoid } = req.params;
@@ -71,7 +81,7 @@ app.get("/img/:photoid/previous", async (req, res) => {
 	res.redirect(`/img/${newphotoid}`);
 });
 
-app.get("/img/random", async (req, res) => {
+app.get("/randomimg", async (req, res) => {
 	let photoid;
 
 	try {
