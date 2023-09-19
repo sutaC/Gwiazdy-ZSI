@@ -13,41 +13,42 @@
 </head>
 
 <body>
+    
+    <aside>
+        <a href="/" class="return">Home</a>
+
+        <h2>Tags</h2>
+
+        <div>
+            <h3>Added tags</h3>
+            <div id="tags">
+                <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true}) %>
+            </div>
+        </div>
+
+        <div>
+            <h3>Search tags</h3>
+            <input type="text" id="promptInput" name="prompt" placeholder="Search..."
+                hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
+                hx-target="next #results">
+            <div id="results"></div>
+        </div>
+
+    </aside>
 
     <main>
         <h1>Image id: <%= photo.id %>
         </h1>
         <img src="<%= photo.src %>" alt="Zsi Satr">
         <div class="controlls">
-            <a href="/img/<%= Number(position) - 1 %>" hx-boost="true"
-                hx-trigger="click, keyup[A] from:body   ">&leftarrow;</a>
-            <a href="/img/<%= Number(position) + 1 %>" hx-boost="true"
-                hx-trigger="click, keyup[key=='D'] from:body">&rightarrow;</a>
+            <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
+                hx-trigger="click, keyup[ArrowLeft]">&leftarrow;</a>
+                <a href="/randomimg">Random</a>
+            <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
+                hx-trigger="click, keyup[ArrowRight]">&rightarrow;</a>
         </div>
 
     </main>
-
-    <section>
-        <h2>Tags</h2>
-
-        <div id="tags">
-            <%- include('../components/taglist.ejs', {tags, photoId: photo.id, checked: true}) %>
-        </div>
-
-
-    </section>
-
-    <section>
-        <h2>Search tags</h2>
-
-        <div class="searches">
-            <input type="text" id="promptInput" name="prompt" hx-get="/api/img/<%= photo.id %>/tag"
-                hx-trigger="keyup changed delay:500ms, search" hx-target="next #results">
-            <div id="results"></div>
-        </div>
-
-
-    </section>
 
 </body>
 
