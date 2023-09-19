@@ -36,8 +36,8 @@ main {
 }
 
 main > img {
-	max-height: 80vh;
-	max-width: 50vw;
+	width: clamp(30vw, 70%, 50vw);
+	max-height: 70vh;
 
 	border: 1px solid #fff;
 	padding: 0.25rem;
@@ -90,4 +90,9 @@ aside {
 	padding: 0;
 }
 
-
+.return {
+	border-bottom: 1px solid white;
+	
+	text-align: left;
+	color: white;
+}

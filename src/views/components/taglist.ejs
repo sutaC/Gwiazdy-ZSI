@@ -1,18 +1,3 @@
 <% tags.forEach(tag=> { %>
-    <div class="tag">
-
-        <p>
-            <%= tag.name %>
-        </p>
-    
-        <% if(checked){ %>
-            <button hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
-                hx-target="closest .tag">Delete</button>
-            <% } else { %>
-                <button hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend" hx-target="#tags"
-                    hx-on::after-request='document.querySelector("#promptInput").value = "";
-                    document.querySelector("#results").innerHTML = ""'>Add</button>
-                <% } %>
-    
-    </div>
+    <%- include("../components/tag.ejs", {tag, photoid, checked}) %>
 <% }); %>
