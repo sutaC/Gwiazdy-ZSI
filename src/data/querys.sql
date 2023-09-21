@@ -48,3 +48,6 @@ SELECT password FROM users WHERE login = ?;
 SELECT login FROM users WHERE token = ?;
 -- Update user token
 UPDATE users SET token = ? WHERE login = ?;
+-- Update user token
+
+UPDATE users SET password = ? WHERE login = ?;

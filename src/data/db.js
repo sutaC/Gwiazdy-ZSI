@@ -2,9 +2,10 @@ import mysql from "mysql2/promise";
 
 async function getConnection() {
 	return mysql.createConnection({
-		host: "localhost",
-		user: "root",
-		database: "gwiazdy-zsi",
+		host: process.env.DB_HOST,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASS,
+		database: process.env.DB_NAME
 	});
 }
 
@@ -187,3 +188,15 @@ export async function updateUserToken(login, token) {
 
 	con.end();
 }
+
+export async function updateUserPassword(login, password) {
+	const con = await getConnection();
+
+	await con.query("UPDATE users SET password = ? WHERE login = ?;", [
+		String(password),
+		String(login),
+	]);
+
+	con.end();
+}
+

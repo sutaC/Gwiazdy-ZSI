@@ -4,3 +4,4 @@ node_modules
 gwiazdy-zsi.txt
 nauczyciele.txt
 insert.js
+.env

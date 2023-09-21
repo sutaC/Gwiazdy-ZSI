@@ -2,45 +2,23 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import { randomUUID } from "crypto";
+import dotenv from 'dotenv'
 import * as db from "./src/data/db.js";
-import { createHash, randomUUID } from "crypto";
+import * as auth from "./src/data/auth.js"
 
-const port = 3000;
-const secret = "hwzT1rMZ0FBbwfgvh9qMsEFAF/QanrTAN41xiYa5O9g=";
 const app = express();
+dotenv.config();
 
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(secret));
+app.use(cookieParser(process.env.SECRET));
 
 const directory = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(directory + "/static")));
 app.set("views", path.join(directory + "/src/views"));
 
 // Authorization
-app.use(async (req, res, next) => {
-	const { token } = req.signedCookies;
-	req.authorized = false;
-
-	if (!token) {
-		return next();
-	}
-
-	let user;
-	try {
-		user = await db.getUserByToken(token);
-	} catch (error) {
-		return res.render("./layouts/error.ejs", {
-			error: { code: 500, message: error.message },
-		});
-	}
-
-	if (!user) {
-		return next();
-	}
-
-	req.authorized = true;
-	next();
-});
+app.use(auth.authorize);
 
 // --- Main ---
 app.get("/", (req, res) => {
@@ -52,30 +30,19 @@ app.get("/", (req, res) => {
 // --- Login ---
 
 app.get("/login", async (req, res) => {
-	const { token } = req.signedCookies;
-
-	if (token) {
-		const dbToken = await db.getUserByToken(token);
-
-		if (dbToken) {
-			return res.status(101).redirect("/admin");
-		}
+	if (req.authorized) {
+		return res.status(101).redirect("/admin");
 	}
 
 	res.render("./layouts/login.ejs");
 });
 
 app.post("/login", async (req, res) => {
-	const { token } = req.signedCookies;
 
-	if (token) {
-		const dbToken = await db.getUserByToken(token);
-
-		if (dbToken) {
-			return res
-				.status(303)
-				.send('<script>window.location.replace("/admin")</script>');
-		}
+	if (req.authorized) {
+		return res
+			.status(303)
+			.send('<script>window.location.replace("/admin")</script>');
 	}
 
 	const { login, password } = req.body;
@@ -90,16 +57,11 @@ app.post("/login", async (req, res) => {
 		return res.send("No user with this login was found");
 	}
 
-	if (
-		createHash("sha256", secret).update(password).digest("base64") !==
-		dbPassword
-	) {
+	if (auth.hashString(password) !== dbPassword) {
 		return res.send("Incorrect password");
 	}
 
-	const newToken = createHash("sha256", secret)
-		.update(randomUUID())
-		.digest("base64");
+	const newToken = auth.hashString(randomUUID())
 
 	try {
 		await db.updateUserToken(login, newToken);
@@ -118,22 +80,13 @@ app.post("/login", async (req, res) => {
 	res.status(303).send('<script>window.location.replace("/admin")</script>');
 });
 
-app.get("/admin", (req, res) => {
-	if (!req.authorized) {
-		return res
-			.status(401)
-			.render("./layouts/error.ejs", { error: { code: 401 } });
-	}
-
+app.get("/admin", (req, res, next) => {
+	auth.authenticatePage(req, res, next)
 	res.render("./layouts/admin.ejs");
 });
 
-app.get("/logout", async (req, res) => {
-	if (!req.authorized) {
-		return res
-			.status(401)
-			.render("./layouts/error.ejs", { error: { code: 401 } });
-	}
+app.get("/logout", async (req, res, next) => {
+	auth.authenticatePage(req, res, next)
 
 	const { token } = req.signedCookies;
 
@@ -153,6 +106,55 @@ app.get("/logout", async (req, res) => {
 
 	res.redirect("/");
 });
+
+app.get("/reset", (req, res, next) => {
+	auth.authenticatePage(req, res, next)
+
+	res.render("./layouts/reset.ejs")
+})
+
+app.post('/reset', async (req, res, next) => {
+	auth.authenticateApi(req, res, next)
+
+	const { newPassword, repeatPassword } = req.body;
+
+	if (!String(newPassword) || !String(repeatPassword)) {
+		return res.send("New password is required");
+	}
+
+	if (newPassword !== repeatPassword) {
+		return res.send("Incorrect password");
+	}
+
+	const validationError = auth.validatePassword(newPassword);
+	if(validationError){
+		return res.send(validationError);
+	}
+
+	let login;
+	const {token} = req.cookies
+	try {
+		login = await db.getUserByToken(token);
+	} catch (error) {
+		return res
+		.status(500)
+		.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	if (!login) {
+		return res.send("Your account canot be found");
+	}
+
+	try {
+		await db.updateUserPassword(login, auth.hashString(newPassword));
+	} catch (error) {
+		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	res.send('<span style="color: green;">Changed password succesfully!</span> ');
+})
 
 // --- Images ---
 app.get("/img/:photoid", async (req, res) => {
@@ -241,10 +243,8 @@ app.get("/randomimg", async (req, res) => {
 });
 
 // --- Tags ---
-app.put("/api/img/:photoid/tag/:tagid", async (req, res) => {
-	if (!req.authorized) {
-		return res.sendStatus(401);
-	}
+app.put("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
+	auth.authenticateApi(req, res, next)
 
 	const { photoid, tagid } = req.params;
 
@@ -258,10 +258,8 @@ app.put("/api/img/:photoid/tag/:tagid", async (req, res) => {
 	});
 });
 
-app.delete("/api/img/:photoid/tag/:tagid", async (req, res) => {
-	if (!req.authorized) {
-		return res.sendStatus(401);
-	}
+app.delete("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
+	auth.authenticateApi(req, res, next)
 
 	const { photoid, tagid } = req.params;
 
@@ -274,10 +272,8 @@ app.delete("/api/img/:photoid/tag/:tagid", async (req, res) => {
 	return res.send("");
 });
 
-app.get("/api/img/:photoid/tag", async (req, res) => {
-	if (!req.authorized) {
-		return res.sendStatus(401);
-	}
+app.get("/api/img/:photoid/tag", async (req, res, next) => {
+	auth.authenticateApi(req, res, next)
 
 	const { prompt } = req.query;
 	const { photoid } = req.params;
@@ -337,7 +333,7 @@ app.use((req, res) => {
 });
 
 // --- Deploy ---
-
+const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
 	console.log(`Listening on http://localhost:${port}`);
 });
