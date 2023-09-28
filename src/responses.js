@@ -1,50 +1,20 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import path from "path";
-import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
-import dotenv from 'dotenv'
-import * as db from "./src/data/db.js";
-import * as auth from "./src/data/auth.js"
+import * as db from "./data/db.js";
+import { hashString } from "./auth.js";
 
-const app = express();
-dotenv.config();
-
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.SECRET));
-
-const directory = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(directory + "/static")));
-app.set("views", path.join(directory + "/src/views"));
-
-// Authorization
-app.use(auth.authorize);
-
-// --- Main ---
-app.get("/", (req, res) => {
+// Responses
+export const getRoot = (req, res) => {
 	const { authorized } = req.authorized;
 
 	res.render("./layouts/index.ejs", { authorized });
-});
+};
 
-// --- Login ---
-
-app.get("/login", async (req, res) => {
-	if (req.authorized) {
-		return res.status(101).redirect("/admin");
-	}
-
+// --- Admin panel ---
+export const getLogin = async (req, res) => {
 	res.render("./layouts/login.ejs");
-});
+};
 
-app.post("/login", async (req, res) => {
-
-	if (req.authorized) {
-		return res
-			.status(303)
-			.send('<script>window.location.replace("/admin")</script>');
-	}
-
+export const postLogin = async (req, res) => {
 	const { login, password } = req.body;
 
 	if (!String(login) || !String(password)) {
@@ -57,11 +27,11 @@ app.post("/login", async (req, res) => {
 		return res.send("No user with this login was found");
 	}
 
-	if (auth.hashString(password) !== dbPassword) {
+	if (hashString(password) !== dbPassword) {
 		return res.send("Incorrect password");
 	}
 
-	const newToken = auth.hashString(randomUUID())
+	const newToken = hashString(randomUUID());
 
 	try {
 		await db.updateUserToken(login, newToken);
@@ -78,16 +48,13 @@ app.post("/login", async (req, res) => {
 	});
 
 	res.status(303).send('<script>window.location.replace("/admin")</script>');
-});
+};
 
-app.get("/admin", (req, res, next) => {
-	auth.authenticatePage(req, res, next)
+export const getAdmin = (req, res) => {
 	res.render("./layouts/admin.ejs");
-});
+};
 
-app.get("/logout", async (req, res, next) => {
-	auth.authenticatePage(req, res, next)
-
+export const getLogout = async (req, res) => {
 	const { token } = req.signedCookies;
 
 	try {
@@ -105,17 +72,13 @@ app.get("/logout", async (req, res, next) => {
 	res.clearCookie("token", { secure: true, signed: true });
 
 	res.redirect("/");
-});
+};
 
-app.get("/reset", (req, res, next) => {
-	auth.authenticatePage(req, res, next)
+export const getReset = (req, res) => {
+	res.render("./layouts/reset.ejs");
+};
 
-	res.render("./layouts/reset.ejs")
-})
-
-app.post('/reset', async (req, res, next) => {
-	auth.authenticateApi(req, res, next)
-
+export const postReset = async (req, res) => {
 	const { newPassword, repeatPassword } = req.body;
 
 	if (!String(newPassword) || !String(repeatPassword)) {
@@ -127,18 +90,18 @@ app.post('/reset', async (req, res, next) => {
 	}
 
 	const validationError = auth.validatePassword(newPassword);
-	if(validationError){
+	if (validationError) {
 		return res.send(validationError);
 	}
 
 	let login;
-	const {token} = req.cookies
+	const { token } = req.cookies;
 	try {
 		login = await db.getUserByToken(token);
 	} catch (error) {
 		return res
-		.status(500)
-		.render("./layouts/error.ejs", { error: { code: 500 } });
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
 	if (!login) {
@@ -146,24 +109,26 @@ app.post('/reset', async (req, res, next) => {
 	}
 
 	try {
-		await db.updateUserPassword(login, auth.hashString(newPassword));
+		await db.updateUserPassword(login, hashString(newPassword));
 	} catch (error) {
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
-	res.send('<span style="color: green;">Changed password succesfully!</span> ');
-})
+	res.send(
+		'<span style="color: green;">Changed password succesfully!</span> '
+	);
+};
 
 // --- Images ---
-app.get("/img/:photoid", async (req, res) => {
+export const getImg = async (req, res) => {
 	const { photoid } = req.params;
 
 	if (!photoid) {
 		return res
 			.status(404)
-			.render("./layouts/error.ejs", { error: { code: 400 } });
+			.render("./layouts/error.ejs", { error: { code: 404 } });
 	}
 
 	let photo, tags;
@@ -177,14 +142,20 @@ app.get("/img/:photoid", async (req, res) => {
 			.render("./layouts/error.ejs", { error: { code: 404 } });
 	}
 
+	if (!photo) {
+		return res
+			.status(400)
+			.render("./layouts/error.ejs", { error: { code: 400 } });
+	}
+
 	res.render("./layouts/photos.ejs", {
 		photo,
 		tags,
 		authorized: req.authorized,
 	});
-});
+};
 
-app.post("/img", (req, res) => {
+export const postImg = async (req, res) => {
 	const { photoid } = req.body;
 
 	if (!photoid) {
@@ -194,9 +165,9 @@ app.post("/img", (req, res) => {
 	}
 
 	res.redirect(`/img/${photoid}`);
-});
+};
 
-app.get("/img/:photoid/next", async (req, res) => {
+export const getImgNext = async (req, res) => {
 	const { photoid } = req.params;
 
 	let newphotoid;
@@ -205,14 +176,20 @@ app.get("/img/:photoid/next", async (req, res) => {
 		newphotoid = await db.getNextImg(photoid);
 	} catch (error) {
 		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	if (!newphotoid) {
+		return res
 			.status(404)
 			.render("./layouts/error.ejs", { error: { code: 404 } });
 	}
 
 	res.redirect(`/img/${newphotoid}`);
-});
+};
 
-app.get("/img/:photoid/previous", async (req, res) => {
+export const getImgPrevious = async (req, res) => {
 	const { photoid } = req.params;
 
 	let newphotoid;
@@ -221,14 +198,20 @@ app.get("/img/:photoid/previous", async (req, res) => {
 		newphotoid = await db.getPreviousImg(photoid);
 	} catch (error) {
 		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	if (!newphotoid) {
+		return res
 			.status(404)
 			.render("./layouts/error.ejs", { error: { code: 404 } });
 	}
 
 	res.redirect(`/img/${newphotoid}`);
-});
+};
 
-app.get("/randomimg", async (req, res) => {
+export const getRandomImg = async (req, res) => {
 	let photoid;
 
 	try {
@@ -239,16 +222,30 @@ app.get("/randomimg", async (req, res) => {
 			.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
+	if (!photoid) {
+		return res
+			.status(404)
+			.render("./layouts/error.ejs", { error: { code: 404 } });
+	}
+
 	res.redirect(`/img/${photoid}`);
-});
+};
 
 // --- Tags ---
-app.put("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
-	auth.authenticateApi(req, res, next)
-
+export const putImgTag = async (req, res) => {
 	const { photoid, tagid } = req.params;
 
-	const tag = await db.addTag(photoid, tagid);
+	let tag;
+
+	try {
+		tag = await db.addTag(photoid, tagid);
+	} catch (error) {
+		return res.sendStatus(500);
+	}
+
+	if (!tag) {
+		return res.sendStatus(400);
+	}
 
 	res.render("./components/tag.ejs", {
 		tag,
@@ -256,11 +253,9 @@ app.put("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
 		checked: true,
 		authorized: req.authorized,
 	});
-});
+};
 
-app.delete("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
-	auth.authenticateApi(req, res, next)
-
+export const deleteImgTag = async (req, res) => {
 	const { photoid, tagid } = req.params;
 
 	try {
@@ -270,11 +265,9 @@ app.delete("/api/img/:photoid/tag/:tagid", async (req, res, next) => {
 	}
 
 	return res.send("");
-});
+};
 
-app.get("/api/img/:photoid/tag", async (req, res, next) => {
-	auth.authenticateApi(req, res, next)
-
+export const getImgTag = async (req, res) => {
 	const { prompt } = req.query;
 	const { photoid } = req.params;
 
@@ -282,7 +275,17 @@ app.get("/api/img/:photoid/tag", async (req, res, next) => {
 		return res.send("");
 	}
 
-	const tags = await db.searchUnselectedTeachers(photoid, prompt);
+	let tags;
+
+	try {
+		tags = await db.searchUnselectedTeachers(photoid, prompt);
+	} catch (error) {
+		return res.sendStatus(500);
+	}
+
+	if (!tags) {
+		return res.sendStatus(400);
+	}
 
 	res.render("./components/taglist.ejs", {
 		tags,
@@ -290,21 +293,31 @@ app.get("/api/img/:photoid/tag", async (req, res, next) => {
 		checked: false,
 		authorized: req.authorized,
 	});
-});
+};
 
-app.get("/api/tag", async (req, res) => {
+export const getTag = async (req, res) => {
 	const { prompt } = req.query;
 
 	if (!prompt) {
 		return res.send("");
 	}
 
-	const tagtabs = await db.searchTeachers(prompt);
+	let tagtabs;
+
+	try {
+		tagtabs = await db.searchTeachers(prompt);
+	} catch (error) {
+		return res.sendStatus(500);
+	}
+
+	if (!tagtabs) {
+		return res.sendStatus(400);
+	}
 
 	res.render("./components/tagtablist.ejs", { tagtabs });
-});
+};
 
-app.get("/api/imagetaglist/:tagid", async (req, res) => {
+export const getImageTaglist = async (req, res) => {
 	const { tagid } = req.params;
 
 	if (!tagid) {
@@ -324,16 +337,4 @@ app.get("/api/imagetaglist/:tagid", async (req, res) => {
 	}
 
 	res.render("./components/imagetablist.ejs", { imagetabs });
-});
-
-// --- Error ---
-
-app.use((req, res) => {
-	res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
-});
-
-// --- Deploy ---
-const port = process.env.PORT ?? 3000;
-app.listen(port, () => {
-	console.log(`Listening on http://localhost:${port}`);
-});
+};
