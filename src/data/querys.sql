@@ -41,3 +41,13 @@ HAVING      NOT id IN (
                 WHERE   imagesteachers.id_images = ? 
             ) 
 LIMIT 5;
+
+-- Get user
+SELECT password FROM users WHERE login = ?;
+-- Get user login by token
+SELECT login FROM users WHERE token = ?;
+-- Update user token
+UPDATE users SET token = ? WHERE login = ?;
+-- Update user token
+
+UPDATE users SET password = ? WHERE login = ?;

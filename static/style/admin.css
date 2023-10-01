@@ -1,0 +1,36 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	text-align: center;
+	color: white;
+	background-color: black;
+}
+
+nav {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+	padding: 1rem;
+	border: 1px solid white;
+	border-radius: 5px;
+}
+
+nav a {
+	display: block;
+	color: white;
+	margin: 0.5rem;
+}
+
+.red {
+	color: crimson;
+	filter: drop-shadow(0px 0px 0.5em red);
+}
+
+.green {
+	color: greenyellow;
+	text-decoration: underline;
+	filter: drop-shadow(0px 0px 0.5em green);
+}

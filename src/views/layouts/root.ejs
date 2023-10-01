@@ -7,14 +7,23 @@
     <title>View Zsi Stars</title>
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
-    integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-    crossorigin="anonymous"></script>
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style/index.css">
 </head>
 
 <body>
 
     <main aria-labelledby="title" class="box">
+
+        <nav>
+            <% if(authorized){ %>
+                <a href="/admin">Admin page</a>
+                <% } else { %>
+                    <a href="/login">Login</a>
+                    <% } %>
+        </nav>
+
         <h1 id="title">Gwiazdy ZSI</h1>
 
         <h2>Find images</h2>
@@ -31,13 +40,12 @@
         </div>
 
         <h2 id="search">Search images with teachers</h2>
-        
+
         <div class="box">
             <h3>Search</h3>
-            <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-            hx-get="/api/tag" hx-trigger="keyup changed delay:250ms, search"
-            hx-target="next #results">
-    
+            <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
+                hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
+
             <div id="results" class="box"></div>
         </div>
     </main>

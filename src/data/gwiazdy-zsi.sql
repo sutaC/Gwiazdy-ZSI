@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 17 Wrz 2023, 15:33
+-- Czas generowania: 19 Wrz 2023, 22:32
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.6
 
@@ -77,7 +77,6 @@ INSERT INTO `images` (`id`, `src`) VALUES
 (363, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/rozpoczecierokuszkolnego/13.jpg'),
 (364, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/pierwszekroki/DSC_0135.JPG'),
 (365, 'https://www.zsi.kielce.pl/wp-content/uploads/2016/09/DSC_0025.jpg'),
-(366, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0025.JPG'),
 (367, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0054.JPG'),
 (368, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/Gramiejska/DSC_0091.JPG'),
 (369, 'https://www.zsi.kielce.pl/wp-content/uploads/photo-gallery/0000/2016/slubowanie/DSC_0011.JPG'),
@@ -385,14 +384,85 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 (21, 332, 47),
 (22, 332, 71),
 (23, 333, 28),
-(30, 334, 3),
 (24, 334, 28),
 (25, 335, 28),
+(26, 336, 28),
 (5, 337, 28),
-(26, 342, 38),
-(27, 471, 48),
-(29, 473, 28),
-(28, 473, 38);
+(83, 360, 13),
+(84, 360, 28),
+(85, 360, 47),
+(108, 365, 28),
+(110, 367, 5),
+(109, 367, 47),
+(56, 369, 28),
+(61, 371, 28),
+(107, 377, 28),
+(77, 384, 5),
+(78, 384, 6),
+(80, 384, 15),
+(79, 384, 23),
+(74, 384, 28),
+(73, 384, 38),
+(76, 384, 47),
+(75, 384, 69),
+(100, 405, 6),
+(99, 405, 28),
+(89, 410, 28),
+(40, 413, 29),
+(41, 414, 29),
+(42, 417, 1),
+(90, 418, 1),
+(81, 421, 29),
+(36, 426, 6),
+(35, 426, 28),
+(52, 431, 6),
+(51, 431, 28),
+(53, 432, 28),
+(105, 434, 28),
+(106, 434, 47),
+(57, 439, 28),
+(59, 439, 47),
+(54, 444, 28),
+(72, 454, 28),
+(70, 468, 28),
+(82, 493, 28),
+(102, 500, 28),
+(103, 500, 47),
+(62, 518, 28),
+(63, 518, 29),
+(87, 529, 28),
+(88, 529, 29),
+(86, 529, 47),
+(37, 534, 28),
+(38, 536, 1),
+(39, 537, 1),
+(60, 542, 28),
+(101, 546, 28),
+(55, 550, 28),
+(29, 559, 28),
+(104, 564, 13),
+(27, 572, 13),
+(28, 573, 28),
+(93, 581, 6),
+(91, 581, 28),
+(94, 581, 47),
+(92, 581, 71),
+(97, 586, 6),
+(96, 586, 28),
+(98, 586, 47),
+(68, 603, 6),
+(67, 603, 28),
+(69, 603, 47),
+(71, 617, 28),
+(95, 618, 28),
+(30, 632, 28),
+(31, 632, 47),
+(33, 632, 54),
+(32, 632, 64),
+(34, 632, 71),
+(66, 634, 6),
+(64, 634, 13),
+(65, 634, 54);
 
 -- --------------------------------------------------------
 
@@ -485,6 +555,26 @@ INSERT INTO `teachers` (`id`, `name`) VALUES
 (73, 'Winkler Rafał'),
 (74, 'Wołonkiewicz Mirosław');
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `login` varchar(255) NOT NULL,
+  `password` text NOT NULL,
+  `token` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `password`, `token`) VALUES
+(1, 'admin', 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=', 'cLSq0WBCpRpObIR9ZMEKFDTlN3mQrxhq3ptTvT2E5WM=');
+
 --
 -- Indeksy dla zrzutów tabel
 --
@@ -500,13 +590,21 @@ ALTER TABLE `images`
 --
 ALTER TABLE `imagesteachers`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `relations` (`id_images`,`id_teachers`) USING BTREE;
+  ADD UNIQUE KEY `relations` (`id_images`,`id_teachers`) USING BTREE,
+  ADD KEY `imagesteachers_ibfk_2` (`id_teachers`);
 
 --
 -- Indeksy dla tabeli `teachers`
 --
 ALTER TABLE `teachers`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
@@ -522,13 +620,19 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT dla tabeli `teachers`
 --
 ALTER TABLE `teachers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+
+--
+-- AUTO_INCREMENT dla tabeli `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ograniczenia dla zrzutów tabel
