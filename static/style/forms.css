@@ -42,7 +42,7 @@ form {
 	width: 100%;
 }
 
-form #error {
+#error {
 	color: red;
 	margin: 0;
 }

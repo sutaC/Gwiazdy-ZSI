@@ -13,6 +13,7 @@ const router = Router();
 
 router.get("/", responses.getRoot);
 
+// --- Admin page ---
 router.get("/login", authorizePageToAdmin, responses.getLogin);
 
 router.post("/login", authorizeApiToAdmin, responses.postLogin);
@@ -24,6 +25,10 @@ router.get("/logout", authorizePage, responses.getLogout);
 router.get("/reset", authorizePage, responses.getReset);
 
 router.post("/reset", authorizeApi, responses.postReset);
+
+router.get("/log", authorizePage, responses.getLog);
+
+router.delete("/log", authorizePage, responses.deleteLog);
 
 // --- Images ---
 router.get("/img/:photoid", responses.getImg);

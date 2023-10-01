@@ -12,12 +12,18 @@ dotenv.config();
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
 
-const directory = path.dirname(fileURLToPath(import.meta.url));
+export const directory = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(directory + "/static")));
 app.set("views", path.join(directory + "/src/views"));
 
 // Authorization
 app.use(authenticate);
+
+/*
+	--- Login info: ---
+	Login: "admin"
+	Password: "Passw0rd;"
+*/
 
 // Attach router
 app.use(router);

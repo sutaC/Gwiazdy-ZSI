@@ -1,6 +1,8 @@
 import { randomUUID } from "crypto";
 import * as db from "./data/db.js";
-import { hashString } from "./auth.js";
+import { hashString, authenticateUser, validatePassword } from "./auth.js";
+import { addLog, clearLogs } from "./data/log.js";
+import { directory } from "../app.js";
 
 // Responses
 export const getRoot = (req, res) => {
@@ -17,18 +19,10 @@ export const getLogin = async (req, res) => {
 export const postLogin = async (req, res) => {
 	const { login, password } = req.body;
 
-	if (!String(login) || !String(password)) {
-		return res.send("Login & password required");
-	}
+	const error = await authenticateUser(login, password);
 
-	const dbPassword = await db.getUser(login);
-
-	if (!dbPassword) {
-		return res.send("No user with this login was found");
-	}
-
-	if (hashString(password) !== dbPassword) {
-		return res.send("Incorrect password");
+	if (error) {
+		return res.send(error);
 	}
 
 	const newToken = hashString(randomUUID());
@@ -36,13 +30,14 @@ export const postLogin = async (req, res) => {
 	try {
 		await db.updateUserToken(login, newToken);
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
 	res.cookie("token", newToken, {
-		maxAge: 600000,
+		maxAge: 3600000,
 		signed: true,
 		secure: true,
 	});
@@ -57,13 +52,26 @@ export const getAdmin = (req, res) => {
 export const getLogout = async (req, res) => {
 	const { token } = req.signedCookies;
 
+	let login;
 	try {
-		const login = await db.getUserByToken(token);
-		if (!login) {
-			throw new Error("Could not find user with that token");
-		}
+		login = await db.getUserByToken(token);
+	} catch (error) {
+		addLog(error);
+		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	if (!login) {
+		return res
+			.status(400)
+			.render("./layouts/error.ejs", { error: { code: 400 } });
+	}
+
+	try {
 		await db.updateUserToken(login, "");
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
@@ -82,26 +90,25 @@ export const postReset = async (req, res) => {
 	const { newPassword, repeatPassword } = req.body;
 
 	if (!String(newPassword) || !String(repeatPassword)) {
-		return res.send("New password is required");
+		return res.send("Password is required");
 	}
 
 	if (newPassword !== repeatPassword) {
-		return res.send("Incorrect password");
+		return res.send("Repeate password must be the same");
 	}
 
-	const validationError = auth.validatePassword(newPassword);
-	if (validationError) {
-		return res.send(validationError);
+	const error = validatePassword(newPassword);
+	if (error) {
+		return res.send(error);
 	}
 
 	let login;
-	const { token } = req.cookies;
+	const { token } = req.signedCookies;
 	try {
 		login = await db.getUserByToken(token);
 	} catch (error) {
-		return res
-			.status(500)
-			.render("./layouts/error.ejs", { error: { code: 500 } });
+		addLog(error);
+		return res.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
 	if (!login) {
@@ -111,14 +118,23 @@ export const postReset = async (req, res) => {
 	try {
 		await db.updateUserPassword(login, hashString(newPassword));
 	} catch (error) {
-		return res
-			.status(500)
-			.render("./layouts/error.ejs", { error: { code: 500 } });
+		addLog(error);
+		return res.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
 	res.send(
-		'<span style="color: green;">Changed password succesfully!</span> '
+		'<span style="color: green;">Changed password succesfully!</span>'
 	);
+};
+
+export const getLog = (req, res) => {
+	res.sendFile("errors.log", { root: directory });
+};
+
+export const deleteLog = (req, res) => {
+	clearLogs();
+
+	res.status(200).send('<span class="green">Cleard logs</span>');
 };
 
 // --- Images ---
@@ -137,6 +153,7 @@ export const getImg = async (req, res) => {
 		photo = await db.getImgById(photoid);
 		tags = await db.getSelectedTeachers(photo.id);
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(404)
 			.render("./layouts/error.ejs", { error: { code: 404 } });
@@ -175,6 +192,7 @@ export const getImgNext = async (req, res) => {
 	try {
 		newphotoid = await db.getNextImg(photoid);
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
@@ -197,6 +215,7 @@ export const getImgPrevious = async (req, res) => {
 	try {
 		newphotoid = await db.getPreviousImg(photoid);
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
@@ -217,6 +236,7 @@ export const getRandomImg = async (req, res) => {
 	try {
 		photoid = await db.getRandomImg();
 	} catch (error) {
+		addLog(error);
 		return res
 			.status(500)
 			.render("./layouts/error.ejs", { error: { code: 500 } });
@@ -240,6 +260,7 @@ export const putImgTag = async (req, res) => {
 	try {
 		tag = await db.addTag(photoid, tagid);
 	} catch (error) {
+		addLog(error);
 		return res.sendStatus(500);
 	}
 
@@ -261,6 +282,7 @@ export const deleteImgTag = async (req, res) => {
 	try {
 		await db.deleteTag(photoid, tagid);
 	} catch (error) {
+		addLog(error);
 		return res.sendStatus(500);
 	}
 
@@ -280,6 +302,7 @@ export const getImgTag = async (req, res) => {
 	try {
 		tags = await db.searchUnselectedTeachers(photoid, prompt);
 	} catch (error) {
+		addLog(error);
 		return res.sendStatus(500);
 	}
 
@@ -307,6 +330,7 @@ export const getTag = async (req, res) => {
 	try {
 		tagtabs = await db.searchTeachers(prompt);
 	} catch (error) {
+		addLog(error);
 		return res.sendStatus(500);
 	}
 
@@ -329,6 +353,7 @@ export const getImageTaglist = async (req, res) => {
 	try {
 		imagetabs = await db.getImgsByTagId(tagid);
 	} catch (error) {
+		addLog(error);
 		return res.sendStatus(500);
 	}
 

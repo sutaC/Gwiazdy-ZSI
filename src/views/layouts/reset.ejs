@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset</title>
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
-    integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-    crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/forms.css"> 
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style/forms.css">
 </head>
+
 <body>
-    
+
     <main>
 
         <h1>Reset password</h1>
 
-        <p class="error"></p>
+        <p id="error"></p>
 
-        <form action="/reset" method="post" hx-boost="true" hx-target="#error">
-            <div class="field"><label for="newPassword">New Password</label><input type="password" name="newPassword" id="newPassword" placeholder="New Password" required></div>
-            <div class="field"><label for="repeatPassword">Repeat Password</label><input type="password" name="repeatPassword" id="repeatPassword" placeholder="Repeat Pasword" required></div>
+        <form hx-boost="true" action="/reset" method="post" hx-target="#error">
+            <div class="field"><label for="newPassword">New Password</label><input type="password" name="newPassword"
+                    id="newPassword" placeholder="New Password" required></div>
+            <div class="field"><label for="repeatPassword">Repeat Password</label><input type="password"
+                    name="repeatPassword" id="repeatPassword" placeholder="Repeat Pasword" required></div>
+            <button type="submit">Reset</button>
         </form>
 
-        <button type="submit">Reset</button>
-
+        <a href="/admin">Return</a>
     </main>
 
 </body>
+
 </html>
