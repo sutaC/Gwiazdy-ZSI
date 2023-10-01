@@ -16,7 +16,13 @@
 
     <main aria-labelledby="title" class="box">
 
-        <a href="/login">Login</a>
+        <nav>
+            <% if(authorized){ %>
+                <a href="/admin">Admin page</a>
+                <% } else { %>
+                    <a href="/login">Login</a>
+                    <% } %>
+        </nav>
 
         <h1 id="title">Gwiazdy ZSI</h1>
 

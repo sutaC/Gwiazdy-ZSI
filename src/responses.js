@@ -6,9 +6,9 @@ import { directory } from "../app.js";
 
 // Responses
 export const getRoot = (req, res) => {
-	const { authorized } = req.authorized;
+	const authorized = req.authorized ?? false;
 
-	res.render("./layouts/index.ejs", { authorized });
+	res.render("./layouts/root.ejs", { authorized });
 };
 
 // --- Admin panel ---
