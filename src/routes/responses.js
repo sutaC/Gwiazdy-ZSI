@@ -1,8 +1,8 @@
 import { randomUUID } from "crypto";
-import * as db from "./data/db.js";
+import * as db from "../data/db.js";
 import { hashString, authenticateUser, validatePassword } from "./auth.js";
-import { addLog, clearLogs } from "./data/log.js";
-import { directory } from "../app.js";
+import { addLog, clearLogs } from "../data/log.js";
+import { directory } from "../../app.js";
 
 // Responses
 export const getRoot = (req, res) => {

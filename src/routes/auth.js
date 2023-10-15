@@ -1,4 +1,4 @@
-import * as db from "./data/db.js";
+import * as db from "../data/db.js";
 import { createHash } from "crypto";
 
 // --- Authentication ---
