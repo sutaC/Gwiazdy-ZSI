@@ -3,8 +3,9 @@ import { fileURLToPath } from "url";
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import router from "./src/urls.js";
-import { authenticate } from "./src/auth.js";
+
+import router from "./src/routes/router.js";
+import authRouter from "./src/routes/authRouter.js";
 
 const app = express();
 dotenv.config();
@@ -13,11 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
 
 export const directory = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(directory + "/static")));
-app.set("views", path.join(directory + "/src/views"));
-
-// Authorization
-app.use(authenticate);
+app.use(express.static(path.join(directory, "/static")));
+app.set("views", path.join(directory, "/src/views"));
 
 /*
 	--- Login info: ---
@@ -27,6 +25,7 @@ app.use(authenticate);
 
 // Attach router
 app.use(router);
+app.use(authRouter);
 
 // Error handling
 app.use((req, res) => {

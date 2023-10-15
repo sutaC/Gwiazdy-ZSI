@@ -1,12 +1,17 @@
 import mysql from "mysql2/promise";
+import { addLog } from "./log.js";
 
 async function getConnection() {
-	return mysql.createConnection({
-		host: process.env.DB_HOST,
-		user: process.env.DB_USER,
-		password: process.env.DB_PASS,
-		database: process.env.DB_NAME,
-	});
+	try {
+		return mysql.createConnection({
+			host: process.env.DB_HOST,
+			user: process.env.DB_USER,
+			password: process.env.DB_PASS,
+			database: process.env.DB_NAME,
+		});
+	} catch (error) {
+		addLog(error);
+	}
 }
 
 // --- Imgs ---
