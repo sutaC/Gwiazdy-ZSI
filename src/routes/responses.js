@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 import * as db from "../data/db.js";
+import * as upload from "../data/upload.js";
 import { hashString, authenticateUser, validatePassword } from "./auth.js";
 import { addLog, clearLogs } from "../data/log.js";
 import { directory } from "../../app.js";
@@ -249,6 +250,56 @@ export const getRandomImg = async (req, res) => {
 	}
 
 	res.redirect(`/img/${photoid}`);
+};
+
+export const getAddImg = (req, res) => {
+	res.render("./layouts/addImage.ejs");
+};
+
+export const postApiAddImg = (req, res) => {
+	const { imgUrl, imgFile } = req.body;
+
+	if (!imgUrl && !imgFile) {
+		return res.send("Image url or file must be provided.");
+	}
+
+	let local;
+
+	if (imgFile) {
+		const filename = imgFile.path;
+
+		// console.log(typeof imgFile); // String not file
+
+		if (!filename) {
+			const message = "Could not read file name.";
+			addLog(message);
+			return res.send(message);
+		}
+
+		const fileExtension = filename.split(".").pop().toLowerCase();
+
+		if (!fileExtension in ["png", "jpg"]) {
+			return res.send("Uploaded file must be in .png or .jpg extension.");
+		}
+
+		try {
+			local = upload.uploadImage(imgFile);
+		} catch (error) {
+			addLog(error);
+			return res.send("Could not save file.");
+		}
+	}
+
+	let photoid;
+
+	// try {
+	// 	photoid = db.addImg(src, local);
+	// } catch (error) {
+	// 	addLog(error);
+	// 	return res.send("Image could not be uploaded.");
+	// }
+
+	res.render("./components/addImgAproval.ejs", { photoid });
 };
 
 // --- Tags ---

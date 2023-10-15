@@ -1,5 +1,9 @@
 -- Get image by id
 SELECT * FROM images WHERE id = ?;
+-- Add image
+INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);
+-- Get image by src or local
+SELECT id FROM images WHERE src = ? OR local = ?;
 -- Get random image id
 SELECT id FROM images ORDER BY RAND() LIMIT 1;
 -- Get next image id

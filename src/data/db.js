@@ -71,6 +71,29 @@ export async function getRandomImg() {
 	return data.id;
 }
 
+export async function addImg(src, local) {
+	if (!src && !local) {
+		throw new Error("Cannot insert image witchout src or local.");
+	}
+
+	const con = await getConnection();
+
+	await con.query(
+		"INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);",
+		[src ?? "NULL", local ?? "NULL"]
+	);
+
+	const [[data]] = con.query(
+		"SELECT id FROM images WHERE src = ? OR local = ?;",
+		src ?? "",
+		local ?? ""
+	);
+
+	con.end();
+
+	return data;
+}
+
 // --- Tags ---
 export async function addTag(imageId, teachersId) {
 	const con = await getConnection();

@@ -13,6 +13,10 @@ router.get("/", responses.getRoot);
 // --- Images ---
 router.get("/img/:photoid", responses.getImg);
 
+router.get("/addImg", auth.authorizePage, responses.getAddImg);
+
+router.post("/api/addImg", auth.authorizeApi, responses.postApiAddImg);
+
 // --- Admin page ---
 router.get("/login", auth.authorizePageToAdmin, responses.getLogin);
 
