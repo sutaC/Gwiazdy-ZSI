@@ -17,6 +17,12 @@
     <aside>
         <a href="/" class="return">Home</a>
 
+        <hr>
+        
+        <% if(authorized){ %>
+            <a href="/img/<%= photo.id %>/update">Edit</a>
+        <% } %>
+        
         <h2>Tags</h2>
 
         <div>

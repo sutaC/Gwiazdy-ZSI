@@ -2,6 +2,10 @@
 SELECT * FROM images WHERE id = ?;
 -- Add image
 INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);
+-- Update image
+UPDATE images SET src = ?, local = ? WHERE id = ?;
+-- Delete image
+DELETE FROM images WHERE id = ?;
 -- Get image by src or local
 SELECT id FROM images WHERE src = ? OR local = ?;
 -- Get random image id

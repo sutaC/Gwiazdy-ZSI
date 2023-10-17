@@ -208,6 +208,72 @@ export const getImgNext = async (req, res) => {
 	res.redirect(`/img/${newphotoid}`);
 };
 
+export const getImgUpdate = async (req, res) => {
+	const { photoid } = req.params;
+
+	if (!photoid) {
+		return res
+			.status(404)
+			.render("./layouts/error.ejs", { error: { code: 404 } });
+	}
+
+	let photo;
+
+	try {
+		photo = await db.getImgById(photoid);
+	} catch (error) {
+		addLog(error);
+		return res
+			.status(404)
+			.render("./layouts/error.ejs", { error: { code: 404 } });
+	}
+
+	if (!photo) {
+		return res
+			.status(400)
+			.render("./layouts/error.ejs", { error: { code: 400 } });
+	}
+
+	res.render("./layouts/editImage.ejs", {
+		photo,
+	});
+}
+
+export const deleteImageDelete = async (req, res) => {
+	const { photoid } = req.params;
+
+	if(!photoid){
+		return res.send("Required parametrs are missing.");
+	}
+
+	try {
+		await db.deleteImage(photoid);
+	} catch (error) {
+		addLog(error)
+		return res.send("Could not delete image.")
+	}
+
+	res.send('<span style="color: green;">Deleted image!</span>');
+}
+
+export const postImgUpdate = async (req, res) => {
+	const {photoid} = req.params;
+	const {src, local} = req.body;
+
+	if(photoid == undefined){
+		return res.send("Required parametrs are missing.");
+	}
+
+	try {
+		await db.updateImg(photoid, src ?? "", local ?? "");
+	} catch (error) {
+		addLog(error)
+		return res.send("Could not update image.")
+	}
+
+	res.send('<span style="color: green;">Updated image!</span>');
+}
+
 export const getImgPrevious = async (req, res) => {
 	const { photoid } = req.params;
 

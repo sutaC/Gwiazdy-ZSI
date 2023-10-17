@@ -13,6 +13,12 @@ router.get("/", responses.getRoot);
 // --- Images ---
 router.get("/img/:photoid", responses.getImg);
 
+router.get("/img/:photoid/update", auth.authorizePage, responses.getImgUpdate);
+
+router.post("/img/:photoid/update", auth.authorizeApi, responses.postImgUpdate);
+
+router.delete("/img/:photoid/delete", auth.authorizeApi, responses.deleteImageDelete);
+
 router.get("/addImg", auth.authorizePage, responses.getAddImg);
 
 router.post("/api/addImg", auth.authorizeApi, responses.postApiAddImg);
