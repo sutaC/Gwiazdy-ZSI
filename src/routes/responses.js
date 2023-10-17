@@ -246,6 +246,17 @@ export const deleteImageDelete = async (req, res) => {
 		return res.send("Required parametrs are missing.");
 	}
 
+	let photo;
+
+	try {
+		photo = await db.getImgById(photoid)
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not find image to delete");
+	}
+
+	// TODO: delete local file
+
 	try {
 		await db.deleteImage(photoid);
 	} catch (error) {
@@ -323,31 +334,16 @@ export const getAddImg = (req, res) => {
 };
 
 export const postApiAddImg = async (req, res) => {
-	const { imgUrl, imgFile } = req.body;
+	const { imgUrl} = req.body;
+	const [ imgFile ] = req.files
 
 	if (!imgUrl && !imgFile) {
 		return res.send("Image url or file must be provided.");
 	}
 
 	let local;
-	// Disabled due to bug
-	if (imgFile && false) {
-		const filename = imgFile.path;
-
-		// console.log(typeof imgFile); // String not file
-
-		if (!filename) {
-			const message = "Could not read file name.";
-			addLog(message);
-			return res.send(message);
-		}
-
-		const fileExtension = filename.split(".").pop().toLowerCase();
-
-		if (!fileExtension in ["png", "jpg"]) {
-			return res.send("Uploaded file must be in .png or .jpg extension.");
-		}
-
+	
+	if (imgFile) {
 		try {
 			local = upload.uploadImage(imgFile);
 		} catch (error) {

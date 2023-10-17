@@ -17,7 +17,7 @@
         <h1>Add Image</h1>
 
         <form hx-post="/api/addImg" hx-boost="true" hx-target="#error"
-            hx-confirm="Are you sure you want to add this image?">
+            hx-confirm="Are you sure you want to add this image?" hx-encoding="multipart/form-data">
 
             <p id="error"></p>
 
