@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 17, 2023 at 01:30 PM
--- Wersja serwera: 10.4.28-MariaDB
--- Wersja PHP: 8.2.4
+-- Czas generowania: 17 Paź 2023, 22:00
+-- Wersja serwera: 10.4.24-MariaDB
+-- Wersja PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gwiazdy-zsi`
+-- Baza danych: `gwiazdy-zsi`
 --
 
 -- --------------------------------------------------------
@@ -31,10 +31,10 @@ CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `src` text DEFAULT NULL,
   `local` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `images`
+-- Zrzut danych tabeli `images`
 --
 
 INSERT INTO `images` (`id`, `src`, `local`) VALUES
@@ -362,7 +362,46 @@ INSERT INTO `images` (`id`, `src`, `local`) VALUES
 (678, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9147-1024x683.jpg', ''),
 (679, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/20231013_090050-1024x768.jpg', ''),
 (680, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9135-1024x683.jpg', ''),
-(681, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9011-1024x683.jpg', '');
+(681, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9011-1024x683.jpg', ''),
+(683, 'https://lh3.googleusercontent.com/pw/ADCreHdQhPOe8ps8MN3rTaRpsEaxev6TJO9tmRfiXIK8uPQ9DNjvgF6rzp6a8oBXEsukrAsC4VRbsC9PYP_xkul63ExnPI0_QEif4sT_ttXSbuRcREQlukarSKXyEbLaVcGQSL0S-pNfdz2QED0P7YF2WA40=w334-h313-s-no?authuser=0', ''),
+(684, 'https://lh3.googleusercontent.com/pw/ADCreHf436X3i5GPU0qRCLDl44kryR1nfSpizATdDyQ6dYm40oB4n1lb74DlhtRNzn8B2HRHd8KszK9HBzQwYJfaMB5DlQ1lckhfVjaEzc2t1XK9kUQhZ_3Gv6lNzOgNcDtyI3A8_CcohY0_ihBIwaF6rtAu=w972-h633-s-no?authuser=0', ''),
+(685, 'https://lh3.googleusercontent.com/pw/ADCreHe66xSu_PspQATOnp9LK_Bdq181fMFT2W0VnsNe2YHtSEpmfun5Y31F0XQYDCZ5zKJ2VTK-8mByVqQ-w0xbN3EGAjesc1MnWcOutOqVZti3UdLKlJK8-YfEBunFoPEmJsccWyRDlBbIG7gYLSFapSMt=w660-h884-s-no?authuser=0', ''),
+(686, 'https://lh3.googleusercontent.com/pw/ADCreHf4dCOgO3xyQmGhxyhigwBcmE5-lw4sMuJ3AjqJKbKcrq_PstSPzVWvS9grBIRdIEaY-DKtmTRdho-9PRJ30wcwBI46tIjYWE3RgiYOdpoZ3k-QQCKXvCM4a2oxOUBBSi8V5pMH3LAXYrlfNAvqOr5e=w722-h544-s-no?authuser=0', ''),
+(687, 'https://lh3.googleusercontent.com/pw/ADCreHct11JQy46vQCQmdSTHg5v-wcqAR3n2SaPUzfrWeTOyFm0wMvKjtTWjY7v2qtd_vWuPFUS5g4-NFtTsM-jX2MDowP1NGq4O1LTH9t0d-E2K-b-TxT4VL79-KSpxvdwU2RZjRoWfyEO3BZ0_bLeX7bxs=w565-h438-s-no?authuser=0', ''),
+(688, 'https://lh3.googleusercontent.com/pw/ADCreHdpoDHfH9OysPqDv3mzElyn0O0f3Hna65psNeTxUMp_mwj8hWkyGRRcIVQPidgQ2nPu8X0mF84e9CDIqvvEpQuUovWXHHsB0pvcUTiCH3rlQKNCutCLiv8RWauvsx0b9PJc4Q03JIRXzc15ueNntdDp=w753-h663-s-no?authuser=0', ''),
+(689, 'https://lh3.googleusercontent.com/pw/ADCreHepieEvh6nezqXgihGXnVcSt-yeN8qObSXXLuIQ9InWbhRyEhdIOI2a4OV3GhRkKkeONKxHW3pa13H0GXnA8EU0dNa8NEVjtcL62omCCcI3sqIzM3KR8lNnOLr2fXZj7lr4bOfuS_4VrDGE8_GTc-kS=w425-h373-s-no?authuser=0', ''),
+(690, 'https://lh3.googleusercontent.com/pw/ADCreHc5PNXhozObM95p0KTRXvKpfMEIp42QHoqzdbn-s6cq6oH1EnO87PxDGINFlx3DqX7OJvBYBs8d0zJpKNpiv6g1A1AD2VLNUerc4PjW0qwwentnu5S840CwjYW1oEnnhx7n-x5ePN5bxQHNUTmcMu9u=w650-h410-s-no?authuser=0', ''),
+(691, 'https://lh3.googleusercontent.com/pw/ADCreHeDHY1Q4Ds_fq9XlyhpOw0e32oEa_Ln2k2f1mX9NaeLqyS-FQOtzV206mFOxVq8ielA4U_A_2o14hJlrHc_3onSyXtgBIQv6pZHinc5So8AvCza8Oiw55Rxx8OF2ochAPSrIWbuU3oeEltEnUykhvXr=w663-h884-s-no?authuser=0', ''),
+(692, 'https://lh3.googleusercontent.com/pw/ADCreHeVI78Z3R2BCq8y8pKdFnpebpJ_JkFSRRy0LQhcguSUQE735O51vlEhV90KcUa40ZJZhW6J7RYZApF8njWUrp2bMmOMubj1Qp-x522sHcZjrV6GyV43dLQhkTP1upEUpmVdnf3v6HF0xyX73-lffnek=w884-h884-s-no?authuser=0', ''),
+(693, 'https://lh3.googleusercontent.com/pw/ADCreHfgweJFh2wUFkW4rZo93tV_sow4eiuW7-PPmVgGcN8P-wej-aL4hCXrNlj97JTIngzNo_Jo0AlrHXsXeO-7aE12ah6SF_pIxLBSlPjcqkMjVyQcqY4CP_0-z9FQIlYbP5SGIwBiMTaj0mg73EJt27Il=w398-h884-s-no?authuser=0', ''),
+(694, 'https://lh3.googleusercontent.com/pw/ADCreHe43DbuSlgj-x67tGEGhxl_okkc33fOEr_uLDS4CNkV0uIrwuHNObzPnb4HcozfmRuwbdvGp9TXl6iO07mD_RzGLLpX1xClpV4dEqCC-A10a7QY2EbfX91-3YWXrtRPLROfmn9hyK9XIxgoHzrzf0nP=w443-h884-s-no?authuser=0', ''),
+(695, 'https://lh3.googleusercontent.com/pw/ADCreHcMknjkLBCjQr1rhvMgDwAM0poh9UU8XXXNtNfofDh4bwpk-7PkK3HjGuRE4Nzu78EnbS461CzfgXuUAvibt6_meWaTlqhVyR8Wb2J5IR_8p07mffO9_BKmn5AJhZXBFg1WmT5ZORHcGiks8wdnrpzV=w500-h720-s-no?authuser=0', ''),
+(696, 'https://lh3.googleusercontent.com/pw/ADCreHcDwfL4FtLTD0iRLuBRl4jND3s7AK1DW4PEriyDcFP_VfFLmBGzjiWwaSDLlUTYwqiriYimHl5WJWkhqox-rd2IPbQluzZeELePT51oiruqNgeezCXknHqFlJ2I5EPohw1LFL6gskJpYEovqkv-F8j_=w663-h884-s-no?authuser=0', ''),
+(697, 'https://lh3.googleusercontent.com/pw/ADCreHc1q6Nhb4LMrqBRFQfEmRSxvveRyQCPlgtOlJJWKoZZjOxH-P3RrYXCbWKLOQKaq1JDT27uF1-lsePGWpsTAvZV_ynaxSqAUNtAEm6L74f7TfXQHm_8jUMnmSepCbfYjqrObvOnD8CTYl3M1oqG70kq=w419-h884-s-no?authuser=0', ''),
+(698, 'https://lh3.googleusercontent.com/pw/ADCreHcnQMqtdLdtAfNWpVXSNMg0vHK4gm1wHKzxW1Z6jNWer0ASfiokq0v9bwgJrt3ETYfWBdZDyA-Mai0fV7xCh7JEqudtkbavgLPYrk1wfHS1-TWCJUoLC9WKEQfz2_JxzyD36mulcfZWGQIKBOAh2ZDg=w664-h884-s-no?authuser=0', ''),
+(699, 'https://lh3.googleusercontent.com/pw/ADCreHcRTqVSfSnMXnzdkjqdd6Rz0gDzrrjoEcZ1wBzvOvCEK9DGE_B2WJ4MoQNE7HL6BRXvbz3wYmyFyV-ayuXcc-9pc1fXCJN3r3wf2PHnhdmDvLmjtoKVzhhLpd7h4TFhEhXrfxt3w2d93TZPhht2MOwx=w1072-h705-s-no?authuser=0', ''),
+(700, 'https://lh3.googleusercontent.com/pw/ADCreHcg-UGoKVJbgo48c-o1M6FuRzYblF8Y5T606l1iysKk1XMaCf07CiXmiVLSLnKZqW8Tyru9sOeYtSsUtus8ZXz6XRguA_IOqnCJSHuTGQquV3_h2zhiDbRljoaFrgXs9pMJpkGpaDM3ZhidKIieA5-D=w884-h710-s-no?authuser=0', ''),
+(701, 'https://lh3.googleusercontent.com/pw/ADCreHdSlsTdMOUsOn0SMOOaCZ3IheiVML32K_SK_jvdgh8jMhPzjlRSSCDAZq1LQiKifjISrtHYvvInvNt1Oaxvrh_YY3OSWKSM0khh7EWY0LcWnL7ek-nsWX7nSfTII2jSGamvklAm4LVoFZpHP6gh-dOf=w884-h884-s-no?authuser=0', ''),
+(702, 'https://lh3.googleusercontent.com/pw/ADCreHfkr84By0mGQQotBcGhPZbQjv_xS-hN3Aux-6rdrivIc25QnzhmjAmbLSRQqBLEbOOoFIpaccD5HmT3de6wbbImnZR7acPeo_2GirPvo2xuR7VjRnixdv7Kt5tVsxx4mVv4R_jk8wjdz3C_915JSydS=w884-h884-s-no?authuser=0', ''),
+(703, 'https://lh3.googleusercontent.com/pw/ADCreHeS5p9dA21bEvbwntShgQuwxjX_W4d3648caEAUUYhJ66rN5mt34XdHqYf1o3U82uBTAgver5uYCmrnJXtTw8xCuBAlBufH2TbDe4bwVK8hRAPalgIiB_upFpQqCHwl5W7QVIHiWTd4lv_X6mc8KxNK=w884-h884-s-no?authuser=0', ''),
+(704, 'https://lh3.googleusercontent.com/pw/ADCreHeV-x0_Sf6lRzr7onn-Yf0I8mpPA4AaiiThW01IUNAyLRoZAwWYyv7GIWy0Bk3RCI2udt9NZEAF_vwvENRLq9UETN7DVg5ayDHl9gzsyw-fHXaABGMIcbbRSFL6ZBtU451_wAokglf7vcNyiP4Ir2dR=w884-h884-s-no?authuser=0', ''),
+(705, 'https://lh3.googleusercontent.com/pw/ADCreHfyLCbTIiNd_QdO86OcUulYCSQcOShdWcjanFyqDouAWPWt5NFlo1sCG4GIKZEJy7WOB5dQOYkPYCOBIQw_UBsOUj7mVRNEC0lBaJf8o8C9W3nyJJGYVXlwnOUUCIGPGkoIF4Y9ys6lETyVPv6lnfbj=w110-h108-s-no?authuser=0', ''),
+(706, 'https://lh3.googleusercontent.com/pw/ADCreHe1Lr7JsGcxDIpqsATT7fCJJ5JUrfiulXR3qAgFbQvbH5zpk8PqpkQ1OnovhRpTCo-ftMC-27uj2GqT1x3cc7fCGmkxMOnhxW7NJ6DnCQRKd23ggXMUjA7j043k4TMdOuPTVwpsDpQkxzWqvgY1t_5_=w1080-h609-s-no?authuser=0', ''),
+(707, 'https://lh3.googleusercontent.com/pw/ADCreHd0j_9-H-BkZCNg022wbSxXrTlHipiJSpQ83V8W57b97alrdANvem9atYEKtLyHSwMTq58mosLcURG_g5SsKzq-uGKD95CXnguS3KHOODzzr-5mYVqI-BQ6xrwxa37tnzfiTQ1ZPgalOjI1ENIYigDB=w876-h884-s-no?authuser=0', ''),
+(708, 'https://lh3.googleusercontent.com/pw/ADCreHfaNdNFx1LTun6zYL1rsB8FWOG-L-HoOmDytfktWMD8sEcF8BOkTHos0YYIbDle2_9uDu-AeOcsacaiZb1PrhQDgB0hi6eqwvsd_WfAwmzDfrURT1X49ycSprTzMlepWmLOtT4HAq0kaSiwzYneax0L=w395-h884-s-no?authuser=0', ''),
+(709, 'https://lh3.googleusercontent.com/pw/ADCreHflGfiXtgcAHHtoO8r--OkUSWeGlZTtc25SJ4nwCjonEOOYfrLj5BJPaShuEeYNdxxOy10Diqpv65ysNTRJhes-PURxb9MDYb7loH5HrDUs6yTI7jz9cl-4bFC1akZMB55vf-YMbOQr4RnC_Zd3Xm2u=w659-h884-s-no?authuser=0', ''),
+(710, 'https://lh3.googleusercontent.com/pw/ADCreHcI6YViSDzoUJVF3sWaD0c7dF64R-mONJkBhaXufIFmjz3Im644Qs4NdgK_k0cE6-sBjKywNUrStXX8mdEKU7-CGl4sofiLXROXENznGKacti_EX_8B-nFRQkY2AV00B37KAA5hE3r5BgMKEx9e25tG=w638-h638-s-no?authuser=0', ''),
+(711, 'https://lh3.googleusercontent.com/pw/ADCreHfdVl2fl9q20rV6XlxR_9LvbXh6X-1K9-LfltVBXXgmfVKsEXqdz3eu-vaw4-EtFU6nNXRQBFjZo-6mdgoZlIbMtqUVSoZhc_aRZeOi61VHpzl9VJKHGrKv2sBSJhQWwTQlcrDT7eeKRI3qdEf1UVyn=w337-h337-s-no?authuser=0', ''),
+(712, 'https://lh3.googleusercontent.com/pw/ADCreHdrGnd7HenkOvlrnjkPXJKi1Pxlh88u98qBGr7l-qjdtcdl6NTY9Mx5QQYThKTN_USpxEOv6x02VTxay8OeN1SEhZmekI8n-fceyQTg5AWOofdiCOJoM6X9C9p3BGFE0d2ZpbzGS8ymQzlXJLzYuST4=w1080-h699-s-no?authuser=0', ''),
+(713, 'https://lh3.googleusercontent.com/pw/ADCreHfUTsmXqZX5wq624mrZzK26XCfPe0EwSaN_LnI19Zxt4lbeN_K4kCSwJha1qLDfYNHPXSa5W-P14_FJcfi02Zl8vpPl1xmTmla2N5967ByQcCl6GOvA01VtaJ7fmddkcR7LpDN8_PokgYkf2zy1Rrzq=w439-h884-s-no?authuser=0', ''),
+(714, 'https://lh3.googleusercontent.com/pw/ADCreHftlAzPA4fEuphuH9FsMkwxiXzq4imtFsPnvTuGRD8k-o9hcV008gW13By0_N9q3iGBlszILcPQXbMpGOHokmfVmoUTH3DOP5mtyjJBiFebdfdD6m34D3a0EDkcfKgILFgJ-wSrUwrsHskV1u3qgEt0=w663-h884-s-no?authuser=0', ''),
+(715, 'https://lh3.googleusercontent.com/pw/ADCreHcm5piM1Sg3rUwAkykeoco-o5wzo0RfZGdPYa-cxyvpYRi9sJT50vSititNKm0EomoLXp3Tj5Hx4N1iIZO9iXYhWRP3ZuHrCjMqMDfG5i2I9DxkUkDKQuAJbUXSWbE5HGTyjzitxmTxZ7oNhyyr6fiN=w663-h884-s-no?authuser=0', ''),
+(716, 'https://lh3.googleusercontent.com/pw/ADCreHdOhvw7q_lasRVANFoSMVAzfwnRGGdsSPFM-j6lLfQPOX0G18NHfYUxVLScHLoQC7TzqYsRjaZ6MdMZC2CsBq3jjhrFli7wAVYXIz6nmEAuQralxrdqJ1wGMmmnm8S0Up6DRzXdzxITvATUkb9Fjbds=w663-h884-s-no?authuser=0', ''),
+(717, 'https://lh3.googleusercontent.com/pw/ADCreHd07OnYrriTb0KWXsMz7UOJw2osH0zuOwBhqqU-bcBLDv7MSETexlShDUYpaGw-BU6fuQ5DN0oz1pCfRXMpttwR6NWvqOXKmQSjloUbnvfGu9B8YPWFA5jqdYD1l-OCZOAOvddmB8ZTHUo9VHqLMow-=w663-h884-s-no?authuser=0', ''),
+(718, 'https://lh3.googleusercontent.com/pw/ADCreHflFZfRYXiuMVgT4T0h1cjfFkSUO20f1qgRtzOGsn7bSTDNX44RNYu1YWgtUtnGI79DFXB5QozDKf2geI1PDuRO6Z3ykpNI4_Ek0-d_nxVAcoaobLOumV9xotz8jAKS-J8SMwp9-sPDLe6b55oWXYxm=w663-h884-s-no?authuser=0', ''),
+(719, 'https://lh3.googleusercontent.com/pw/ADCreHfLNOaJ4LOSKJnixMlnKJ_SWZ5gk5M9VJV1H_E7fMUBvfSqEeYrrJVOsGo9lpvlUa265GXQqId6TtSQ6tX7z4QAhPVuHwnTDhN8wyLmN0N7pBOo9LlqhHgLIr4DG_-OnHKHQrfeqKqSVla_kUhoT56K=w1179-h884-s-no?authuser=0', ''),
+(720, 'https://lh3.googleusercontent.com/pw/ADCreHdHYo1Amw4RhcFEu66SO-PdWay3CD-rRaSShwkbFc6g9EUIde_5u7YKCdtDnswN6rR20QGv6Gngd99sy1N-9pma-P4PaJjLA6Hs6lgTDeoGssYHOEN8GoDNdfQb-DFg_fJWbo9RFa_99C34vpy1W23W=w661-h884-s-no?authuser=0', ''),
+(721, 'https://lh3.googleusercontent.com/pw/ADCreHfMaO6U10JRDek3iOYEDV9os6HG6xtLyP4a2iDkEdjpRphFmy7cylGMaCrFejDU0TrwKECsiTy0eP-7xhCXwYmQfrNY3k1jl_kfHFESrYeTB8qwmg9z0cJAXosxUKIvrwxu9nzwGKi0kP4o-rRblWXs=w498-h884-s-no?authuser=0', '');
 
 -- --------------------------------------------------------
 
@@ -374,10 +413,10 @@ CREATE TABLE `imagesteachers` (
   `id` int(11) NOT NULL,
   `id_images` int(11) NOT NULL,
   `id_teachers` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `imagesteachers`
+-- Zrzut danych tabeli `imagesteachers`
 --
 
 INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
@@ -616,7 +655,45 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 (258, 679, 54),
 (262, 680, 23),
 (261, 680, 43),
-(263, 681, 28);
+(263, 681, 28),
+(264, 683, 1),
+(265, 684, 1),
+(266, 685, 1),
+(267, 686, 28),
+(268, 687, 28),
+(269, 688, 28),
+(270, 689, 28),
+(271, 690, 1),
+(272, 691, 49),
+(273, 693, 28),
+(274, 694, 1),
+(275, 695, 48),
+(276, 696, 28),
+(277, 697, 49),
+(278, 698, 49),
+(279, 699, 28),
+(280, 700, 28),
+(281, 701, 28),
+(282, 702, 28),
+(283, 703, 28),
+(284, 704, 28),
+(285, 705, 38),
+(286, 706, 1),
+(287, 707, 35),
+(288, 708, 49),
+(289, 709, 1),
+(290, 710, 49),
+(291, 711, 38),
+(292, 712, 28),
+(293, 713, 17),
+(294, 714, 35),
+(295, 715, 35),
+(296, 716, 35),
+(297, 717, 17),
+(298, 718, 17),
+(299, 719, 17),
+(300, 720, 28),
+(301, 721, 1);
 
 -- --------------------------------------------------------
 
@@ -627,10 +704,10 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 CREATE TABLE `teachers` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `teachers`
+-- Zrzut danych tabeli `teachers`
 --
 
 INSERT INTO `teachers` (`id`, `name`) VALUES
@@ -720,14 +797,14 @@ CREATE TABLE `users` (
   `login` varchar(255) NOT NULL,
   `password` text NOT NULL,
   `token` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Zrzut danych tabeli `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `token`) VALUES
-(1, 'admin', 'Ty4Mf4VOD9zf3C1dfX1iTU3B7vbCVqjAQCx3PrkmBzc=', '0SsVzmOLdKTAxRusviK7Ejix/yEsgaP5/lSyfGyrAMU=');
+(1, 'admin', 'Ty4Mf4VOD9zf3C1dfX1iTU3B7vbCVqjAQCx3PrkmBzc=', 'w1UI3ZWxXsbta8CfRHdaBqzPHiKZeRop1IkAKZM9DXg=');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -761,39 +838,39 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `login` (`login`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT dla zrzuconych tabel
 --
 
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT dla tabeli `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=682;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=722;
 
 --
--- AUTO_INCREMENT for table `imagesteachers`
+-- AUTO_INCREMENT dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
 
 --
--- AUTO_INCREMENT for table `teachers`
+-- AUTO_INCREMENT dla tabeli `teachers`
 --
 ALTER TABLE `teachers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Constraints for dumped tables
+-- Ograniczenia dla zrzutów tabel
 --
 
 --
--- Constraints for table `imagesteachers`
+-- Ograniczenia dla tabeli `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
   ADD CONSTRAINT `imagesteachers_ibfk_1` FOREIGN KEY (`id_images`) REFERENCES `images` (`id`) ON DELETE CASCADE,

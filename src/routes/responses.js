@@ -237,53 +237,56 @@ export const getImgUpdate = async (req, res) => {
 	res.render("./layouts/editImage.ejs", {
 		photo,
 	});
-}
+};
 
 export const deleteImageDelete = async (req, res) => {
 	const { photoid } = req.params;
 
-	if(!photoid){
+	if (!photoid) {
 		return res.send("Required parametrs are missing.");
 	}
 
 	let photo;
 
 	try {
-		photo = await db.getImgById(photoid)
+		photo = await db.getImgById(photoid);
 	} catch (error) {
 		addLog(error);
 		return res.send("Could not find image to delete");
 	}
 
-	// TODO: delete local file
+	if (!photo) {
+		return res.send("Could not find image to delete");
+	}
 
 	try {
+		upload.deleteImage(photo.local);
 		await db.deleteImage(photoid);
 	} catch (error) {
-		addLog(error)
-		return res.send("Could not delete image.")
+		addLog(error);
+		return res.send("Could not delete image.");
 	}
 
 	res.send('<span style="color: green;">Deleted image!</span>');
-}
+};
 
 export const postImgUpdate = async (req, res) => {
-	const {photoid} = req.params;
-	const {src, local} = req.body;
+	const { photoid } = req.params;
+	const { src, local } = req.body;
 
-	if(photoid == undefined){
+	if (photoid == undefined) {
 		return res.send("Required parametrs are missing.");
 	}
 
 	try {
 		await db.updateImg(photoid, src ?? "", local ?? "");
 	} catch (error) {
-		addLog(error)
-		return res.send("Could not update image.")
+		addLog(error);
+		return res.send("Could not update image.");
 	}
 
 	res.send('<span style="color: green;">Updated image!</span>');
-}
+};
 
 export const getImgPrevious = async (req, res) => {
 	const { photoid } = req.params;
@@ -334,15 +337,15 @@ export const getAddImg = (req, res) => {
 };
 
 export const postApiAddImg = async (req, res) => {
-	const { imgUrl} = req.body;
-	const [ imgFile ] = req.files
+	const { imgUrl } = req.body;
+	const [imgFile] = req.files;
 
 	if (!imgUrl && !imgFile) {
 		return res.send("Image url or file must be provided.");
 	}
 
 	let local;
-	
+
 	if (imgFile) {
 		try {
 			local = upload.uploadImage(imgFile);

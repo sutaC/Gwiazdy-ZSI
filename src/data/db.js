@@ -83,38 +83,49 @@ export async function addImg(src, local) {
 		[src ?? "", local ?? ""]
 	);
 
-	const [[data]] = await con.query(
-		"SELECT id FROM images WHERE src = ? OR local = ?;",
-		[src ?? "", local ?? ""]
-	);
+	let data;
+
+	if (src) {
+		[[data]] = await con.query("SELECT id FROM images WHERE src = ?;", [
+			src,
+		]);
+	} else if (local) {
+		[[data]] = await con.query("SELECT id FROM images WHERE local = ?;", [
+			local,
+		]);
+	}
 
 	con.end();
 
-	return data.id;
+	return data ? data.id : null;
 }
 
-export async function updateImg(photoid, src, local){
+export async function updateImg(photoid, src, local) {
 	const con = await getConnection();
 
-	if(photoid == undefined || src == undefined || local == undefined) {
+	if (photoid == undefined || src == undefined || local == undefined) {
 		throw new Error("Required parametrs to update are missing");
 	}
 
-	await con.query("UPDATE images SET src = ?, local = ? WHERE id = ?;", [src, local, photoid]);
+	await con.query("UPDATE images SET src = ?, local = ? WHERE id = ?;", [
+		src,
+		local,
+		photoid,
+	]);
 
-	con.end()
+	con.end();
 }
 
 export async function deleteImage(photoid) {
-	const con = await getConnection()
+	const con = await getConnection();
 
-	if(!photoid){
+	if (!photoid) {
 		throw new Error("Required parametrs to delete are missing");
 	}
 
-	await con.query("DELETE FROM images WHERE id = ?;", [photoid])
+	await con.query("DELETE FROM images WHERE id = ?;", [photoid]);
 
-	con.end()
+	con.end();
 }
 
 // --- Tags ---

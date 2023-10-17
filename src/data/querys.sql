@@ -6,8 +6,10 @@ INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);
 UPDATE images SET src = ?, local = ? WHERE id = ?;
 -- Delete image
 DELETE FROM images WHERE id = ?;
--- Get image by src or local
-SELECT id FROM images WHERE src = ? OR local = ?;
+-- Get image by local
+SELECT id FROM images WHERE local = ?;
+-- Get image by src
+SELECT id FROM images WHERE src = ?;
 -- Get random image id
 SELECT id FROM images ORDER BY RAND() LIMIT 1;
 -- Get next image id

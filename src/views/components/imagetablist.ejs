@@ -1,8 +1,8 @@
-<% imagetabs.forEach(imagetab => { %>
+<% imagetabs.forEach(imagetab=> { %>
 
     <div class="imagetab">
-        <img src="<%= imagetab.src %>" alt="zsi star">
+        <img src='<%= imagetab.src %>' onerror='this.src = "<%= "/uploads/" + imagetab.local %>"' alt="Gwiazda ZSI">
         <a href="/img/<%= imagetab.id %>">Image id: <%= imagetab.id %></a>
     </div>
 
-<% }); %>
+    <% }); %>
