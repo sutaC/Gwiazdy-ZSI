@@ -38,7 +38,7 @@ export const postLogin = async (req, res) => {
 	}
 
 	res.cookie("token", newToken, {
-		maxAge: 3600000,
+		maxAge: 36000000,
 		signed: true,
 		secure: true,
 	});
