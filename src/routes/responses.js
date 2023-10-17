@@ -256,7 +256,7 @@ export const getAddImg = (req, res) => {
 	res.render("./layouts/addImage.ejs");
 };
 
-export const postApiAddImg = (req, res) => {
+export const postApiAddImg = async (req, res) => {
 	const { imgUrl, imgFile } = req.body;
 
 	if (!imgUrl && !imgFile) {
@@ -264,8 +264,8 @@ export const postApiAddImg = (req, res) => {
 	}
 
 	let local;
-
-	if (imgFile) {
+	// Disabled due to bug
+	if (imgFile && false) {
 		const filename = imgFile.path;
 
 		// console.log(typeof imgFile); // String not file
@@ -292,12 +292,12 @@ export const postApiAddImg = (req, res) => {
 
 	let photoid;
 
-	// try {
-	// 	photoid = db.addImg(src, local);
-	// } catch (error) {
-	// 	addLog(error);
-	// 	return res.send("Image could not be uploaded.");
-	// }
+	try {
+		photoid = await db.addImg(imgUrl, local);
+	} catch (error) {
+		addLog(error);
+		return res.send("Image could not be uploaded.");
+	}
 
 	res.render("./components/addImgAproval.ejs", { photoid });
 };

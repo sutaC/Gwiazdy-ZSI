@@ -76,22 +76,31 @@ export async function addImg(src, local) {
 		throw new Error("Cannot insert image witchout src or local.");
 	}
 
+	const srcUpl = src ?? undefined;
+	const localUpl = local ?? undefined;
+
 	const con = await getConnection();
 
 	await con.query(
 		"INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);",
-		[src ?? "NULL", local ?? "NULL"]
+		[srcUpl ?? "NULL", localUpl ?? "NULL"]
 	);
 
-	const [[data]] = con.query(
-		"SELECT id FROM images WHERE src = ? OR local = ?;",
-		src ?? "",
-		local ?? ""
+	const [[data]] = await con.query(
+		"SELECT id FROM images WHERE src = ?;",
+		[srcUpl ?? ""]
 	);
+
+	// TO FIX: not working
+	// const [[data]] = con.query(
+	// 	"SELECT id FROM images WHERE src = ? OR local = ?;",
+	// 	[srcUpl ?? "",
+	// 	localUpl ?? ""]
+	// );
 
 	con.end();
 
-	return data;
+	return data.id;
 }
 
 // --- Tags ---
