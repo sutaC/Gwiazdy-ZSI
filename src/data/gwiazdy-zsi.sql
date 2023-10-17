@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 17, 2023 at 12:59 PM
+-- Generation Time: Paź 17, 2023 at 01:30 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -344,9 +344,25 @@ INSERT INTO `images` (`id`, `src`, `local`) VALUES
 (639, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/03/336894016_1277056239832916_7059768994711502754_n-1024x768.jpg', NULL),
 (640, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/03/337238226_577154481145406_8850113246063441322_n.jpg', NULL),
 (641, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/04/IMG_20230414_181800.jpg', NULL),
-(653, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_8996-1024x683.jpg', NULL),
-(659, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9157-1024x683.jpg', ''),
-(660, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9152-1024x683.jpg', '');
+(661, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/09/372221799_674177647705715_159447318317504027_n-%E2%80%94-kopia.jpg', ''),
+(662, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/09/375212889_853923739681472_6983367131317202_n-576x1024.jpg', ''),
+(663, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/09/erc-2023.jpg', ''),
+(664, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/385074687_709077654588370_2670229578286573589_n.jpg', ''),
+(666, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/385019609_708308684665267_5501422793290296360_n-1024x1024.jpg', ''),
+(667, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/385038162_708308687998600_1046844098637461196_n-1024x1024.jpg', ''),
+(668, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/382237521_707234878105981_8667720621985421870_n.jpg', ''),
+(670, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/384996532_706493938180075_8836777079425056394_n.jpg', ''),
+(671, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/385778599_710788334417302_6888776265079171362_n-768x1024.jpg', ''),
+(672, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/384996580_710787747750694_1451095458440501914_n-1024x768.jpg', ''),
+(673, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_8996-1024x683.jpg', ''),
+(674, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_8999-1024x683.jpg', ''),
+(675, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9002-1024x683.jpg', ''),
+(676, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9157-1024x683.jpg', ''),
+(677, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9152-1024x683.jpg', ''),
+(678, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9147-1024x683.jpg', ''),
+(679, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/20231013_090050-1024x768.jpg', ''),
+(680, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9135-1024x683.jpg', ''),
+(681, 'https://www.zsi.kielce.pl/wp-content/uploads/2023/10/DSC_9011-1024x683.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -566,13 +582,41 @@ INSERT INTO `imagesteachers` (`id`, `id_images`, `id_teachers`) VALUES
 (128, 640, 6),
 (127, 640, 28),
 (126, 641, 38),
-(120, 653, 6),
-(121, 653, 28),
-(119, 653, 47),
-(125, 659, 6),
-(124, 659, 28),
-(123, 660, 6),
-(122, 660, 28);
+(228, 661, 43),
+(229, 662, 43),
+(230, 662, 71),
+(231, 663, 38),
+(232, 663, 48),
+(233, 664, 18),
+(234, 666, 23),
+(235, 667, 28),
+(236, 668, 15),
+(237, 670, 50),
+(238, 671, 7),
+(239, 672, 7),
+(240, 672, 8),
+(241, 673, 28),
+(242, 673, 47),
+(243, 673, 71),
+(246, 674, 6),
+(244, 674, 28),
+(245, 674, 47),
+(250, 675, 6),
+(247, 675, 28),
+(248, 675, 43),
+(249, 675, 47),
+(253, 676, 6),
+(251, 676, 28),
+(255, 677, 6),
+(254, 677, 28),
+(257, 678, 6),
+(256, 678, 28),
+(259, 679, 28),
+(260, 679, 47),
+(258, 679, 54),
+(262, 680, 23),
+(261, 680, 43),
+(263, 681, 28);
 
 -- --------------------------------------------------------
 
@@ -724,13 +768,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=682;
 
 --
 -- AUTO_INCREMENT for table `imagesteachers`
 --
 ALTER TABLE `imagesteachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
 
 --
 -- AUTO_INCREMENT for table `teachers`
