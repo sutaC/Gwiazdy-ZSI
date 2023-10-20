@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Image</title>
+
+    <script src="https://unpkg.com/htmx.org@1.9.5"
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style/forms.css">
+</head>
+
+<body>
+    <main>
+        <h1>Add Image</h1>
+
+        <form hx-post="/api/addImg" hx-boost="true" hx-target="#error"
+            hx-confirm="Are you sure you want to add this image?" hx-encoding="multipart/form-data">
+
+            <p id="error"></p>
+
+            <div class="field">
+                <label for="imgUrl">URL</label>
+                <input type="text" name="imgUrl" id="imgUrl">
+            </div>
+
+            <div class="field">
+                <label for="imgFile">File</label>
+                <input type="file" name="imgFile" id="imgFile">
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+
+        <a href="/admin">Go back</a>
+    </main>
+</body>
+
+</html>

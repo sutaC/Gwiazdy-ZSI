@@ -17,33 +17,43 @@
     <aside>
         <a href="/" class="return">Home</a>
 
-        <h2>Tags</h2>
-
-        <div>
-            <h3>Added tags</h3>
-            <div id="tags">
-                <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true, authorized}) %>
-            </div>
-        </div>
+        <hr>
 
         <% if(authorized){ %>
-
-            <div>
-                <h3>Search tags</h3>
-                <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-                    hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
-                    hx-target="next #results">
-                <div id="results"></div>
-            </div>
-
+            <a href="/img/<%= photo.id %>/update">Edit</a>
             <% } %>
+
+                <h2>Tags</h2>
+
+                <div>
+                    <h3>Added tags</h3>
+                    <div id="tags">
+                        <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true, authorized})
+                            %>
+                    </div>
+                </div>
+
+                <% if(authorized){ %>
+
+                    <div>
+                        <h3>Search tags</h3>
+                        <input type="text" id="promptInput" name="prompt" placeholder="Search..."
+                            hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
+                            hx-target="next #results">
+                        <div id="results"></div>
+                    </div>
+
+                    <% } %>
 
     </aside>
 
     <main>
         <h1>Image id: <%= photo.id %>
         </h1>
-        <img src="<%= photo.src %>" alt="Zsi Satr">
+
+        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
+
+
         <div class="controlls">
             <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
                 hx-trigger="click, keyup[ArrowLeft]">&leftarrow;</a>

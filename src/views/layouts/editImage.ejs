@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit image <%= photo.id %>
+    </title>
+
+    <script src="https://unpkg.com/htmx.org@1.9.5"
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style/forms.css">
+    <link rel="stylesheet" href="/style/addImage.css">
+</head>
+
+<body>
+
+    <main>
+        <h1>Edit image <%= photo.id %>
+        </h1>
+
+        <form hx-boost="true" hx-target="#error" hx-post="/img/<%= photo.id %>/update"
+            hx-confirm="Are you sure you want to update this image?">
+
+            <p id="error"></p>
+
+            <div class="field">
+                <label for="src">Src</label>
+                <input type="text" placeholder="Src..." value="<%= photo.src %>" name="src" id="src">
+            </div>
+
+            <div class="field">
+                <label for="localsrc">Src</label>
+                <input type="text" placeholder="Local src..." value="<%= photo.local %>" name="localsrc" id="localsrc">
+            </div>
+
+            <button type="submit">Update</button>
+
+        </form>
+
+        <hr>
+
+        <button hx-delete="/img/<%= photo.id %>/delete"
+            hx-confirm="Are you sure you want to delete this image permamently?" hx-target="#error">Delete
+            image</button>
+
+        <hr>
+
+        <a href="/img/<%= photo.id %>">Go back</a>
+
+        <hr>
+
+        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
+
+    </main>
+
+</body>
+
+</html>

@@ -71,6 +71,63 @@ export async function getRandomImg() {
 	return data.id;
 }
 
+export async function addImg(src, local) {
+	if (src == undefined && local == undefined) {
+		throw new Error("Cannot insert image witchout src or local.");
+	}
+
+	const con = await getConnection();
+
+	await con.query(
+		"INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);",
+		[src ?? "", local ?? ""]
+	);
+
+	let data;
+
+	if (src) {
+		[[data]] = await con.query("SELECT id FROM images WHERE src = ?;", [
+			src,
+		]);
+	} else if (local) {
+		[[data]] = await con.query("SELECT id FROM images WHERE local = ?;", [
+			local,
+		]);
+	}
+
+	con.end();
+
+	return data ? data.id : null;
+}
+
+export async function updateImg(photoid, src, local) {
+	const con = await getConnection();
+
+	if (photoid == undefined || src == undefined || local == undefined) {
+		throw new Error("Required parametrs to update are missing");
+	}
+
+	await con.query("UPDATE images SET src = ?, local = ? WHERE id = ?;", [
+		src,
+		local,
+		photoid,
+	]);
+
+	con.end();
+}
+
+export async function deleteImage(photoid) {
+	const con = await getConnection();
+
+	if (!photoid) {
+		throw new Error("Required parametrs to delete are missing");
+	}
+
+	await con.query("DELETE FROM images WHERE id = ?;", [photoid]);
+
+	con.end();
+}
+
 // --- Tags ---
 export async function addTag(imageId, teachersId) {
 	const con = await getConnection();

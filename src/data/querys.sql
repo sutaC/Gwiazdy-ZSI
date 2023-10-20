@@ -1,5 +1,15 @@
 -- Get image by id
 SELECT * FROM images WHERE id = ?;
+-- Add image
+INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);
+-- Update image
+UPDATE images SET src = ?, local = ? WHERE id = ?;
+-- Delete image
+DELETE FROM images WHERE id = ?;
+-- Get image by local
+SELECT id FROM images WHERE local = ?;
+-- Get image by src
+SELECT id FROM images WHERE src = ?;
 -- Get random image id
 SELECT id FROM images ORDER BY RAND() LIMIT 1;
 -- Get next image id

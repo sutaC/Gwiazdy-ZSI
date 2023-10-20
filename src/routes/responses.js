@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 import * as db from "../data/db.js";
+import * as upload from "../data/upload.js";
 import { hashString, authenticateUser, validatePassword } from "./auth.js";
 import { addLog, clearLogs } from "../data/log.js";
 import { directory } from "../../app.js";
@@ -37,7 +38,7 @@ export const postLogin = async (req, res) => {
 	}
 
 	res.cookie("token", newToken, {
-		maxAge: 3600000,
+		maxAge: 36000000,
 		signed: true,
 		secure: true,
 	});
@@ -207,6 +208,86 @@ export const getImgNext = async (req, res) => {
 	res.redirect(`/img/${newphotoid}`);
 };
 
+export const getImgUpdate = async (req, res) => {
+	const { photoid } = req.params;
+
+	if (!photoid) {
+		return res
+			.status(404)
+			.render("./layouts/error.ejs", { error: { code: 404 } });
+	}
+
+	let photo;
+
+	try {
+		photo = await db.getImgById(photoid);
+	} catch (error) {
+		addLog(error);
+		return res
+			.status(404)
+			.render("./layouts/error.ejs", { error: { code: 404 } });
+	}
+
+	if (!photo) {
+		return res
+			.status(400)
+			.render("./layouts/error.ejs", { error: { code: 400 } });
+	}
+
+	res.render("./layouts/editImage.ejs", {
+		photo,
+	});
+};
+
+export const deleteImageDelete = async (req, res) => {
+	const { photoid } = req.params;
+
+	if (!photoid) {
+		return res.send("Required parametrs are missing.");
+	}
+
+	let photo;
+
+	try {
+		photo = await db.getImgById(photoid);
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not find image to delete");
+	}
+
+	if (!photo) {
+		return res.send("Could not find image to delete");
+	}
+
+	try {
+		upload.deleteImage(photo.local);
+		await db.deleteImage(photoid);
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not delete image.");
+	}
+
+	res.send('<span style="color: green;">Deleted image!</span>');
+};
+
+export const postImgUpdate = async (req, res) => {
+	const { photoid } = req.params;
+	const { src, local } = req.body;
+
+	if (photoid == undefined) {
+		return res.send("Required parametrs are missing.");
+	}
+
+	try {
+		await db.updateImg(photoid, src ?? "", local ?? "");
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not update image.");
+	}
+
+	res.send('<span style="color: green;">Updated image!</span>');
+};
+
 export const getImgPrevious = async (req, res) => {
 	const { photoid } = req.params;
 
@@ -249,6 +330,41 @@ export const getRandomImg = async (req, res) => {
 	}
 
 	res.redirect(`/img/${photoid}`);
+};
+
+export const getAddImg = (req, res) => {
+	res.render("./layouts/addImage.ejs");
+};
+
+export const postApiAddImg = async (req, res) => {
+	const { imgUrl } = req.body;
+	const [imgFile] = req.files;
+
+	if (!imgUrl && !imgFile) {
+		return res.send("Image url or file must be provided.");
+	}
+
+	let local;
+
+	if (imgFile) {
+		try {
+			local = upload.uploadImage(imgFile);
+		} catch (error) {
+			addLog(error);
+			return res.send("Could not save file.");
+		}
+	}
+
+	let photoid;
+
+	try {
+		photoid = await db.addImg(imgUrl, local);
+	} catch (error) {
+		addLog(error);
+		return res.send("Image could not be uploaded.");
+	}
+
+	res.render("./components/addImgAproval.ejs", { photoid });
 };
 
 // --- Tags ---
