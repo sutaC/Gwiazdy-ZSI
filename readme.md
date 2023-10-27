@@ -36,3 +36,9 @@ Autor: [_Catus_](https://github.com/sutaC)
 3. Przed uruchomieniem projektu po raz pierwszy należy zainstalować wszystkie biblioteki za pomocą komendy `npm install`.
 
 4. Aby uruchomić projekt należy użyć komendy `npm run dev` lub `npm run start`.
+
+5. Aby zalogować się jako domyślny użytkownik po wczytaniu bazy należy użyć następujących danych:
+
+    > _Nazwa użytkownika:_ **admin**
+
+    > _Hasło:_ **Passw0rd;**
