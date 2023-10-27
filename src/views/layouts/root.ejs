@@ -4,57 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="sutaC">
     <title>View Zsi Stars</title>
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/index.css">
+    <link rel="stylesheet" href="/style/root.css">
+    <link rel="stylesheet" href="/style/global.css">
 </head>
 
 <body>
 
-    <main aria-labelledby="title" class="box">
+    <header>
+        <h1>Gwiazdy ZSI</h1>
 
-        <nav>
+        <small>Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć nauczycieli z ZSI.
+            Zdjęcia
+            można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony
+            nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
+    </header>
+
+    <nav>
+
+        <div class="wraper">
+
+            <div class="nav-tile random-image">
+                <a href="/randomimg">Random image</a>
+            </div>
+
+            <form action="/img" method="post" class="nav-tile find-id">
+                <p>Find by id</p>
+                <div class="field">
+                    <input type="number" name="photoid" placeholder="Id..." required min="0">
+                    <button type="submit">Find</button>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="nav-tile find-tags">
+            <p>Find by tags</p>
+
+            <div class="field">
+                <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
+                    hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
+
+                <div id="results" class="search-results"></div>
+            </div>
+        </div>
+
+    </nav>
+
+    <main id="imagetablist">
+        <small class="light">No images was found...</small>
+    </main>
+
+    <footer>
+        <button class="btn-rect">^</button>
+        <button class="btn-rect">
             <% if(authorized){ %>
-                <a href="/admin">Admin page</a>
+                <a href="/admin">User</a>
                 <% } else { %>
                     <a href="/login">Login</a>
                     <% } %>
-        </nav>
+        </button>
 
-        <h1 id="title">Gwiazdy ZSI</h1>
-
-        <h2>Find images</h2>
-
-        <form action="/img" method="post" class="box">
-            <h3>Find image by id</h3>
-            <input type="number" name="photoid" placeholder="Id..." required min="0">
-            <button type="submit">Visit</button>
-        </form>
-
-        <div class="box">
-            <h3>Find random image</h3>
-            <a href="/randomimg">Click here</a>
-        </div>
-
-        <h2 id="search">Search images with teachers</h2>
-
-        <div class="box">
-            <h3>Search</h3>
-            <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
-                hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
-
-            <div id="results" class="box"></div>
-        </div>
-    </main>
-
-    <section aria-labelledby="search" class="box">
-
-        <h3>Search results</h3>
-        <div id="imagetablist" class="box"></div>
-    </section>
+    </footer>
 
 </body>
 
