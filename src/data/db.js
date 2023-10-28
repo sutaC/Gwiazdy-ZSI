@@ -179,7 +179,7 @@ export async function getSelectedTeachers(imageId) {
 export async function searchTeachers(prompt) {
 	const con = await getConnection();
 	const [data] = await con.query(
-		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") LIMIT 5;',
+		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") LIMIT 3;',
 		[String(prompt)]
 	);
 	con.end();
@@ -194,7 +194,7 @@ export async function searchTeachers(prompt) {
 export async function searchUnselectedTeachers(imageId, prompt) {
 	const con = await getConnection();
 	const [data] = await con.query(
-		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") GROUP BY id HAVING NOT id IN ( SELECT teachers.id FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers WHERE imagesteachers.id_images = ? ) LIMIT 5;',
+		'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") GROUP BY id HAVING NOT id IN ( SELECT teachers.id FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers WHERE imagesteachers.id_images = ? ) LIMIT 3;',
 		[String(prompt), Number(imageId)]
 	);
 	con.end();

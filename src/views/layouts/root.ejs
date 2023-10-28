@@ -4,57 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="sutaC">
     <title>View Zsi Stars</title>
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/index.css">
+    <link rel="stylesheet" href="/style/root.css">
 </head>
 
 <body>
 
-    <main aria-labelledby="title" class="box">
+    <header id="top-header">
+        <h1>Gwiazdy ZSI</h1>
 
-        <nav>
-            <% if(authorized){ %>
-                <a href="/admin">Admin page</a>
-                <% } else { %>
-                    <a href="/login">Login</a>
-                    <% } %>
-        </nav>
+        <small class="mobile desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć
+            nauczycieli z ZSI.
+            Zdjęcia
+            można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony
+            nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
+    </header>
 
-        <h1 id="title">Gwiazdy ZSI</h1>
+    <div class="section-wrap">
 
-        <h2>Find images</h2>
+        <aside>
 
-        <form action="/img" method="post" class="box">
-            <h3>Find image by id</h3>
-            <input type="number" name="photoid" placeholder="Id..." required min="0">
-            <button type="submit">Visit</button>
-        </form>
+            <small class="desktop desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie
+                zdjęć
+                nauczycieli z ZSI.
+                Zdjęcia
+                można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor
+                strony
+                nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
 
-        <div class="box">
-            <h3>Find random image</h3>
-            <a href="/randomimg">Click here</a>
-        </div>
+            <nav>
 
-        <h2 id="search">Search images with teachers</h2>
+                <div class="nav-tile random-image">
+                    <a href="/randomimg">Random<br>image</a>
+                </div>
 
-        <div class="box">
-            <h3>Search</h3>
-            <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
-                hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
+                <form action="/img" method="post" class="nav-tile find-id">
+                    <p>Find by id</p>
+                    <div class="wraper">
+                        <input type="number" name="photoid" placeholder="Id..." required min="0" autocomplete="off">
+                        <button type="submit">Find</button>
+                    </div>
+                </form>
 
-            <div id="results" class="box"></div>
-        </div>
-    </main>
+                <div class="nav-tile find-tags">
+                    <p>Find by tags</p>
+                    <div class="search-field">
+                        <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
+                            hx-trigger="keyup changed delay:250ms, search" hx-target="next #results" autocomplete="off"
+                            maxlength="32">
 
-    <section aria-labelledby="search" class="box">
+                        <div id="results" class="search-results"></div>
+                    </div>
+                </div>
 
-        <h3>Search results</h3>
-        <div id="imagetablist" class="box"></div>
-    </section>
+            </nav>
+
+        </aside>
+
+
+        <main id="imagetablist">
+            <small class="light">No images was found...</small>
+        </main>
+
+    </div>
+
+    <footer>
+        <% if(authorized){ %>
+            <a href="/admin"><button>User</button></a>
+            <% } else { %>
+                <a href="/login"><button>Login</button></a>
+                <% } %>
+
+                    <a href="#top-header">
+                        <button>^</button>
+                    </a>
+    </footer>
 
 </body>
 

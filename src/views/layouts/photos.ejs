@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="sutaC">
     <title>Photo</title>
     <script src="https://unpkg.com/htmx.org@1.9.5"
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
@@ -14,55 +15,51 @@
 
 <body>
 
-    <aside>
-        <a href="/" class="return">Home</a>
+    <header>
+        <nav class="wraper">
+            <a href="/" class="return"><button>Home</button></a>
 
-        <hr>
+            <% if(authorized){ %>
+                <a href="/img/<%= photo.id %>/update"><button>Edit</button></a>
+                <% } %>
 
-        <% if(authorized){ %>
-            <a href="/img/<%= photo.id %>/update">Edit</a>
-            <% } %>
+        </nav>
 
-                <h2>Tags</h2>
-
-                <div>
-                    <h3>Added tags</h3>
-                    <div id="tags">
-                        <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true, authorized})
-                            %>
-                    </div>
-                </div>
-
-                <% if(authorized){ %>
-
-                    <div>
-                        <h3>Search tags</h3>
-                        <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-                            hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
-                            hx-target="next #results">
-                        <div id="results"></div>
-                    </div>
-
-                    <% } %>
-
-    </aside>
-
-    <main>
         <h1>Image id: <%= photo.id %>
         </h1>
 
-        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
+        <div class="tag-section">
 
+            <div id="tags" class="tags"><%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked:
+                    true, authorized}) %></div>
 
-        <div class="controlls">
-            <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
-                hx-trigger="click, keyup[ArrowLeft]">&leftarrow;</a>
-            <a href="/randomimg">Random</a>
-            <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
-                hx-trigger="click, keyup[ArrowRight]">&rightarrow;</a>
+            <% if(authorized){ %>
+
+                <div class="search-field">
+                    <input type="text" id="promptInput" name="prompt" placeholder="Search..."
+                        hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
+                        hx-target="next #results">
+                    <div id="results" class="search-results"></div>
+                </div>
+
+                <% } %>
+
         </div>
 
+    </header>
+
+    <main>
+        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
     </main>
+
+    <footer>
+        <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
+            hx-trigger="click, keyup[ArrowLeft]"><button>&leftarrow;</button></a>
+        <a href="/randomimg"><button>Random</button></a>
+        <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
+            hx-trigger="click, keyup[ArrowRight]"><button>&rightarrow;</button></a>
+    </footer>
+
 
 </body>
 

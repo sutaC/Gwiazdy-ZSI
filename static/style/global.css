@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css?family=Alegreya Sans SC:700|Alegreya Sans SC:400");
+
+:root {
+	--text: hsl(205, 46%, 92%);
+	--background: hsl(210, 40%, 2%);
+	--primary: hsl(236, 46%, 21%);
+	--secondary: hsl(266, 44%, 7%);
+	--accent: hsl(266, 46%, 47%);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+
+	font-family: "Alegreya Sans SC";
+	font-weight: 400;
+
+	background: var(--background);
+}
+
+input,
+button {
+	font-family: "Alegreya Sans SC";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-family: "Alegreya Sans SC";
+	font-weight: 700;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+html {
+	font-size: 100%;
+	color: var(--text);
+	scroll-behavior: smooth;
+}
+
+/* 16px */
+
+h1 {
+	font-size: 4.21rem;
+	/* 67.36px */
+}
+
+h2 {
+	font-size: 3.158rem;
+	/* 50.56px */
+}
+
+h3 {
+	font-size: 2.369rem;
+	/* 37.92px */
+}
+
+h4 {
+	font-size: 1.777rem;
+	/* 28.48px */
+}
+
+h5 {
+	font-size: 1.333rem;
+	/* 21.28px */
+}
+
+small {
+	font-size: 0.75rem;
+	/* 12px */
+}
+
+/* Components */
+
+.light {
+	opacity: 0.7;
+}
+
+.wraper {
+	display: flex;
+	gap: 1em;
+	justify-content: space-between;
+	align-items: center;
+}
+
+a {
+	color: var(--text);
+	text-decoration: none;
+}
+
+input {
+	width: 100%;
+	padding: 0.5em;
+	margin: 0.25em 0;
+
+	border: 1px solid var(--accent);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px 1px var(--accent);
+
+	font-size: 0.8rem;
+	color: var(--text);
+	background: var(--background);
+}
+
+button {
+	padding: 0.5em 1.5em;
+
+	border: 1px solid var(--accent);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px 1px var(--accent);
+
+	font-size: 0.8rem;
+	color: var(--text);
+	background: var(--background);
+}
+
+.mobile {
+	display: block;
+}
+
+.desktop {
+	display: none;
+}
+
+@media (min-width: 750px) {
+	.mobile {
+		display: none;
+	}
+
+	.desktop {
+		display: block;
+	}
+}

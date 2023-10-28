@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import multer from "multer"
+import multer from "multer";
 
 import router from "./src/routes/router.js";
 import authRouter from "./src/routes/authRouter.js";
@@ -13,17 +13,18 @@ dotenv.config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
-app.use(multer({dest: "static/uploads/", fileFilter: (req, file, cb) => { cb(null, file.mimetype.startsWith("image")) }}).any());
+app.use(
+	multer({
+		dest: "static/uploads/",
+		fileFilter: (req, file, cb) => {
+			cb(null, file.mimetype.startsWith("image"));
+		},
+	}).any()
+);
 
 export const directory = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(directory, "/static")));
 app.set("views", path.join(directory, "/src/views"));
-
-/*
-	--- Login info: ---
-	Login: "admin"
-	Password: "Passw0rd;"
-*/
 
 // Attach router
 app.use(router);
