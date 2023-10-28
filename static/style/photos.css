@@ -145,6 +145,7 @@ footer {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: baseline;
+	gap: 1rem;
 
 	border-radius: 2rem 2rem 0 0;
 	text-align: center;
@@ -157,4 +158,34 @@ footer button {
 	aspect-ratio: 1;
 
 	cursor: pointer;
+}
+
+@media (min-width: 750px) {
+	.tag-section {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.tags {
+		max-width: 33%;
+	}
+
+	main {
+		padding-bottom: 5%;
+	}
+
+	footer {
+		padding-inline: 25%;
+	}
+
+	footer>* {
+		flex: 33%;
+	}
+
+	footer button {
+		width: 100%;
+		padding: 1em;
+		aspect-ratio: 0;
+	}
 }
