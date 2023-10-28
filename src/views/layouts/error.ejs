@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error <%= error.code ?? 500 %></title>
+    <meta name="author" content="sutaC">
+    <title>Error <%= error.code ?? 500 %>
+    </title>
 
     <link rel="stylesheet" href="/style/error.css">
 </head>
+
 <body>
-    
+
     <main>
 
         <h1>Oopsie!</h1>
 
-        <p><%= error.messsage ??  `Error ${error.code ?? 500} occurred` %></p>
+        <p>
+            <%= error.messsage ?? `Error ${error.code ?? 500} occurred` %>
+        </p>
 
         <img src="https://http.cat/<%= error.code ?? 500 %>" alt="error">
 
@@ -23,4 +29,5 @@
     </main>
 
 </body>
+
 </html>
