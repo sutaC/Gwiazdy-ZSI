@@ -1,19 +1,19 @@
-<div class="tag">
+<% if(authorized){ %>
 
-    <p>
-        <%= tag.name %>
-    </p>
-
-    <% if(authorized){ %>
-
-        <% if(checked){ %>
-            <button hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
-                hx-target="closest .tag">Delete</button>
+    <% if(checked){ %>
+        <button class="tag tag-delete" hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
+            hx-target="closest .tag">
             <% } else { %>
-                <button hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend" hx-target="#tags"
-                    hx-on::after-request='document.querySelector("#promptInput").value = "";
-                document.querySelector("#results").innerHTML = ""'>Add</button>
-                <% } %>
-
+                <button class="tag tag-add" hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend"
+                    hx-target="#tags" hx-on::after-request='document.querySelector("#promptInput").value = "";
+                document.querySelector("#results").innerHTML = ""'>
                     <% } %>
-</div>
+
+                        <%= tag.name %>
+                </button>
+
+                <% } else { %>
+                    <div class="tag">
+                        <%= tag.name %>
+                    </div>
+                    <% } %>

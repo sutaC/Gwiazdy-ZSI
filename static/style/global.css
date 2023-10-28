@@ -19,6 +19,11 @@ body {
 	background: var(--background);
 }
 
+input,
+button {
+	font-family: "Alegreya Sans SC";
+}
+
 h1,
 h2,
 h3,
@@ -36,6 +41,7 @@ p {
 html {
 	font-size: 100%;
 	color: var(--text);
+	scroll-behavior: smooth;
 } /* 16px */
 
 h1 {

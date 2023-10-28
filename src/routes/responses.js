@@ -474,7 +474,7 @@ export const getImageTaglist = async (req, res) => {
 	}
 
 	if (imagetabs.length === 0) {
-		return res.send("No images found");
+		return res.send('<small class="light">No images was found...</small>');
 	}
 
 	res.render("./components/imagetablist.ejs", { imagetabs });

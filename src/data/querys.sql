@@ -38,7 +38,7 @@ WHERE       images.id = ?;
 SELECT      * 
 FROM        teachers 
 WHERE       name LIKE CONCAT("%", ?, "%") 
-LIMIT 5;
+LIMIT 3;
 -- Search teachers with prompt excluding ones related with image
 SELECT      * 
 FROM        teachers 
@@ -50,7 +50,7 @@ HAVING      NOT id IN (
                 JOIN    imagesteachers ON teachers.id = imagesteachers.id_teachers 
                 WHERE   imagesteachers.id_images = ? 
             ) 
-LIMIT 5;
+LIMIT 3;
 
 -- Get user
 SELECT password FROM users WHERE login = ?;

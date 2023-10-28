@@ -1,6 +1,38 @@
+@import url("./global.css");
+
 a {
 	color: var(--text);
 	text-decoration: none;
+}
+
+input {
+	width: 100%;
+	padding: 0.5em;
+	margin: 0.25em 0;
+
+	border: 1px solid var(--accent);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px 1px var(--accent);
+
+	font-size: 0.8rem;
+	color: var(--text);
+	background: var(--background);
+}
+
+button {
+	padding: 0.5em 1.5em;
+
+	border: 1px solid var(--accent);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px 1px var(--accent);
+
+	font-size: 0.8rem;
+	color: var(--text);
+	background: var(--background);
+}
+
+h1 {
+	color: var(--accent);
 }
 
 /* --- */
@@ -13,9 +45,22 @@ header {
 	border-radius: 0 0 2rem 2rem;
 }
 
+.desc {
+	margin: auto;
+	display: block;
+	max-width: 50ch;
+}
+
 nav {
 	margin: 1em 0 1em;
 	padding: 0 1em;
+
+	display: grid;
+	grid-template-areas:
+		"random id id"
+		"tags tags tags";
+	gap: 1em;
+	justify-content: center;
 }
 
 .nav-tile {
@@ -25,26 +70,95 @@ nav {
 }
 
 .nav-tile.random-image {
+	grid-area: random;
 	display: grid;
 	place-items: center;
 
-	flex: 1;
 	aspect-ratio: 1;
 
 	text-align: center;
-	word-break: keep-all;
 }
 
 .nav-tile.find-id {
-	flex: 2;
+	grid-area: id;
 }
 
 .nav-tile.find-tags {
-	margin: 1em 0 1em;
+	grid-area: tags;
+}
+
+.search-field {
+	position: relative;
+}
+
+.search-field:has(.search-results:not(:empty)) input {
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+.search-results {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	translate: 0 calc(100% - 2px);
+
+	z-index: 1;
+
+	width: 100%;
+
+	border: 1px solid var(--accent);
+	border-radius: 0 0 0.5em 0.5em;
+}
+
+.search-results:empty {
+	display: none;
+}
+
+.tagtab {
+	display: block;
+	width: 100%;
+	border-radius: 0;
+
+	cursor: pointer;
+	box-shadow: none;
+}
+
+.tagtab:last-of-type {
+	border-radius: 0 0 0.5em 0.5em;
+}
+
+.tagtab:focus,
+.tagtab:hover {
+	color: var(--accent);
 }
 
 main {
 	text-align: center;
+	padding: 0 1em;
+	margin-bottom: 25%;
+	z-index: -1;
+}
+
+.imagetab {
+	max-width: 100%;
+	padding: 1em;
+	margin-bottom: 1em;
+
+	border-radius: 1em;
+
+	background-color: var(--secondary);
+}
+
+.imagetab>img {
+	width: 100%;
+	margin-bottom: 0.5em;
+
+	border: 2px solid var(--accent);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px 1px var(--accent);
+}
+
+.imagetab>a {
+	text-decoration: underline;
 }
 
 footer {
@@ -57,7 +171,13 @@ footer {
 	justify-content: space-between;
 	align-items: center;
 
-	padding: 1em;
+	padding: 0.5em;
 
 	background: var(--secondary);
+}
+
+footer button {
+	min-width: 3rem;
+	padding: 0.75em;
+	aspect-ratio: 1;
 }

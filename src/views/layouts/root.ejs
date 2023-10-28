@@ -11,15 +11,15 @@
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style/root.css">
-    <link rel="stylesheet" href="/style/global.css">
 </head>
 
 <body>
 
-    <header>
+    <header id="top-header">
         <h1>Gwiazdy ZSI</h1>
 
-        <small>Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć nauczycieli z ZSI.
+        <small class="desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć
+            nauczycieli z ZSI.
             Zdjęcia
             można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony
             nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
@@ -27,26 +27,21 @@
 
     <nav>
 
-        <div class="wraper">
-
-            <div class="nav-tile random-image">
-                <a href="/randomimg">Random image</a>
-            </div>
-
-            <form action="/img" method="post" class="nav-tile find-id">
-                <p>Find by id</p>
-                <div class="field">
-                    <input type="number" name="photoid" placeholder="Id..." required min="0">
-                    <button type="submit">Find</button>
-                </div>
-            </form>
-
+        <div class="nav-tile random-image">
+            <a href="/randomimg">Random<br>image</a>
         </div>
+
+        <form action="/img" method="post" class="nav-tile find-id">
+            <p>Find by id</p>
+            <div class="wraper">
+                <input type="number" name="photoid" placeholder="Id..." required min="0">
+                <button type="submit">Find</button>
+            </div>
+        </form>
 
         <div class="nav-tile find-tags">
             <p>Find by tags</p>
-
-            <div class="field">
+            <div class="search-field">
                 <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
                     hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
 
@@ -61,8 +56,10 @@
     </main>
 
     <footer>
-        <button class="btn-rect">^</button>
-        <button class="btn-rect">
+        <a href="#top-header">
+            <button>^</button>
+        </a>
+        <button>
             <% if(authorized){ %>
                 <a href="/admin">User</a>
                 <% } else { %>
