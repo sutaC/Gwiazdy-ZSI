@@ -1,10 +1,10 @@
 <% if(authorized){ %>
 
     <% if(checked){ %>
-        <button class="tag tag-delete" hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
+        <button class="tag delete" hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
             hx-target="closest .tag">
             <% } else { %>
-                <button class="tag tag-add" hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend"
+                <button class="tag add" hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend"
                     hx-target="#tags" hx-on::after-request='document.querySelector("#promptInput").value = "";
                 document.querySelector("#results").innerHTML = ""'>
                     <% } %>
