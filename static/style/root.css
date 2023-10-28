@@ -192,6 +192,7 @@ footer button {
 		border-left: 1px solid var(--primary);
 		min-height: 85vh;
 		padding-bottom: 1em;
+		z-index: 0;
 	}
 
 	footer {
