@@ -18,55 +18,71 @@
     <header id="top-header">
         <h1>Gwiazdy ZSI</h1>
 
-        <small class="desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć
+        <small class="mobile desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć
             nauczycieli z ZSI.
             Zdjęcia
             można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony
             nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
     </header>
 
-    <nav>
+    <div class="section-wrap">
 
-        <div class="nav-tile random-image">
-            <a href="/randomimg">Random<br>image</a>
-        </div>
+        <aside>
 
-        <form action="/img" method="post" class="nav-tile find-id">
-            <p>Find by id</p>
-            <div class="wraper">
-                <input type="number" name="photoid" placeholder="Id..." required min="0">
-                <button type="submit">Find</button>
-            </div>
-        </form>
+            <small class="desktop desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie
+                zdjęć
+                nauczycieli z ZSI.
+                Zdjęcia
+                można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor
+                strony
+                nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
 
-        <div class="nav-tile find-tags">
-            <p>Find by tags</p>
-            <div class="search-field">
-                <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
-                    hx-trigger="keyup changed delay:250ms, search" hx-target="next #results">
+            <nav>
 
-                <div id="results" class="search-results"></div>
-            </div>
-        </div>
+                <div class="nav-tile random-image">
+                    <a href="/randomimg">Random<br>image</a>
+                </div>
 
-    </nav>
+                <form action="/img" method="post" class="nav-tile find-id">
+                    <p>Find by id</p>
+                    <div class="wraper">
+                        <input type="number" name="photoid" placeholder="Id..." required min="0" autocomplete="off">
+                        <button type="submit">Find</button>
+                    </div>
+                </form>
 
-    <main id="imagetablist">
-        <small class="light">No images was found...</small>
-    </main>
+                <div class="nav-tile find-tags">
+                    <p>Find by tags</p>
+                    <div class="search-field">
+                        <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
+                            hx-trigger="keyup changed delay:250ms, search" hx-target="next #results" autocomplete="off"
+                            maxlength="32">
+
+                        <div id="results" class="search-results"></div>
+                    </div>
+                </div>
+
+            </nav>
+
+        </aside>
+
+
+        <main id="imagetablist">
+            <small class="light">No images was found...</small>
+        </main>
+
+    </div>
 
     <footer>
-        <a href="#top-header">
-            <button>^</button>
-        </a>
-        <button>
-            <% if(authorized){ %>
-                <a href="/admin">User</a>
-                <% } else { %>
-                    <a href="/login">Login</a>
-                    <% } %>
-        </button>
+        <% if(authorized){ %>
+            <a href="/admin"><button>User</button></a>
+            <% } else { %>
+                <a href="/login"><button>Login</button></a>
+                <% } %>
 
+                    <a href="#top-header">
+                        <button>^</button>
+                    </a>
     </footer>
 
 </body>

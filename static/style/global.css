@@ -13,9 +13,12 @@
 }
 
 body {
+	min-height: 100vh;
+	margin: 0;
+
 	font-family: "Alegreya Sans SC";
 	font-weight: 400;
-	margin: 0;
+
 	background: var(--background);
 }
 
@@ -42,30 +45,38 @@ html {
 	font-size: 100%;
 	color: var(--text);
 	scroll-behavior: smooth;
-} /* 16px */
+}
+
+/* 16px */
 
 h1 {
-	font-size: 4.21rem; /* 67.36px */
+	font-size: 4.21rem;
+	/* 67.36px */
 }
 
 h2 {
-	font-size: 3.158rem; /* 50.56px */
+	font-size: 3.158rem;
+	/* 50.56px */
 }
 
 h3 {
-	font-size: 2.369rem; /* 37.92px */
+	font-size: 2.369rem;
+	/* 37.92px */
 }
 
 h4 {
-	font-size: 1.777rem; /* 28.48px */
+	font-size: 1.777rem;
+	/* 28.48px */
 }
 
 h5 {
-	font-size: 1.333rem; /* 21.28px */
+	font-size: 1.333rem;
+	/* 21.28px */
 }
 
 small {
-	font-size: 0.75rem; /* 12px */
+	font-size: 0.75rem;
+	/* 12px */
 }
 
 .light {
@@ -77,4 +88,22 @@ small {
 	gap: 1em;
 	justify-content: space-between;
 	align-items: center;
+}
+
+.mobile {
+	display: block;
+}
+
+.desktop {
+	display: none;
+}
+
+@media (min-width: 750px) {
+	.mobile {
+		display: none;
+	}
+
+	.desktop {
+		display: block;
+	}
 }

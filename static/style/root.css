@@ -47,7 +47,6 @@ header {
 
 .desc {
 	margin: auto;
-	display: block;
 	max-width: 50ch;
 }
 
@@ -132,15 +131,20 @@ nav {
 }
 
 main {
-	text-align: center;
-	padding: 0 1em;
-	margin-bottom: 25%;
+	width: 100%;
+	padding: 1em;
+	padding-bottom: 20%;
+
 	z-index: -1;
+
+	text-align: center;
 }
 
 .imagetab {
 	max-width: 100%;
+
 	padding: 1em;
+	margin: auto;
 	margin-bottom: 1em;
 
 	border-radius: 1em;
@@ -149,7 +153,8 @@ main {
 }
 
 .imagetab>img {
-	width: 100%;
+	max-width: 100%;
+	max-height: 100vh;
 	margin-bottom: 0.5em;
 
 	border: 2px solid var(--accent);
@@ -158,6 +163,7 @@ main {
 }
 
 .imagetab>a {
+	display: block;
 	text-decoration: underline;
 }
 
@@ -180,4 +186,47 @@ footer button {
 	min-width: 3rem;
 	padding: 0.75em;
 	aspect-ratio: 1;
+
+	cursor: pointer;
+}
+
+@media (min-width: 750px) {
+
+	header {
+		border-radius: 0 0 2rem 0;
+	}
+
+	.section-wrap {
+		display: flex;
+	}
+
+	aside {
+		display: block;
+		padding: 1em;
+	}
+
+	nav {
+		position: sticky;
+		top: 1em;
+
+		grid-template-areas:
+			"random"
+			"id"
+			"tags";
+	}
+
+	.nav-tile.random-image {
+		aspect-ratio: 0;
+	}
+
+	main {
+		border-left: 1px solid var(--primary);
+		min-height: 85vh;
+		padding-bottom: 1em;
+	}
+
+	footer {
+		background: transparent;
+	}
+
 }
