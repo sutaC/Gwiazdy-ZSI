@@ -38,12 +38,13 @@ export const postLogin = async (req, res) => {
 	}
 
 	res.cookie("token", newToken, {
-		maxAge: 36000000,
+		// 3h
+		maxAge: 10_800_000,
 		signed: true,
 		secure: true,
 	});
 
-	res.status(303).send('<script>window.location.replace("/admin")</script>');
+	return res.append("HX-Redirect", "/admin").sendStatus(303);
 };
 
 export const getAdmin = (req, res) => {
@@ -80,7 +81,7 @@ export const getLogout = async (req, res) => {
 
 	res.clearCookie("token", { secure: true, signed: true });
 
-	res.redirect("/");
+	res.append("HX-Redirect", "/").sendStatus(303);
 };
 
 export const getReset = (req, res) => {
