@@ -3,6 +3,7 @@
 
 body {
     padding: 0;
+    padding-bottom: 30%;
     text-align: center;
 }
 
@@ -60,6 +61,10 @@ footer button {
 }
 
 @media (min-width: 750px) {
+
+    body {
+        padding-bottom: 10%;
+    }
 
     footer {
         background: transparent;

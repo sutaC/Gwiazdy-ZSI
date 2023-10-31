@@ -44,13 +44,25 @@ router.get("/log", auth.authorizePage, responses.getLog);
 
 router.delete("/log", auth.authorizePage, responses.deleteLog);
 
-router.get("/users", auth.authorizePage, responses.getUsers);
+// --- Root Admin access ---
+router.get(
+	"/users",
+	auth.authorizePage,
+	auth.authorizePageRootAdmin,
+	responses.getUsers
+);
 
-router.post("/addAdminUser", auth.authorizeApi, responses.postAddAdminUser);
+router.post(
+	"/addAdminUser",
+	auth.authorizeApi,
+	auth.authorizeApiRootAdmin,
+	responses.postAddAdminUser
+);
 
 router.delete(
 	"/deleteUser/:login",
 	auth.authorizePage,
+	auth.authorizeApiRootAdmin,
 	responses.deleteDeleteUser
 );
 

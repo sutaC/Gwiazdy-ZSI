@@ -62,7 +62,7 @@ export const postLogin = async (req, res) => {
 };
 
 export const getAdmin = (req, res) => {
-	res.render("./layouts/admin.ejs");
+	res.render("./layouts/admin.ejs", { user: req.authorized });
 };
 
 export const getLogout = async (req, res) => {

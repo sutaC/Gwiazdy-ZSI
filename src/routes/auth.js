@@ -4,7 +4,7 @@ import { createHash } from "crypto";
 // --- Authentication ---
 export async function authenticate(req, res, next) {
 	const { token } = req.signedCookies;
-	req.authorized = false;
+	req.authorized = null;
 
 	if (!token) {
 		return next();
@@ -23,11 +23,27 @@ export async function authenticate(req, res, next) {
 		return next();
 	}
 
-	req.authorized = true;
+	req.authorized = user;
 	next();
 }
 
 // --- Authorization ---
+export function authorizePageRootAdmin(req, res, next) {
+	if (req.authorized !== "admin") {
+		return res
+			.status(403)
+			.render("./layouts/error.ejs", { error: { code: 403 } });
+	}
+	next();
+}
+
+export function authorizeApiRootAdmin(req, res, next) {
+	if (req.authorized !== "admin") {
+		return res.sendStatus(403);
+	}
+	next();
+}
+
 export function authorizePage(req, res, next) {
 	if (!req.authorized) {
 		return res
