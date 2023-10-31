@@ -47,7 +47,7 @@ export async function getNextImg(id) {
 	);
 	con.end();
 
-	return data.id ?? null;
+	return data ? data.id : null;
 }
 export async function getPreviousImg(id) {
 	const con = await getConnection();
@@ -57,7 +57,7 @@ export async function getPreviousImg(id) {
 	);
 	con.end();
 
-	return data.id ?? null;
+	return data ? data.id : null;
 }
 
 export async function getRandomImg() {
@@ -67,7 +67,7 @@ export async function getRandomImg() {
 	);
 	con.end();
 
-	return data.id ?? null;
+	return data ? data.id : null;
 }
 
 export async function addImg(src, local) {
@@ -96,7 +96,7 @@ export async function addImg(src, local) {
 
 	con.end();
 
-	return data.id ?? null;
+	return data ? data.id : null;
 }
 
 export async function updateImg(photoid, src, local) {
@@ -205,7 +205,7 @@ export async function getUser(login) {
 	);
 	con.end();
 
-	return data.password ?? null;
+	return data ? data.password : null;
 }
 
 export async function getUserByToken(token) {
@@ -217,7 +217,7 @@ export async function getUserByToken(token) {
 	);
 	con.end();
 
-	return data.login ?? null;
+	return data ? data.login : null;
 }
 
 export async function updateUserToken(login, token) {
