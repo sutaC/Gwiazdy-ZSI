@@ -57,10 +57,10 @@
 
     <footer>
         <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
-            hx-trigger="click, keyup[ArrowLeft]"><button>&leftarrow;</button></a>
+            hx-trigger="click, keyup[key=='ArrowLeft'] from:body"><button>&leftarrow;</button></a>
         <a href="/randomimg"><button>Random</button></a>
         <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
-            hx-trigger="click, keyup[ArrowRight]"><button>&rightarrow;</button></a>
+            hx-trigger="click, keyup[key=='ArrowRight'] from:body"><button>&rightarrow;</button></a>
     </footer>
 
 
