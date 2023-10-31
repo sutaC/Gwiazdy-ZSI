@@ -25,6 +25,7 @@ nav {
 
 	display: grid;
 	grid-template-areas:
+		"ranking ranking ranking"
 		"random id id"
 		"tags tags tags";
 	gap: 1em;
@@ -37,14 +38,20 @@ nav {
 	border-radius: 1em;
 }
 
-.nav-tile.random-image {
-	grid-area: random;
+.nav-tile.btn-tile {
 	display: grid;
 	place-items: center;
-
-	aspect-ratio: 1;
-
 	text-align: center;
+}
+
+.nav-tile.tag-ranking {
+	grid-area: ranking;
+	padding: 1.5em;
+}
+
+.nav-tile.random-image {
+	grid-area: random;
+	aspect-ratio: 1;
 }
 
 .nav-tile.find-id {
@@ -179,6 +186,7 @@ footer button {
 		top: 1em;
 
 		grid-template-areas:
+			"ranking"
 			"random"
 			"id"
 			"tags";

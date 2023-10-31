@@ -241,3 +241,15 @@ export async function updateUserPassword(login, password) {
 
 	con.end();
 }
+
+// ---
+
+export async function getImageAmmountOnTeachers() {
+	const con = await getConnection();
+	const [data] = await con.query(
+		'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;'
+	);
+	con.end();
+
+	return !data[0].name ? [] : data;
+}

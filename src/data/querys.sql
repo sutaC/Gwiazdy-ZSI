@@ -59,5 +59,7 @@ SELECT login FROM users WHERE token = ?;
 -- Update user token
 UPDATE users SET token = ? WHERE login = ?;
 -- Update user token
-
 UPDATE users SET password = ? WHERE login = ?;
+
+-- Get ammount of teacher with images
+SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;

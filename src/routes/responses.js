@@ -12,6 +12,19 @@ export const getRoot = (req, res) => {
 	res.render("./layouts/root.ejs", { authorized });
 };
 
+export const getRanking = async (req, res) => {
+	let ranks = await db.getImageAmmountOnTeachers();
+
+	try {
+		ranks = await db.getImageAmmountOnTeachers();
+	} catch (error) {
+		addLog(error);
+		return res.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	res.render("./layouts/ranking.ejs", { ranks });
+};
+
 // --- Admin panel ---
 export const getLogin = async (req, res) => {
 	res.render("./layouts/login.ejs");

@@ -1,0 +1,82 @@
+@import url("./global.css");
+
+header {
+    background: var(--secondary);
+    text-align: center;
+    padding: 1.25em 0.5em;
+    border-radius: 0 0 2rem 2rem;
+}
+
+main {
+    padding: 1rem 10%;
+}
+
+.rank {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 1rem 0;
+
+    border: 2px solid var(--accent);
+    border-radius: 1rem;
+    box-shadow: 0 0 5px 1px var(--accent);
+
+    text-align: center;
+}
+
+.rank>* {
+    width: 25%;
+    padding: 0.5em;
+}
+
+.rank .name {
+    width: 100%;
+
+    border: 1px solid var(--accent);
+}
+
+.rank:nth-of-type(1) {
+    background: rgba(230, 230, 87, 0.3);
+}
+
+.rank:nth-of-type(2) {
+    background: rgba(156, 229, 244, 0.3);
+}
+
+.rank:nth-of-type(3) {
+    background: rgba(162, 162, 63, 0.3);
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5em;
+
+    background: var(--secondary);
+}
+
+footer button {
+    min-width: 4rem;
+    padding: 0.75em;
+    aspect-ratio: 1;
+
+    cursor: pointer;
+}
+
+
+
+@media (min-width: 750px) {
+
+    footer {
+        background: transparent;
+    }
+
+}
