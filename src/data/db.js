@@ -25,19 +25,18 @@ export async function getImgById(id) {
 	return data;
 }
 
-export async function getImgsByTagId(tagid) {
+export async function getImgsByTagId(tagid, list) {
 	const con = await getConnection();
+
+	const limit = (list - 1) * 5;
+
 	const [data] = await con.query(
-		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ?;",
-		[Number(tagid)]
+		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ? LIMIT ?, 5;",
+		[Number(tagid), Number(limit)]
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return !data[0] ? [] : data;
 }
 
 export async function getNextImg(id) {
@@ -48,7 +47,7 @@ export async function getNextImg(id) {
 	);
 	con.end();
 
-	return data.id;
+	return data ? data.id : null;
 }
 export async function getPreviousImg(id) {
 	const con = await getConnection();
@@ -58,7 +57,7 @@ export async function getPreviousImg(id) {
 	);
 	con.end();
 
-	return data.id;
+	return data ? data.id : null;
 }
 
 export async function getRandomImg() {
@@ -68,7 +67,7 @@ export async function getRandomImg() {
 	);
 	con.end();
 
-	return data.id;
+	return data ? data.id : null;
 }
 
 export async function addImg(src, local) {
@@ -139,6 +138,7 @@ export async function addTag(imageId, teachersId) {
 		teachersId,
 	]);
 	con.end();
+
 	return data;
 }
 
@@ -169,11 +169,7 @@ export async function getSelectedTeachers(imageId) {
 	);
 	con.end();
 
-	if (!data[0].id) {
-		return [];
-	}
-
-	return data;
+	return !data[0].id ? [] : data;
 }
 
 export async function searchTeachers(prompt) {
@@ -184,11 +180,7 @@ export async function searchTeachers(prompt) {
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return !data[0] ? [] : data;
 }
 
 export async function searchUnselectedTeachers(imageId, prompt) {
@@ -199,11 +191,7 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return !data[0] ? [] : data;
 }
 
 // --- Users ---
@@ -217,11 +205,7 @@ export async function getUser(login) {
 	);
 	con.end();
 
-	if (!data) {
-		return null;
-	}
-
-	return data.password;
+	return data ? data.password : null;
 }
 
 export async function getUserByToken(token) {
@@ -233,11 +217,7 @@ export async function getUserByToken(token) {
 	);
 	con.end();
 
-	if (!data) {
-		return null;
-	}
-
-	return data.login;
+	return data ? data.login : null;
 }
 
 export async function updateUserToken(login, token) {
@@ -260,4 +240,16 @@ export async function updateUserPassword(login, password) {
 	]);
 
 	con.end();
+}
+
+// ---
+
+export async function getImageAmmountOnTeachers() {
+	const con = await getConnection();
+	const [data] = await con.query(
+		'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;'
+	);
+	con.end();
+
+	return !data[0].name ? [] : data;
 }

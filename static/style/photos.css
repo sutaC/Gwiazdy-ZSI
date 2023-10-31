@@ -167,6 +167,10 @@ footer button {
 		align-items: center;
 	}
 
+	.tag-section:has(.tags:empty) {
+		flex-direction: row-reverse;
+	}
+
 	.tags {
 		max-width: 33%;
 	}

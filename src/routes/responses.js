@@ -12,6 +12,19 @@ export const getRoot = (req, res) => {
 	res.render("./layouts/root.ejs", { authorized });
 };
 
+export const getRanking = async (req, res) => {
+	let ranks = await db.getImageAmmountOnTeachers();
+
+	try {
+		ranks = await db.getImageAmmountOnTeachers();
+	} catch (error) {
+		addLog(error);
+		return res.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	res.render("./layouts/ranking.ejs", { ranks });
+};
+
 // --- Admin panel ---
 export const getLogin = async (req, res) => {
 	res.render("./layouts/login.ejs");
@@ -38,12 +51,13 @@ export const postLogin = async (req, res) => {
 	}
 
 	res.cookie("token", newToken, {
-		maxAge: 36000000,
+		// 3h
+		maxAge: 10_800_000,
 		signed: true,
 		secure: true,
 	});
 
-	res.status(303).send('<script>window.location.replace("/admin")</script>');
+	return res.append("HX-Redirect", "/admin").sendStatus(303);
 };
 
 export const getAdmin = (req, res) => {
@@ -80,7 +94,7 @@ export const getLogout = async (req, res) => {
 
 	res.clearCookie("token", { secure: true, signed: true });
 
-	res.redirect("/");
+	res.append("HX-Redirect", "/").sendStatus(303);
 };
 
 export const getReset = (req, res) => {
@@ -135,7 +149,7 @@ export const getLog = (req, res) => {
 export const deleteLog = (req, res) => {
 	clearLogs();
 
-	res.status(200).send('<span class="green">Cleard logs</span>');
+	res.status(200).send("Cleard logs");
 };
 
 // --- Images ---
@@ -260,7 +274,9 @@ export const deleteImageDelete = async (req, res) => {
 	}
 
 	try {
-		upload.deleteImage(photo.local);
+		if (photo.local) {
+			upload.deleteImage(photo.local);
+		}
 		await db.deleteImage(photoid);
 	} catch (error) {
 		addLog(error);
@@ -459,6 +475,12 @@ export const getTag = async (req, res) => {
 
 export const getImageTaglist = async (req, res) => {
 	const { tagid } = req.params;
+	let { list } = req.query;
+
+	list = list ?? 1;
+	if (list < 1) {
+		list = 1;
+	}
 
 	if (!tagid) {
 		return res.sendStatus(400);
@@ -467,15 +489,17 @@ export const getImageTaglist = async (req, res) => {
 	let imagetabs;
 
 	try {
-		imagetabs = await db.getImgsByTagId(tagid);
+		imagetabs = await db.getImgsByTagId(tagid, list);
 	} catch (error) {
 		addLog(error);
 		return res.sendStatus(500);
 	}
 
 	if (imagetabs.length === 0) {
-		return res.send('<small class="light">No images was found...</small>');
+		return res.send(
+			'<small class="light">No more images was found...</small>'
+		);
 	}
 
-	res.render("./components/imagetablist.ejs", { imagetabs });
+	res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
 };

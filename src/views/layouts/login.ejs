@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="sutaC">
-    <title>Login</title>
+    <title>Gwiazdy ZSI | Login</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
@@ -20,12 +21,13 @@
 
         <form action="/login" method="post" hx-boost="true" hx-target="#error">
 
-            <p id="error"></p>
+            <small id="error"></small>
 
             <div class="field">
                 <label for="login">Login</label>
                 <input type="text" id="login" name="login" placeholder="Login" required>
             </div>
+
             <div class="field">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="sutaC">
+    <title>Gwiazdy ZSI | Tag ranking</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <script src="https://unpkg.com/htmx.org@1.9.5"
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style/ranking.css">
+</head>
+
+<body>
+
+    <header id="top-header">
+        <h1>Tag ranking</h1>
+    </header>
+
+    <main>
+        <% ranks.forEach((rank, idx)=> { %>
+
+            <div class="rank">
+                <div>
+                    <%= Number(idx) + 1 %>.
+                </div>
+                <div class="name">
+                    <%= rank.name %>
+                </div>
+                <div>
+                    <%= rank.ammount %>&nbsp;img<%= rank.ammount> 1 ? "s" : "" %>
+                </div>
+            </div>
+
+            <% }); %>
+    </main>
+
+    <footer>
+        <a href="/"><button>Return</button></a>
+
+        <a href="#top-header">
+            <button>^</button>
+        </a>
+    </footer>
+
+</body>
+
+</html>
