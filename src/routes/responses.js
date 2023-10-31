@@ -260,7 +260,9 @@ export const deleteImageDelete = async (req, res) => {
 	}
 
 	try {
-		upload.deleteImage(photo.local);
+		if (photo.local) {
+			upload.deleteImage(photo.local);
+		}
 		await db.deleteImage(photoid);
 	} catch (error) {
 		addLog(error);
