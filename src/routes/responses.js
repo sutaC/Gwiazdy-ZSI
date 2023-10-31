@@ -461,6 +461,12 @@ export const getTag = async (req, res) => {
 
 export const getImageTaglist = async (req, res) => {
 	const { tagid } = req.params;
+	let { list } = req.query;
+
+	list = list ?? 1;
+	if (list < 1) {
+		list = 1;
+	}
 
 	if (!tagid) {
 		return res.sendStatus(400);
@@ -469,15 +475,17 @@ export const getImageTaglist = async (req, res) => {
 	let imagetabs;
 
 	try {
-		imagetabs = await db.getImgsByTagId(tagid);
+		imagetabs = await db.getImgsByTagId(tagid, list);
 	} catch (error) {
 		addLog(error);
 		return res.sendStatus(500);
 	}
 
 	if (imagetabs.length === 0) {
-		return res.send('<small class="light">No images was found...</small>');
+		return res.send(
+			'<small class="light">No more images was found...</small>'
+		);
 	}
 
-	res.render("./components/imagetablist.ejs", { imagetabs });
+	res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
 };

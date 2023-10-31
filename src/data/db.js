@@ -25,11 +25,14 @@ export async function getImgById(id) {
 	return data;
 }
 
-export async function getImgsByTagId(tagid) {
+export async function getImgsByTagId(tagid, list) {
 	const con = await getConnection();
+
+	const limit = (list - 1) * 5;
+
 	const [data] = await con.query(
-		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ?;",
-		[Number(tagid)]
+		"SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ? LIMIT ?, 5;",
+		[Number(tagid), Number(limit)]
 	);
 	con.end();
 
@@ -166,7 +169,7 @@ export async function getSelectedTeachers(imageId) {
 	);
 	con.end();
 
-	return !data[0] ? data : [];
+	return !data[0].id ? [] : data;
 }
 
 export async function searchTeachers(prompt) {

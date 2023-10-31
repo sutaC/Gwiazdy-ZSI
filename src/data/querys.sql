@@ -17,7 +17,7 @@ SELECT id FROM images WHERE id > ? LIMIT 1;
 -- Get previous image id
 SELECT id FROM images WHERE id < ? ORDER BY id DESC LIMIT 1;
 -- Get images with teacher relation;
-SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ?;
+SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ? LIMIT ?, 5;
 
 -- Add tag relation
 INSERT INTO imagesteachers (id, id_images, id_teachers) VALUES (NULL, ?, ?);
