@@ -3,7 +3,6 @@
 body {
 	display: grid;
 	place-items: center;
-	padding: 1rem;
 }
 
 a {
@@ -12,6 +11,7 @@ a {
 }
 
 main {
+	margin: 1rem;
 	padding: 2em 4em;
 
 	border-radius: 1rem;

@@ -17,7 +17,11 @@ router.get("/img/:photoid/update", auth.authorizePage, responses.getImgUpdate);
 
 router.post("/img/:photoid/update", auth.authorizeApi, responses.postImgUpdate);
 
-router.delete("/img/:photoid/delete", auth.authorizeApi, responses.deleteImageDelete);
+router.delete(
+	"/img/:photoid/delete",
+	auth.authorizeApi,
+	responses.deleteImageDelete
+);
 
 router.get("/addImg", auth.authorizePage, responses.getAddImg);
 
@@ -39,6 +43,16 @@ router.post("/reset", auth.authorizeApi, responses.postReset);
 router.get("/log", auth.authorizePage, responses.getLog);
 
 router.delete("/log", auth.authorizePage, responses.deleteLog);
+
+router.get("/users", auth.authorizePage, responses.getUsers);
+
+router.post("/addAdminUser", auth.authorizeApi, responses.postAddAdminUser);
+
+router.delete(
+	"/deleteUser/:login",
+	auth.authorizePage,
+	responses.deleteDeleteUser
+);
 
 // --- Tags ---
 router.put(

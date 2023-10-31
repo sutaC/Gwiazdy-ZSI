@@ -196,6 +196,15 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 
 // --- Users ---
 
+export async function getUsers() {
+	const con = await getConnection();
+
+	const [data] = await con.query("SELECT login FROM users;");
+	con.end();
+
+	return !data[0] ? [] : data;
+}
+
 export async function getUser(login) {
 	const con = await getConnection();
 
@@ -238,6 +247,25 @@ export async function updateUserPassword(login, password) {
 		String(password),
 		String(login),
 	]);
+
+	con.end();
+}
+
+export async function addUser(login, password) {
+	const con = await getConnection();
+
+	await con.query(
+		"INSERT INTO users (id, login, password, token) VALUES (NULL, ?, ?, NULL);",
+		[String(login), String(password)]
+	);
+
+	con.end();
+}
+
+export async function deleteUser(login) {
+	const con = await getConnection();
+
+	await con.query("DELETE FROM users WHERE login = ?;", [String(login)]);
 
 	con.end();
 }

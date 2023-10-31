@@ -4,6 +4,7 @@ import * as upload from "../data/upload.js";
 import { hashString, authenticateUser, validatePassword } from "./auth.js";
 import { addLog, clearLogs } from "../data/log.js";
 import { directory } from "../../app.js";
+import { log } from "console";
 
 // Responses
 export const getRoot = (req, res) => {
@@ -150,6 +151,83 @@ export const deleteLog = (req, res) => {
 	clearLogs();
 
 	res.status(200).send("Cleard logs");
+};
+
+export const getUsers = async (req, res) => {
+	let users;
+
+	try {
+		users = await db.getUsers();
+	} catch (error) {
+		addLog(error);
+		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	res.render("./layouts/users.ejs", { users });
+};
+
+export const postAddAdminUser = async (req, res) => {
+	const { login, password, repeatPassword } = req.body;
+
+	if (!login || !password || !repeatPassword) {
+		return res.send("Missing required data");
+	}
+
+	if (password !== repeatPassword) {
+		return res.send("Password and repeat password must be the same");
+	}
+
+	const validationError = validatePassword(password);
+
+	if (validationError) {
+		return res.send(validationError);
+	}
+
+	let user;
+	try {
+		user = await db.getUser(login);
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not add user...");
+	}
+
+	if (user) {
+		return res.send("User with that login exists");
+	}
+
+	const hashedPassword = hashString(password);
+
+	try {
+		await db.addUser(login, hashedPassword);
+	} catch (error) {
+		addLog(error);
+		return res.send("Could not add user...");
+	}
+
+	return res.send(`<p style="color: green">Added user ${login}!`);
+};
+
+export const deleteDeleteUser = async (req, res) => {
+	const { login } = req.params;
+
+	if (!login) {
+		return res.status(400).send("Missing login");
+	}
+
+	if (login === "admin") {
+		return res.status(400).send("Cannot delete root admin user");
+	}
+
+	try {
+		db.deleteUser(login);
+	} catch (error) {
+		addLog(error);
+		return res.status(400).send("Could not delete user");
+	}
+
+	return res.send(`<p style="color: red;">Deleted user ${login}</p>`);
 };
 
 // --- Images ---
