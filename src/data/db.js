@@ -33,11 +33,7 @@ export async function getImgsByTagId(tagid) {
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return data[0] ? data : [];
 }
 
 export async function getNextImg(id) {
@@ -48,7 +44,7 @@ export async function getNextImg(id) {
 	);
 	con.end();
 
-	return data.id;
+	return data.id ?? null;
 }
 export async function getPreviousImg(id) {
 	const con = await getConnection();
@@ -58,7 +54,7 @@ export async function getPreviousImg(id) {
 	);
 	con.end();
 
-	return data.id;
+	return data.id ?? null;
 }
 
 export async function getRandomImg() {
@@ -68,7 +64,7 @@ export async function getRandomImg() {
 	);
 	con.end();
 
-	return data.id;
+	return data.id ?? null;
 }
 
 export async function addImg(src, local) {
@@ -97,7 +93,7 @@ export async function addImg(src, local) {
 
 	con.end();
 
-	return data ? data.id : null;
+	return data.id ?? null;
 }
 
 export async function updateImg(photoid, src, local) {
@@ -139,6 +135,7 @@ export async function addTag(imageId, teachersId) {
 		teachersId,
 	]);
 	con.end();
+
 	return data;
 }
 
@@ -169,11 +166,7 @@ export async function getSelectedTeachers(imageId) {
 	);
 	con.end();
 
-	if (!data[0].id) {
-		return [];
-	}
-
-	return data;
+	return data[0] ? data : [];
 }
 
 export async function searchTeachers(prompt) {
@@ -184,11 +177,7 @@ export async function searchTeachers(prompt) {
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return data[0] ? data : [];
 }
 
 export async function searchUnselectedTeachers(imageId, prompt) {
@@ -199,11 +188,7 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 	);
 	con.end();
 
-	if (!data[0]) {
-		return [];
-	}
-
-	return data;
+	return data[0] ? data : [];
 }
 
 // --- Users ---
@@ -217,11 +202,7 @@ export async function getUser(login) {
 	);
 	con.end();
 
-	if (!data) {
-		return null;
-	}
-
-	return data.password;
+	return data.password ?? null;
 }
 
 export async function getUserByToken(token) {
@@ -233,11 +214,7 @@ export async function getUserByToken(token) {
 	);
 	con.end();
 
-	if (!data) {
-		return null;
-	}
-
-	return data.login;
+	return data.login ?? null;
 }
 
 export async function updateUserToken(login, token) {
