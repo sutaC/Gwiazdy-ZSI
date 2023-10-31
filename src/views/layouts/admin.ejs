@@ -30,6 +30,9 @@
             <a href="/log" hx-boost="true" hx-delete="/log" class="highlite" hx-boost="true"
                 hx-confirm="Are you sure you want to clear server logs?">Clear server logs</a>
         </div>
+        <% if (user==="admin" ) { %>
+            <a href="/users">Users</a>
+            <% } %>
     </nav>
 
     <main></main>

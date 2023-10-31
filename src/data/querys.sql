@@ -52,6 +52,8 @@ HAVING      NOT id IN (
             ) 
 LIMIT 3;
 
+-- Get users
+SELECT login FROM users;
 -- Get user
 SELECT password FROM users WHERE login = ?;
 -- Get user login by token
@@ -60,6 +62,10 @@ SELECT login FROM users WHERE token = ?;
 UPDATE users SET token = ? WHERE login = ?;
 -- Update user token
 UPDATE users SET password = ? WHERE login = ?;
+-- Add user
+INSERT INTO users (id, login, password, token) VALUES (NULL, ?, ?, NULL);
+-- Delete user
+DELETE FROM users WHERE login = ?;
 
 -- Get ammount of teacher with images
 SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;

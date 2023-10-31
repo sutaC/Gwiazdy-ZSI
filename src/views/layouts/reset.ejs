@@ -22,11 +22,19 @@
 
         <p id="error"></p>
 
-        <form hx-boost="true" action="/reset" method="post" hx-target="#error">
-            <div class="field"><label for="newPassword">New Password</label><input type="password" name="newPassword"
-                    id="newPassword" placeholder="New Password" required></div>
-            <div class="field"><label for="repeatPassword">Repeat Password</label><input type="password"
-                    name="repeatPassword" id="repeatPassword" placeholder="Repeat Pasword" required></div>
+        <form hx-boost="true" action="/reset" method="post" hx-target="#error"
+            hx-confirm="Are you sure you want to reset password?">
+
+            <div class="field">
+                <label for="newPassword">New Password</label>
+                <input type="password" name="newPassword" id="newPassword" placeholder="New Password" required>
+            </div>
+
+            <div class="field">
+                <label for="repeatPassword">Repeat Password</label>
+                <input type="password" name="repeatPassword" id="repeatPassword" placeholder="Repeat Pasword" required>
+            </div>
+
             <button type="submit">Reset</button>
         </form>
 
