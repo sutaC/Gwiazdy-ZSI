@@ -33,7 +33,7 @@ export async function getImgsByTagId(tagid) {
 	);
 	con.end();
 
-	return data[0] ? data : [];
+	return !data[0] ? [] : data;
 }
 
 export async function getNextImg(id) {
@@ -166,7 +166,7 @@ export async function getSelectedTeachers(imageId) {
 	);
 	con.end();
 
-	return data[0] ? data : [];
+	return !data[0] ? data : [];
 }
 
 export async function searchTeachers(prompt) {
@@ -177,7 +177,7 @@ export async function searchTeachers(prompt) {
 	);
 	con.end();
 
-	return data[0] ? data : [];
+	return !data[0] ? [] : data;
 }
 
 export async function searchUnselectedTeachers(imageId, prompt) {
@@ -188,7 +188,7 @@ export async function searchUnselectedTeachers(imageId, prompt) {
 	);
 	con.end();
 
-	return data[0] ? data : [];
+	return !data[0] ? [] : data;
 }
 
 // --- Users ---
