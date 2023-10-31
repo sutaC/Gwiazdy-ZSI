@@ -135,7 +135,7 @@ export const getLog = (req, res) => {
 export const deleteLog = (req, res) => {
 	clearLogs();
 
-	res.status(200).send('<span class="green">Cleard logs</span>');
+	res.status(200).send("Cleard logs");
 };
 
 // --- Images ---

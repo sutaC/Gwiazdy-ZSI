@@ -1,36 +1,52 @@
-* {
-	box-sizing: border-box;
-}
+@import url("./global.css");
 
-body {
+header {
+	padding: 1em;
+	margin-bottom: 2rem;
+
+	border-radius: 0 0 2rem 2rem;
+
 	text-align: center;
-	color: white;
-	background-color: black;
+	background: var(--secondary);
 }
 
 nav {
-	display: flex;
-	justify-content: space-evenly;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	justify-content: center;
 	align-items: center;
-	width: 100%;
-	padding: 1rem;
-	border: 1px solid white;
-	border-radius: 5px;
+	gap: 1rem;
+
+	margin: 0 1rem;
 }
 
 nav a {
 	display: block;
-	color: white;
-	margin: 0.5rem;
+
+	padding: 1em;
+
+	border-radius: 1rem;
+
+	text-align: center;
+	background: var(--secondary);
 }
 
-.red {
-	color: crimson;
-	filter: drop-shadow(0px 0px 0.5em red);
+.tile {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+
+	padding: 0.33rem;
+
+	border: 1px solid var(--primary);
+	border-radius: 1rem;
 }
 
-.green {
-	color: greenyellow;
-	text-decoration: underline;
-	filter: drop-shadow(0px 0px 0.5em green);
+.tile>* {
+	flex: 1;
+}
+
+.highlite {
+	color: var(--accent);
 }

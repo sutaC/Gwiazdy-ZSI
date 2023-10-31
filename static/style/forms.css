@@ -1,45 +1,31 @@
-* {
-	box-sizing: border-box;
-}
+@import url("./global.css");
 
 body {
-	background-color: black;
-	color: white;
-	text-align: center;
-
-	margin: 0;
-
 	display: grid;
 	place-items: center;
-
-	min-height: 100vh;
-}
-
-a {
-	color: white;
-	font-size: 1.25rem;
-	margin: 1em;
-}
-
-main {
-	border: 1px solid white;
-	border-radius: 1rem;
 	padding: 1rem;
 }
 
-form {
-	margin: 1rem;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	gap: 1.5rem;
-
-	text-align: left;
+a {
+	margin: 1em;
+	text-decoration: underline;
 }
 
-.field input {
-	width: 100%;
+main {
+	padding: 2em 4em;
+
+	border-radius: 1rem;
+	text-align: center;
+	background: var(--secondary);
+}
+
+form {
+	margin: 2em 1em;
+}
+
+.field {
+	margin: 1.5em 0;
+	text-align: left;
 }
 
 #error {
