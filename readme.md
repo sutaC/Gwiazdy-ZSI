@@ -1,6 +1,6 @@
 # Gwiazdy ZSI
 
-Gwazdy ZSI to autorski projekt mający na celu przechowanie i skategoryzowanie zdjęć nauczycieli z ZSI. Aplikacja umożliwia przeglądanie zdjęć i wyszukiwanie ich według występujących na nich nauczycieli.
+Gwiazdy ZSI to autorski projekt mający na celu przechowanie i skategoryzowanie zdjęć nauczycieli z ZSI. Aplikacja umożliwia przeglądanie zdjęć i wyszukiwanie ich według występujących na nich nauczycieli.
 
 Autor: [_Catus_](https://github.com/sutaC)
 
