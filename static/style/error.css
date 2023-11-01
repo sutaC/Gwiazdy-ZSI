@@ -28,6 +28,7 @@ img {
 
 a {
     display: block;
+    cursor: pointer;
 
     text-decoration: underline;
 }
