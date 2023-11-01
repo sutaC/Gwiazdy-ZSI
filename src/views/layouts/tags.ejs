@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="sutaC">
+    <title>Gwiazdy ZSI | Reset</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <script src="https://unpkg.com/htmx.org@1.9.5"
+        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style/tags.css">
+</head>
+
+<body>
+
+    <header id="top-header">
+        <h1>Tags</h1>
+    </header>
+
+    <main>
+
+        <h2>Add tag</h2>
+
+        <small id="error"></small>
+
+        <form hx-boost="true" hx-put="/tags" hx-target="next #tags-list" hx-swap="afterend"
+            hx-confirm="Are you sure you want to add new tag?" hx-push-url="false">
+
+            <div class="field">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="Name" required autocomplete="off">
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+
+    </main>
+
+    <section class="tags-container">
+        <h2 id="tags-list">Tag list</h2>
+
+        <% tags.forEach(tag=> { %>
+
+            <%- include("../components/editTag.ejs", {tag, highlight: false}) %>
+
+                <% }); %>
+    </section>
+
+    <footer>
+        <a href="/"><button>Return</button></a>
+
+        <a href="#top-header">
+            <button>^</button>
+        </a>
+    </footer>
+
+</body>
+
+</html>

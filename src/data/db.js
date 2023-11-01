@@ -153,12 +153,60 @@ export async function deleteTag(imageID, teachersID) {
 
 // --- Teachers ---
 
-export async function getTeachers() {
+export async function getTags() {
 	const con = await getConnection();
-	const [data] = await con.query("SELECT * FROM teachers;");
+	const [data] = await con.query("SELECT * FROM teachers ORDER BY name;");
 	con.end();
 
 	return data;
+}
+
+export async function addToTags(name) {
+	if (!String(name)) {
+		throw new Error("Missing required arguments to add tag");
+	}
+
+	const con = await getConnection();
+
+	await con.query("INSERT INTO teachers (id, name) VALUES (NULL, ?)", [
+		String(name),
+	]);
+
+	const [[data]] = await con.query(
+		"SELECT id FROM teachers WHERE name = ? LIMIT 1;",
+		[String(name)]
+	);
+
+	con.end();
+
+	return data.id ?? null;
+}
+
+export async function updateInTags(id, name) {
+	if (!Number(id) || !String(name)) {
+		throw new Error("Missing required arguments to udate tag");
+	}
+
+	const con = await getConnection();
+
+	await con.query("UPDATE teachers SET name = ? WHERE id = ?;", [
+		String(name),
+		Number(id),
+	]);
+
+	con.end();
+}
+
+export async function deleteFromTags(id) {
+	if (!Number(id)) {
+		throw new Error("Missing required arguments to delete tag");
+	}
+
+	const con = await getConnection();
+
+	await con.query("DELETE FROM teachers WHERE id = ?;", [Number(id)]);
+
+	con.end();
 }
 
 export async function getSelectedTeachers(imageId) {

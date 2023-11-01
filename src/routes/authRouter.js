@@ -67,6 +67,14 @@ router.delete(
 );
 
 // --- Tags ---
+router.get("/tags", auth.authorizePage, responses.getTags);
+
+router.put("/tags", auth.authorizeApi, responses.putAddToTags);
+
+router.patch("/tags/:id", auth.authorizeApi, responses.patchUpdateInTags);
+
+router.delete("/tags/:id", auth.authorizeApi, responses.deleteDeleteFromTags);
+
 router.put(
 	"/api/img/:photoid/tag/:tagid",
 	auth.authorizeApi,

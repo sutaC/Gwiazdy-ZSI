@@ -26,8 +26,16 @@ SELECT * FROM teachers WHERE id = ?;
 -- Delete tag relation
 DELETE FROM imagesteachers WHERE id_images = ? AND id_teachers = ?;
 
--- Get teachers
-SELECT * FROM teachers;
+-- Get tags
+SELECT * FROM teachers ORDER BY name;
+-- Get tag id
+SELECT id FROM teachers WHERE name = ? LIMIT 1;
+-- Edit in tags
+UPDATE teachers SET name = ? WHERE id = ?;
+-- Add into tags
+INSERT INTO teachers (id, name) VALUES (NULL, ?)
+-- Delete from tags
+DELETE FROM teachers WHERE id = ?;
 -- Get teachers with image relation
 SELECT      teachers.* 
 FROM        images 
