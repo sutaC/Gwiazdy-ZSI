@@ -522,7 +522,6 @@ export const deleteDeleteFromTags = async (req, res) => {
 };
 
 export const putAddToTags = async (req, res) => {
-	// TODO
 	const { name } = req.body;
 
 	if (!String(name)) {
