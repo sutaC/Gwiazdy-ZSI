@@ -36,6 +36,8 @@ UPDATE teachers SET name = ? WHERE id = ?;
 INSERT INTO teachers (id, name) VALUES (NULL, ?)
 -- Delete from tags
 DELETE FROM teachers WHERE id = ?;
+-- Delete all tag connections
+DELETE FROM imagesteachers WHERE id_teachers = ?;
 -- Get teachers with image relation
 SELECT      teachers.* 
 FROM        images 

@@ -205,6 +205,9 @@ export async function deleteFromTags(id) {
 	const con = await getConnection();
 
 	await con.query("DELETE FROM teachers WHERE id = ?;", [Number(id)]);
+	await con.query("DELETE FROM imagesteachers WHERE id_teachers = ?;", [
+		Number(id),
+	]);
 
 	con.end();
 }
