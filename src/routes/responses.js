@@ -13,17 +13,23 @@ export const getRoot = (req, res) => {
 	res.render("./layouts/root.ejs", { authorized });
 };
 
-export const getRanking = async (req, res) => {
-	let ranks = await db.getImageAmmountOnTeachers();
+export const getStatistics = async (req, res) => {
+	let ranks, imagesAmmount, imagesWithTagsAmmount;
 
 	try {
 		ranks = await db.getImageAmmountOnTeachers();
+		imagesAmmount = await db.getImageAmmount();
+		imagesWithTagsAmmount = await db.getImageWithTagAmmount();
 	} catch (error) {
 		addLog(error);
 		return res.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
-	res.render("./layouts/ranking.ejs", { ranks });
+	res.render("./layouts/statistics.ejs", {
+		ranks,
+		imagesAmmount,
+		imagesWithTagsAmmount,
+	});
 };
 
 // --- Admin panel ---

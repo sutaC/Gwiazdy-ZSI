@@ -5,7 +5,7 @@ const router = Router();
 
 // Urls
 
-router.get("/ranking", responses.getRanking);
+router.get("/statistics", responses.getStatistics);
 
 // --- Images ---
 router.post("/img", responses.postImg);

@@ -272,6 +272,26 @@ export async function deleteUser(login) {
 
 // ---
 
+export async function getImageAmmount() {
+	const con = await getConnection();
+	const [[data]] = await con.query(
+		'SELECT COUNT(*) AS "ammount" FROM images;'
+	);
+	con.end();
+
+	return data.ammount ?? null;
+}
+
+export async function getImageWithTagAmmount() {
+	const con = await getConnection();
+	const [[data]] = await con.query(
+		'SELECT COUNT(DISTINCT id_images) AS "ammount" FROM imagesteachers;'
+	);
+	con.end();
+
+	return data.ammount ?? null;
+}
+
 export async function getImageAmmountOnTeachers() {
 	const con = await getConnection();
 	const [data] = await con.query(

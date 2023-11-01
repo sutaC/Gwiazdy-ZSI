@@ -5,22 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Tag ranking</title>
+    <title>Gwiazdy ZSI | Statistics</title>
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 
     <script src="https://unpkg.com/htmx.org@1.9.5"
         integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/ranking.css">
+    <link rel="stylesheet" href="/style/Statistics.css">
 </head>
 
 <body>
 
     <header id="top-header">
-        <h1>Tag ranking</h1>
+        <h1>Statistics</h1>
     </header>
 
-    <main>
+    <section aria-labelledby="quantity" class="quantity">
+        <h2 id="quantity">Quantity of images</h2>
+
+        <p>Total of <%= imagesAmmount %> imgs</p>
+        <div class="bar">
+            <small class="taged"
+                style="--_ammount: <%= Math.floor((imagesWithTagsAmmount / imagesAmmount) * 100) %>%;">Taged:
+                <%= imagesWithTagsAmmount %>
+            </small>
+            <small class="notTaged"
+                style="--_ammount: <%= Math.floor(((imagesAmmount - imagesWithTagsAmmount) / imagesAmmount) * 100)  %>%;">
+                Not taged:
+                <%= (imagesAmmount - imagesWithTagsAmmount) %>
+            </small>
+        </div>
+
+    </section>
+
+    <main aria-labelledby="ranking">
+        <h2 id="ranking">Teacher ranking</h2>
+
         <% ranks.forEach((rank, idx)=> { %>
 
             <div class="rank">
