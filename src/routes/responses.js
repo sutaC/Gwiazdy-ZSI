@@ -13,17 +13,23 @@ export const getRoot = (req, res) => {
 	res.render("./layouts/root.ejs", { authorized });
 };
 
-export const getRanking = async (req, res) => {
-	let ranks = await db.getImageAmmountOnTeachers();
+export const getStatistics = async (req, res) => {
+	let ranks, imagesAmmount, imagesWithTagsAmmount;
 
 	try {
 		ranks = await db.getImageAmmountOnTeachers();
+		imagesAmmount = await db.getImageAmmount();
+		imagesWithTagsAmmount = await db.getImageWithTagAmmount();
 	} catch (error) {
 		addLog(error);
 		return res.render("./layouts/error.ejs", { error: { code: 500 } });
 	}
 
-	res.render("./layouts/ranking.ejs", { ranks });
+	res.render("./layouts/statistics.ejs", {
+		ranks,
+		imagesAmmount,
+		imagesWithTagsAmmount,
+	});
 };
 
 // --- Admin panel ---
@@ -462,6 +468,81 @@ export const postApiAddImg = async (req, res) => {
 };
 
 // --- Tags ---
+export const getTags = async (req, res) => {
+	let tags;
+
+	try {
+		tags = await db.getTags();
+	} catch (error) {
+		addLog(error);
+		return res
+			.status(500)
+			.render("./layouts/error.ejs", { error: { code: 500 } });
+	}
+
+	return res.render("./layouts/tags.ejs", { tags });
+};
+
+export const patchUpdateInTags = async (req, res) => {
+	const { id } = req.params;
+	const { name } = req.body;
+
+	if (!Number(id) || !String(name)) {
+		return res.sendStatus(400);
+	}
+
+	try {
+		await db.updateInTags(id, name);
+	} catch (error) {
+		addLog(error);
+		return res.sendStatus(500);
+	}
+
+	return res.render("./components/editTag.ejs", {
+		tag: { id, name },
+		highlight: true,
+	});
+};
+
+export const deleteDeleteFromTags = async (req, res) => {
+	const { id } = req.params;
+
+	if (!Number(id)) {
+		return res.sendStatus(400);
+	}
+
+	try {
+		await db.deleteFromTags(id);
+	} catch (error) {
+		addLog(error);
+		return res.sendStatus(500);
+	}
+
+	return res.send("");
+};
+
+export const putAddToTags = async (req, res) => {
+	const { name } = req.body;
+
+	if (!String(name)) {
+		return res.sendStatus(400);
+	}
+
+	let id;
+
+	try {
+		id = await db.addToTags(name);
+	} catch (error) {
+		addLog(error);
+		return res.sendStatus(500);
+	}
+
+	return res.render("./components/editTag.ejs", {
+		tag: { id, name },
+		highlight: true,
+	});
+};
+
 export const putImgTag = async (req, res) => {
 	const { photoid, tagid } = req.params;
 

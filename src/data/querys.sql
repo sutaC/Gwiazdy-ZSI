@@ -26,8 +26,18 @@ SELECT * FROM teachers WHERE id = ?;
 -- Delete tag relation
 DELETE FROM imagesteachers WHERE id_images = ? AND id_teachers = ?;
 
--- Get teachers
-SELECT * FROM teachers;
+-- Get tags
+SELECT * FROM teachers ORDER BY name;
+-- Get tag id
+SELECT id FROM teachers WHERE name = ? LIMIT 1;
+-- Edit in tags
+UPDATE teachers SET name = ? WHERE id = ?;
+-- Add into tags
+INSERT INTO teachers (id, name) VALUES (NULL, ?)
+-- Delete from tags
+DELETE FROM teachers WHERE id = ?;
+-- Delete all tag connections
+DELETE FROM imagesteachers WHERE id_teachers = ?;
 -- Get teachers with image relation
 SELECT      teachers.* 
 FROM        images 
@@ -67,5 +77,9 @@ INSERT INTO users (id, login, password, token) VALUES (NULL, ?, ?, NULL);
 -- Delete user
 DELETE FROM users WHERE login = ?;
 
+-- Get ammount of images
+SELECT COUNT(*) AS "ammount" FROM images;
+-- Get ammount of images with tag
+SELECT COUNT(DISTINCT id_images) AS "ammount" FROM imagesteachers;
 -- Get ammount of teacher with images
 SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;

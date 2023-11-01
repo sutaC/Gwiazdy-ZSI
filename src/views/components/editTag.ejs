@@ -1,0 +1,9 @@
+<form class="tag <%= highlight ? " highlight" : "" %>" hx-patch="/tags/<%= tag.id %>" hx-boost="true"
+        hx-swap="outerHTML"
+        hx-confirm="Are you sure you want to edit this tag?">
+        <input name="name" value="<%= tag.name %>">
+
+        <button type="submit">Update</button>
+        <button hx-delete="/tags/<%= tag.id %>" hx-swap="outerHTML" hx-target="closest form.tag"
+            hx-confirm="Are you sure you want to delete this tag?">Delete</button>
+</form>
