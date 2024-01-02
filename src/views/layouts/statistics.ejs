@@ -26,12 +26,12 @@
         <p>Total of <%= imagesAmmount %> imgs</p>
         <div class="bar">
             <small class="taged"
-                style="--_ammount: <%= Math.floor((imagesWithTagsAmmount / imagesAmmount) * 100) %>%;">Taged:
+                style="--_ammount: <%= Math.floor((imagesWithTagsAmmount / imagesAmmount) * 100) %>%;">Tagged:
                 <%= imagesWithTagsAmmount %>
             </small>
             <small class="notTaged"
                 style="--_ammount: <%= Math.floor(((imagesAmmount - imagesWithTagsAmmount) / imagesAmmount) * 100)  %>%;">
-                Not taged:
+                Not tagged:
                 <%= (imagesAmmount - imagesWithTagsAmmount) %>
             </small>
         </div>
