@@ -3,4 +3,4 @@ node_modules
 # Data
 .env
 *.log
-/database/data
+/database

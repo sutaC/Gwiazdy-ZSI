@@ -1,0 +1,37 @@
+version: "3.8"
+networks:
+    app-net:
+        driver: bridge
+services:
+    app:
+        build: .
+        depends_on:
+            - database
+        volumes:
+            - .:/app
+            - /app/node_modules
+        environment:
+            - PORT=4100
+            - SECRET=47453756456554697
+            - DB_HOST=database
+            - DB_USER=server
+            - DB_PASS=password
+            - DB_NAME=gwiazdy-zsi
+        ports:
+            - 4100:4100
+        networks:
+            - app-net
+    database:
+        image: mysql:latest
+        volumes:
+            - ./database:/docker-entrypoint-initdb.d
+            - /var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=server
+            - MYSQL_PASSWORD=password
+            - MYSQL_DATABASE=gwiazdy-zsi
+        expose:
+            - 3306
+        networks:
+            - app-net
