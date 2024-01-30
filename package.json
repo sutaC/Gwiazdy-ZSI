@@ -1,12 +1,12 @@
 {
-	"name": "zsi",
+	"name": "Gwiazdy-ZSI",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "app.js",
 	"type": "module",
 	"scripts": {
 		"start": "node .",
-		"dev": "nodemon app.js"
+		"dev": "nodemon ."
 	},
 	"keywords": [],
 	"author": "pt20siekanskia",
