@@ -1,44 +1,31 @@
 # Gwiazdy ZSI
 
-Gwiazdy ZSI to autorski projekt mający na celu przechowanie i skategoryzowanie zdjęć nauczycieli z ZSI. Aplikacja umożliwia przeglądanie zdjęć i wyszukiwanie ich według występujących na nich nauczycieli.
+ZSI Stars is an original project aimed at storing and categorizing photos of teachers from ZSI. The application allows you to browse photos and search for them according to the teachers appearing in them.
 
-Autor: [_Catus_](https://github.com/sutaC)
+Author: [_sutaC_](https://github.com/sutaC)
 
-## Technologie
-
-**Backend:**
+## Technologies
 
 1. JavaSript
     - Expres
     - Ejs
 2. MySQL
+3. HTMX
+4. Vanilla CSS
+5. Docker
 
-**Frontend:**
+## How to start app?
 
-1. HTMX
-2. Vanilla CSS
+1. Have installed docker and docker-compose on your machine
 
-## Jak zacząć?
+2. If necessary change application configuration in [docker-compose.yml](/docker-compose.yml) file
 
-1. Aplikacja wymaga połączenia z aktywną bazą danych MySQL. Plik bazy danyh znajduje się w pliku [_gwiazdy-zsi.sql_](./src/data/gwiazdy-zsi.sql).
+3. If you want to run the project in development mode, you need to change the launch command in the [Dockerfile](/Dockerfile) file
 
-2. Wszystkie dane do połączenia, secret i port zawarte muszą być w pilku środowiskowym - [_.env_](./.env)
+4. In root directory run `docker-compose up`
 
-    ```.env
-        SECRET="***"
-        PORT=****
-        DB_HOST="***"
-        DB_USER="****"
-        DB_PASS="****"
-        DB_NAME="****"
-    ```
+5. To log in as the default user after loading the database, use the following credentials:
 
-3. Przed uruchomieniem projektu po raz pierwszy należy zainstalować wszystkie biblioteki za pomocą komendy `npm install`.
+    > _Username:_ **admin**
 
-4. Aby uruchomić projekt należy użyć komendy `npm run dev` lub `npm run start`.
-
-5. Aby zalogować się jako domyślny użytkownik po wczytaniu bazy należy użyć następujących danych:
-
-    > _Nazwa użytkownika:_ **admin**
-
-    > _Hasło:_ **Passw0rd;**
+    > _Password:_ **Passw0rd;**
