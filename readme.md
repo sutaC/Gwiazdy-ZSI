@@ -6,13 +6,21 @@ Author: [_sutaC_](https://github.com/sutaC)
 
 ## Technologies
 
-1. JavaSript
-    - Expres
-    - Ejs
-2. MySQL
-3. HTMX
-4. Vanilla CSS
-5. Docker
+**Backend**
+
+1. Typescript
+2. Expres
+3. Ejs
+4. MySQL
+
+**Frontend**
+
+1. HTMX
+2. CSS
+
+**Other**
+
+1. Docker
 
 ## How to start app?
 
