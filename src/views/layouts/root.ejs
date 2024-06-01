@@ -1,95 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI</title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI</title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="/style/root.css" />
+    </head>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/root.css">
-</head>
+    <body>
+        <header id="top-header">
+            <h1>Gwiazdy ZSI</h1>
 
-<body>
+            <small class="mobile desc"
+                >Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie
+                oraz oznaczenie zdjęć nauczycieli z ZSI. Zdjęcia można
+                wyszukiwać poprzez znajdujących się na nich nauczycieli, co
+                tworzy solidną bazę obrazków. Autor strony nie odpowiada za
+                zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small
+            >
 
-    <header id="top-header">
-        <h1>Gwiazdy ZSI</h1>
+            <hr class="mobile" />
 
-        <small class="mobile desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć
-            nauczycieli z ZSI.
-            Zdjęcia
-            można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony
-            nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
-    </header>
+            <small class="mobile desc">
+                <span class="highlight">Ogłoszenie!</span> Poszukiwany jest
+                ochotnik na mniejsce administratora witryny! Wymagana jest
+                znajomość nauczycieli ZSI Kielce. Zasłużeni kontrybutorzy, na
+                życzenie, zostaną uwzględnieni na stronie ;3. Po więcej
+                informacji kontakt przez discord:
+                <a
+                    href="https://discord.com/users/560883480251334666"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="highlight"
+                    >catus_pl</a
+                >, inne formy komunikacji znajdziesz na mojej stronie:
+                <a
+                    href="https://sutac.pl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="highlight"
+                    >sutac.pl</a
+                >.
+            </small>
 
-    <div class="section-wrap">
+            <br class="mobile" />
+        </header>
 
-        <aside>
+        <div class="section-wrap">
+            <aside>
+                <small class="desktop desc"
+                    >Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie
+                    oraz oznaczenie zdjęć nauczycieli z ZSI. Zdjęcia można
+                    wyszukiwać poprzez znajdujących się na nich nauczycieli, co
+                    tworzy solidną bazę obrazków. Autor strony nie odpowiada za
+                    zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small
+                >
 
-            <small class="desktop desc">Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie
-                zdjęć
-                nauczycieli z ZSI.
-                Zdjęcia
-                można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor
-                strony
-                nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowwanie.</small>
+                <hr class="desktop" />
 
-            <nav>
+                <small class="desktop desc">
+                    <span class="highlight">Ogłoszenie!</span> Poszukiwany jest
+                    ochotnik na mniejsce administratora witryny! Wymagana jest
+                    znajomość nauczycieli ZSI Kielce. Zasłużeni kontrybutorzy,
+                    na życzenie, zostaną uwzględnieni na stronie ;3. Po więcej
+                    informacji kontakt przez discord:
+                    <a
+                        href="https://discord.com/users/560883480251334666"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="highlight"
+                        >catus_pl</a
+                    >, inne formy komunikacji znajdziesz na mojej stronie:
+                    <a
+                        href="https://sutac.pl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="highlight"
+                        >sutac.pl</a
+                    >.
+                </small>
 
-                <div class="nav-tile btn-tile tag-ranking">
-                    <a href="/statistics">Statistics</a>
-                </div>
-
-                <div class="nav-tile btn-tile random-image">
-                    <a href="/randomimg">Random<br>image</a>
-                </div>
-
-                <form action="/img" method="post" class="nav-tile find-id">
-                    <p>Find by id</p>
-                    <div class="wraper">
-                        <input type="number" name="photoid" placeholder="Id..." required min="0" autocomplete="off">
-                        <button type="submit">Find</button>
+                <nav>
+                    <div class="nav-tile btn-tile tag-ranking">
+                        <a href="/statistics">Statistics</a>
                     </div>
-                </form>
 
-                <div class="nav-tile find-tags">
-                    <p>Find by tags</p>
-                    <div class="search-field">
-                        <input type="text" id="promptInput" name="prompt" placeholder="Search..." hx-get="/api/tag"
-                            hx-trigger="keyup changed delay:250ms, search" hx-target="next #results" autocomplete="off"
-                            maxlength="32">
-
-                        <div id="results" class="search-results"></div>
+                    <div class="nav-tile btn-tile random-image">
+                        <a href="/randomimg">Random<br />image</a>
                     </div>
-                </div>
 
-            </nav>
+                    <form action="/img" method="post" class="nav-tile find-id">
+                        <p>Find by id</p>
+                        <div class="wraper">
+                            <input
+                                type="number"
+                                name="photoid"
+                                placeholder="Id..."
+                                required
+                                min="0"
+                                autocomplete="off"
+                            />
+                            <button type="submit">Find</button>
+                        </div>
+                    </form>
 
-        </aside>
+                    <div class="nav-tile find-tags">
+                        <p>Find by tags</p>
+                        <div class="search-field">
+                            <input
+                                type="text"
+                                id="promptInput"
+                                name="prompt"
+                                placeholder="Search..."
+                                hx-get="/api/tag"
+                                hx-trigger="keyup changed delay:250ms, search"
+                                hx-target="next #results"
+                                autocomplete="off"
+                                maxlength="32"
+                            />
 
+                            <div id="results" class="search-results"></div>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
 
-        <main id="imagetablist">
-            <small class="light">No images was found...</small>
-        </main>
+            <main id="imagetablist">
+                <small class="light">No images was found...</small>
+            </main>
+        </div>
 
-    </div>
-
-    <footer>
-        <% if(authorized){ %>
+        <footer>
+            <% if(authorized){ %>
             <a href="/admin"><button>User</button></a>
             <% } else { %>
-                <a href="/login"><button>Login</button></a>
-                <% } %>
+            <a href="/login"><button>Login</button></a>
+            <% } %>
 
-                    <a href="#top-header">
-                        <button>^</button>
-                    </a>
-    </footer>
-
-</body>
-
+            <a href="#top-header">
+                <button>^</button>
+            </a>
+        </footer>
+    </body>
 </html>

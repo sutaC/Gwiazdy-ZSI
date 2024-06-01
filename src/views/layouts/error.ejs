@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Error <%= error.code ?? 500 %></title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Error <%= error.code ?? 500 %>
-    </title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/style/error.css" />
+    </head>
 
-    <link rel="stylesheet" href="/style/error.css">
-</head>
+    <body>
+        <main>
+            <h1>Oopsie!</h1>
 
-<body>
+            <p>
+                <%= error.messsage ?? `Error ${error.code ?? 500} occurred` %>
+            </p>
 
-    <main>
+            <img src="https://http.cat/<%= error.code ?? 500 %>" alt="error" />
 
-        <h1>Oopsie!</h1>
-
-        <p>
-            <%= error.messsage ?? `Error ${error.code ?? 500} occurred` %>
-        </p>
-
-        <img src="https://http.cat/<%= error.code ?? 500 %>" alt="error">
-
-
-        <a onclick="history.back()">Go back</a>
-
-    </main>
-
-</body>
-
+            <a onclick="history.back()">Go back</a>
+        </main>
+    </body>
 </html>

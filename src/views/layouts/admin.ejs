@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Admin page</title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Admin page</title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="/style/admin.css" />
+    </head>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/admin.css">
-</head>
+    <body>
+        <header>
+            <h1>Admin page</h1>
+            <p>Welcome <%= user %>! You are now authorized.</p>
+        </header>
 
-<body>
-    <header>
-        <h1>Admin page</h1>
-        <p>Welcome <%= user %>! You are now authorized.</p>
-    </header>
-
-    <nav>
-        <a href="/">Go to homepage</a>
-        <a href="/logout" class="highlite" hx-boost="true" hx-confirm="Are you sure you want to logout?">Logout</a>
-        <a href="/tags">Tags</a>
-        <a href="/addImg">Add Image</a>
-        <div class="tile">
-            <a href="/log">Get server logs</a>
-            <a href="/log" hx-boost="true" hx-delete="/log" class="highlite" hx-boost="true"
-                hx-confirm="Are you sure you want to clear server logs?">Clear server logs</a>
-        </div>
-        <a href="/reset">Reset password</a>
-        <% if (user==="admin" ) { %>
+        <nav>
+            <a href="/">Go to homepage</a>
+            <a
+                href="/logout"
+                class="highlite"
+                hx-boost="true"
+                hx-confirm="Are you sure you want to logout?"
+                >Logout</a
+            >
+            <a href="/tags">Tags</a>
+            <a href="/addImg">Add Image</a>
+            <div class="tile">
+                <a href="/log">Get server logs</a>
+                <a
+                    href="/log"
+                    hx-boost="true"
+                    hx-delete="/log"
+                    class="highlite"
+                    hx-boost="true"
+                    hx-confirm="Are you sure you want to clear server logs?"
+                    >Clear server logs</a
+                >
+            </div>
+            <a href="/reset">Reset password</a>
+            <% if (user==="admin" ) { %>
             <a href="/users">Users</a>
             <% } %>
-    </nav>
+        </nav>
 
-    <main></main>
-
-</body>
-
+        <main></main>
+    </body>
 </html>
