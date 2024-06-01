@@ -1,71 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Statistics</title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Statistics</title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="/style/statistics.css" />
+    </head>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/statistics.css">
-</head>
+    <body>
+        <header id="top-header">
+            <h1>Statistics</h1>
+        </header>
 
-<body>
+        <section aria-labelledby="quantity" class="quantity">
+            <h2 id="quantity">Quantity of images</h2>
 
-    <header id="top-header">
-        <h1>Statistics</h1>
-    </header>
+            <p>Total of <%= imagesAmmount %> imgs</p>
+            <div class="bar">
+                <small
+                    class="taged"
+                    style="
+                        --_ammount: <%=
+                            Math.floor(
+                                (imagesWithTagsAmmount / imagesAmmount) * 100
+                            )
+                            %>%;
+                    "
+                    >Tagged: <%= imagesWithTagsAmmount %>
+                </small>
+                <small
+                    class="notTaged"
+                    style="
+                        --_ammount: <%=
+                            Math.floor(
+                                (
+                                        (imagesAmmount - imagesWithTagsAmmount) /
+                                            imagesAmmount
+                                    ) * 100
+                            )
+                            %>%;
+                    "
+                >
+                    Not tagged: <%= (imagesAmmount - imagesWithTagsAmmount) %>
+                </small>
+            </div>
+        </section>
 
-    <section aria-labelledby="quantity" class="quantity">
-        <h2 id="quantity">Quantity of images</h2>
+        <main aria-labelledby="ranking">
+            <h2 id="ranking">Teacher ranking</h2>
 
-        <p>Total of <%= imagesAmmount %> imgs</p>
-        <div class="bar">
-            <small class="taged"
-                style="--_ammount: <%= Math.floor((imagesWithTagsAmmount / imagesAmmount) * 100) %>%;">Tagged:
-                <%= imagesWithTagsAmmount %>
-            </small>
-            <small class="notTaged"
-                style="--_ammount: <%= Math.floor(((imagesAmmount - imagesWithTagsAmmount) / imagesAmmount) * 100)  %>%;">
-                Not tagged:
-                <%= (imagesAmmount - imagesWithTagsAmmount) %>
-            </small>
-        </div>
-
-    </section>
-
-    <main aria-labelledby="ranking">
-        <h2 id="ranking">Teacher ranking</h2>
-
-        <% ranks.forEach((rank, idx)=> { %>
+            <% ranks.forEach((rank, idx)=> { %>
 
             <div class="rank">
+                <div><%= Number(idx) + 1 %>.</div>
+                <div class="name"><%= rank.name %></div>
                 <div>
-                    <%= Number(idx) + 1 %>.
-                </div>
-                <div class="name">
-                    <%= rank.name %>
-                </div>
-                <div>
-                    <%= rank.ammount %>&nbsp;img<%= rank.ammount> 1 ? "s" : "" %>
+                    <%= rank.ammount %>&nbsp;img<%= rank.ammount> 1 ? "s" : ""
+                    %>
                 </div>
             </div>
 
             <% }); %>
-    </main>
+        </main>
 
-    <footer>
-        <a href="/"><button>Return</button></a>
+        <footer>
+            <a href="/"><button>Return</button></a>
 
-        <a href="#top-header">
-            <button>^</button>
-        </a>
-    </footer>
-
-</body>
-
+            <a href="#top-header">
+                <button>^</button>
+            </a>
+        </footer>
+    </body>
 </html>

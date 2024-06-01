@@ -1,65 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Edit photo <%= photo.id %></title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Edit photo <%= photo.id %>
-    </title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="/style/forms.css" />
+        <link rel="stylesheet" href="/style/addImage.css" />
+    </head>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/forms.css">
-    <link rel="stylesheet" href="/style/addImage.css">
-</head>
+    <body>
+        <main>
+            <h1>Edit image <%= photo.id %></h1>
 
-<body>
+            <form
+                hx-boost="true"
+                hx-target="#error"
+                hx-post="/img/<%= photo.id %>/update"
+                hx-confirm="Are you sure you want to update this image?"
+            >
+                <p id="error"></p>
 
-    <main>
-        <h1>Edit image <%= photo.id %>
-        </h1>
+                <div class="field">
+                    <label for="src">Src</label>
+                    <input
+                        type="text"
+                        placeholder="Src..."
+                        value="<%= photo.src %>"
+                        name="src"
+                        id="src"
+                    />
+                </div>
 
-        <form hx-boost="true" hx-target="#error" hx-post="/img/<%= photo.id %>/update"
-            hx-confirm="Are you sure you want to update this image?">
+                <div class="field">
+                    <label for="localsrc">Src</label>
+                    <input
+                        type="text"
+                        placeholder="Local src..."
+                        value="<%= photo.local %>"
+                        name="localsrc"
+                        id="localsrc"
+                    />
+                </div>
 
-            <p id="error"></p>
+                <button type="submit">Update</button>
+            </form>
 
-            <div class="field">
-                <label for="src">Src</label>
-                <input type="text" placeholder="Src..." value="<%= photo.src %>" name="src" id="src">
-            </div>
+            <hr />
 
-            <div class="field">
-                <label for="localsrc">Src</label>
-                <input type="text" placeholder="Local src..." value="<%= photo.local %>" name="localsrc" id="localsrc">
-            </div>
+            <button
+                hx-delete="/img/<%= photo.id %>/delete"
+                hx-confirm="Are you sure you want to delete this image permamently?"
+                hx-target="#error"
+            >
+                Delete image
+            </button>
 
-            <button type="submit">Update</button>
+            <hr />
 
-        </form>
+            <a href="/img/<%= photo.id %>/previous">Go to previous</a>
+            <a href="/img/<%= photo.id %>">Go back</a>
+            <a href="/img/<%= photo.id %>/next">Go to next</a>
 
-        <hr>
+            <hr />
 
-        <button hx-delete="/img/<%= photo.id %>/delete"
-            hx-confirm="Are you sure you want to delete this image permamently?" hx-target="#error">Delete
-            image</button>
-
-        <hr>
-
-        <a href="/img/<%= photo.id %>/previous">Go to previous</a>
-        <a href="/img/<%= photo.id %>">Go back</a>
-        <a href="/img/<%= photo.id %>/next">Go to next</a>
-
-
-        <hr>
-
-        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
-
-    </main>
-
-</body>
-
+            <img
+                src="<%= photo.src %>"
+                onerror='this.src = "<%= "/uploads/" + photo.local %>"'
+                alt="Gwiazda ZSI"
+            />
+        </main>
+    </body>
 </html>

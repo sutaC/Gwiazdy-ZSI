@@ -1,44 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Login</title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Login</title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="/style/forms.css" />
+    </head>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/style/forms.css">
-</head>
+    <body>
+        <main>
+            <h1>Login</h1>
 
-<body>
+            <form
+                action="/login"
+                method="post"
+                hx-boost="true"
+                hx-target="#error"
+            >
+                <small id="error"></small>
 
-    <main>
-        <h1>Login</h1>
+                <div class="field">
+                    <label for="login">Login</label>
+                    <input
+                        type="text"
+                        id="login"
+                        name="login"
+                        placeholder="Login"
+                        required
+                    />
+                </div>
 
-        <form action="/login" method="post" hx-boost="true" hx-target="#error">
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                    />
+                </div>
 
-            <small id="error"></small>
+                <button type="submit">Login</button>
+            </form>
 
-            <div class="field">
-                <label for="login">Login</label>
-                <input type="text" id="login" name="login" placeholder="Login" required>
-            </div>
-
-            <div class="field">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-            </div>
-
-            <button type="submit">Login</button>
-        </form>
-
-        <a href="/">Go back</a>
-    </main>
-
-</body>
-
+            <a href="/">Go back</a>
+        </main>
+    </body>
 </html>

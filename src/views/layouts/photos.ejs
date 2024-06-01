@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="sutaC" />
+        <title>Gwiazdy ZSI | Photo <%= photo.id %></title>
+        <link
+            rel="shortcut icon"
+            href="/images/favicon.svg"
+            type="image/x-icon"
+        />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="sutaC">
-    <title>Gwiazdy ZSI | Photo <%= photo.id %>
-    </title>
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <script
+            src="https://unpkg.com/htmx.org@1.9.5"
+            integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+            crossorigin="anonymous"
+        ></script>
 
-    <script src="https://unpkg.com/htmx.org@1.9.5"
-        integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
-        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/style/photos.css" />
+    </head>
 
-    <link rel="stylesheet" href="/style/photos.css">
-</head>
+    <body>
+        <header>
+            <nav class="wraper">
+                <a href="/" class="return"><button>Home</button></a>
 
-<body>
-
-    <header>
-        <nav class="wraper">
-            <a href="/" class="return"><button>Home</button></a>
-
-            <% if(authorized){ %>
+                <% if(authorized){ %>
                 <a href="/img/<%= photo.id %>/update"><button>Edit</button></a>
                 <% } %>
+            </nav>
 
-        </nav>
+            <h1>Image id: <%= photo.id %></h1>
 
-        <h1>Image id: <%= photo.id %>
-        </h1>
+            <div class="tag-section">
+                <div id="tags" class="tags">
+                    <%- include('../components/taglist.ejs', {tags, photoid:
+                    photo.id, checked: true, authorized}) %>
+                </div>
 
-        <div class="tag-section">
-
-            <div id="tags" class="tags"><%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked:
-                    true, authorized}) %></div>
-
-            <% if(authorized){ %>
+                <% if(authorized){ %>
 
                 <div class="search-field">
-                    <input type="text" id="promptInput" name="prompt" placeholder="Search..."
-                        hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keyup changed delay:250ms, search"
-                        hx-target="next #results">
+                    <input
+                        type="text"
+                        id="promptInput"
+                        name="prompt"
+                        placeholder="Search..."
+                        hx-get="/api/img/<%= photo.id %>/tag"
+                        hx-trigger="keyup changed delay:250ms, search"
+                        hx-target="next #results"
+                    />
                     <div id="results" class="search-results"></div>
                 </div>
 
                 <% } %>
+            </div>
+        </header>
 
-        </div>
+        <main>
+            <img
+                src="<%= photo.src %>"
+                onerror='this.src = "<%= "/uploads/" + photo.local %>"'
+                alt="Gwiazda ZSI"
+            />
+        </main>
 
-    </header>
-
-    <main>
-        <img src='<%= photo.src %>' onerror='this.src = "<%= "/uploads/" + photo.local %>"' alt="Gwiazda ZSI">
-    </main>
-
-    <footer>
-        <a href="/img/<%= Number(photo.id) %>/previous" hx-boost="true"
-            hx-trigger="click, keyup[key=='ArrowLeft'] from:body"><button>&leftarrow;</button></a>
-        <a href="/randomimg"><button>Random</button></a>
-        <a href="/img/<%= Number(photo.id) %>/next" hx-boost="true"
-            hx-trigger="click, keyup[key=='ArrowRight'] from:body"><button>&rightarrow;</button></a>
-    </footer>
-
-
-</body>
-
+        <footer>
+            <a
+                href="/img/<%= Number(photo.id) %>/previous"
+                hx-boost="true"
+                hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
+                ><button>&leftarrow;</button></a
+            >
+            <a href="/randomimg"><button>Random</button></a>
+            <a
+                href="/img/<%= Number(photo.id) %>/next"
+                hx-boost="true"
+                hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+                ><button>&rightarrow;</button></a
+            >
+        </footer>
+    </body>
 </html>
