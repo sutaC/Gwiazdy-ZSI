@@ -7,6 +7,7 @@ import multer from "multer";
 
 import router from "$/routes/router";
 import authRouter from "$/routes/authRouter";
+import { addLog } from "$/data/log";
 
 const app = express();
 dotenv.config();
@@ -32,11 +33,13 @@ app.use(authRouter);
 
 // Error handling
 const handleServerError: ErrorRequestHandler = (err, req, res, next) => {
-    if (err)
-        res.status(500).render("./layouts/error.ejs", {
-            error: { code: 500, messsage: err },
-        });
-    next(err);
+    if (!err) next(err);
+
+    addLog(err);
+
+    res.status(500).render("./layouts/error.ejs", {
+        error: { code: 500, messsage: err },
+    });
 };
 app.use(handleServerError);
 
