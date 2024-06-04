@@ -24,9 +24,10 @@ nav {
     padding: 0 1em;
 
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-        "ranking ranking ranking"
-        "random id id"
+        "about ranking random"
+        "id id id"
         "tags tags tags";
     gap: 1em;
     justify-content: center;
@@ -46,7 +47,6 @@ nav {
 
 .nav-tile.tag-ranking {
     grid-area: ranking;
-    padding: 1.5em;
 }
 
 .nav-tile.random-image {
@@ -60,6 +60,10 @@ nav {
 
 .nav-tile.find-tags {
     grid-area: tags;
+}
+
+.nav-tile.about {
+    grid-area: about;
 }
 
 .search-field {
@@ -184,7 +188,9 @@ footer button {
         position: sticky;
         top: 1em;
 
+        grid-template-columns: repeat(1, 1fr);
         grid-template-areas:
+            "about"
             "ranking"
             "random"
             "id"
