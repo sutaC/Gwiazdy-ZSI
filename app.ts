@@ -1,12 +1,13 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import express from "express";
+import express, { type ErrorRequestHandler } from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import multer from "multer";
 
 import router from "$/routes/router";
 import authRouter from "$/routes/authRouter";
+import { addLog } from "$/data/log";
 
 const app = express();
 dotenv.config();
@@ -31,6 +32,17 @@ app.use(router);
 app.use(authRouter);
 
 // Error handling
+const handleServerError: ErrorRequestHandler = (err, req, res, next) => {
+    if (!err) next(err);
+
+    addLog(err);
+
+    res.status(500).render("./layouts/error.ejs", {
+        error: { code: 500, messsage: err },
+    });
+};
+app.use(handleServerError);
+
 app.use((req, res) => {
     res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
 });
