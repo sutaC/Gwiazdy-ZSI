@@ -33,6 +33,10 @@ export const getStatistics = async (req: Request, res: Response) => {
     });
 };
 
+export const getAbout = (req: Request, res: Response): void => {
+    return res.render("./layouts/about.ejs");
+};
+
 // --- Admin panel ---
 export const getLogin = async (req: Request, res: Response) => {
     res.render("./layouts/login.ejs");
