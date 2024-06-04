@@ -7,6 +7,8 @@ const router = Router();
 
 router.get("/statistics", responses.getStatistics as () => Promise<void>);
 
+router.get("/about", responses.getAbout as () => Promise<void>);
+
 // --- Images ---
 router.post("/img", responses.postImg as () => Promise<void>);
 
