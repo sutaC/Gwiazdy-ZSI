@@ -1,0 +1,9 @@
+User-agent: * 
+Allow: /
+Allow: /img/
+Allow: /img/*
+Disallow: /img/*/*
+Disallow: /img/*/previous
+Disallow: /img/*/next
+Disallow: /randomimg
+Disallow: /api/
