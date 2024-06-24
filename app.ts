@@ -2,6 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import express, { type ErrorRequestHandler } from "express";
 import cookieParser from "cookie-parser";
+import compression from "compression";
 import dotenv from "dotenv";
 import multer from "multer";
 
@@ -12,6 +13,7 @@ import { addLog } from "$/data/log";
 const app = express();
 dotenv.config();
 
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
 app.use(
