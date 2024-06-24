@@ -1,52 +1,50 @@
-@import url("./global.css");
-
 header {
-	padding: 1em;
-	margin-bottom: 2rem;
+    padding: 1em;
+    margin-bottom: 2rem;
 
-	border-radius: 0 0 2rem 2rem;
+    border-radius: 0 0 2rem 2rem;
 
-	text-align: center;
-	background: var(--secondary);
+    text-align: center;
+    background: var(--secondary);
 }
 
 nav {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	justify-content: center;
-	align-items: center;
-	gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 
-	margin: 0 1rem;
+    margin: 0 1rem;
 }
 
 nav a {
-	display: block;
+    display: block;
 
-	padding: 1em;
+    padding: 1em;
 
-	border-radius: 1rem;
+    border-radius: 1rem;
 
-	text-align: center;
-	background: var(--secondary);
+    text-align: center;
+    background: var(--secondary);
 }
 
 .tile {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
 
-	padding: 0.33rem;
+    padding: 0.33rem;
 
-	border: 1px solid var(--primary);
-	border-radius: 1rem;
+    border: 1px solid var(--primary);
+    border-radius: 1rem;
 }
 
-.tile>* {
-	flex: 1;
+.tile > * {
+    flex: 1;
 }
 
 .highlite {
-	color: var(--accent);
+    color: var(--accent);
 }
