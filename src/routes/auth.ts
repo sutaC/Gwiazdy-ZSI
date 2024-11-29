@@ -129,11 +129,11 @@ export async function authenticateUser(
     const dbPassword = await db.getUser(login);
 
     if (!dbPassword) {
-        return "No user with this login was found";
+        return "Nie znaleziono użytkownika o tym loginie";
     }
 
     if (hashString(password) !== dbPassword) {
-        return "Incorrect password";
+        return "Nieprawidłowe hasło";
     }
 
     return null;
@@ -144,32 +144,32 @@ export function validatePassword(password: string | undefined): string | null {
 
     // Required
     if (!pass) {
-        return "Password is required";
+        return "Hasło jest wymagane";
     }
 
     // Length
     if (pass.length < 8) {
-        return "Password must be at least 8 characters long";
+        return "Hasło musi mieć co najmniej 8 znaków";
     }
 
     // Lowercase letter
     if (!pass.match(/[a-z]+/)) {
-        return "Password must have at least one lowercase letter";
+        return "Hasło musi zawierać co najmniej jedną małą literę";
     }
 
     // Capital letter
     if (!pass.match(/[A-Z]+/)) {
-        return "Password must have at least one capital letter";
+        return "Hasło musi zawierać co najmniej jedną wielką literę";
     }
 
     // Digit
     if (!pass.match(/\d+/)) {
-        return "Password must have at least one digit";
+        return "Hasło musi zawierać co najmniej jedną cyfrę";
     }
 
     // Special character
     if (!pass.match(/[!@#$%,.?:;]+/)) {
-        return "Password must have at least one special character (!@#$%,.?:;)";
+        return "Hasło musi zawierać co najmniej jeden znak specjalny (!@#$%,.?:;)";
     }
 
     // Password valid

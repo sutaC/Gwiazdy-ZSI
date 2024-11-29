@@ -117,11 +117,11 @@ export const postReset = async (req: Request, res: Response) => {
     const { newPassword, repeatPassword } = req.body;
 
     if (!String(newPassword) || !String(repeatPassword)) {
-        return res.send("Password is required");
+        return res.send("Hasło jest wymagane");
     }
 
     if (newPassword !== repeatPassword) {
-        return res.send("Repeate password must be the same");
+        return res.send("Hasło i powtórzenie hasła muszą być takie same");
     }
 
     const error = validatePassword(newPassword);
@@ -139,7 +139,7 @@ export const postReset = async (req: Request, res: Response) => {
     }
 
     if (!login) {
-        return res.send("Your account canot be found");
+        return res.send("Nie można znaleźć Twojego konta");
     }
 
     try {
@@ -150,7 +150,7 @@ export const postReset = async (req: Request, res: Response) => {
     }
 
     res.send(
-        '<span style="color: green;">Changed password succesfully!</span>'
+        '<span style="color: green;">Zmiana hasła przebiegła pomyślnie!</span>'
     );
 };
 
@@ -186,12 +186,12 @@ export const postAddAdminUser = async (
     const { login, password, repeatPassword } = req.body;
 
     if (!login || !password || !repeatPassword) {
-        res.send("Missing required data");
+        res.send("Brak wymaganych danych");
         return;
     }
 
     if (password !== repeatPassword) {
-        res.send("Password and repeat password must be the same");
+        res.send("Hasło i powtórzenie hasła muszą być takie same");
         return;
     }
 
@@ -207,12 +207,12 @@ export const postAddAdminUser = async (
         user = await db.getUser(login);
     } catch (error) {
         addLog(error as string);
-        res.send("Could not add user...");
+        res.send("Nie udało się dodać użytkownika...");
         return;
     }
 
     if (user) {
-        res.send("User with that login exists");
+        res.send("Użytkownik o takim loginie istnieje");
         return;
     }
 
@@ -222,11 +222,11 @@ export const postAddAdminUser = async (
         await db.addUser(login, hashedPassword);
     } catch (error) {
         addLog(error as string);
-        res.send("Could not add user...");
+        res.send("Nie udało się dodać użytkownika...");
         return;
     }
 
-    res.send(`<p style="color: green">Added user ${login}!`);
+    res.send(`<p style="color: green">Dodano użytkownika ${login}!`);
     return;
 };
 
@@ -237,12 +237,12 @@ export const deleteDeleteUser = async (
     const { login } = req.params;
 
     if (!login) {
-        res.status(400).send("Missing login");
+        res.status(400).send("Brak loginu");
         return;
     }
 
     if (login === "admin") {
-        res.status(400).send("Cannot delete root admin user");
+        res.status(400).send("Nie można usunąć użytkownika admin");
         return;
     }
 
@@ -250,11 +250,11 @@ export const deleteDeleteUser = async (
         db.deleteUser(login);
     } catch (error) {
         addLog(error as string);
-        res.status(400).send("Could not delete user");
+        res.status(400).send("Nie udało się usunąć użytkownika");
         return;
     }
 
-    res.send(`<p style="color: red;">Deleted user ${login}</p>`);
+    res.send(`<p style="color: red;">Usunięto użytkownika ${login}</p>`);
     return;
 };
 
@@ -364,7 +364,7 @@ export const deleteImageDelete = async (req: Request, res: Response) => {
     const { photoid } = req.params;
 
     if (!photoid) {
-        return res.send("Required parametrs are missing.");
+        return res.send("Brak wymaganych parametrów");
     }
 
     let photo;
@@ -373,11 +373,11 @@ export const deleteImageDelete = async (req: Request, res: Response) => {
         photo = await db.getImgById(Number(photoid));
     } catch (error) {
         addLog(error as string);
-        return res.send("Could not find image to delete");
+        return res.send("Nie można znaleźć zdjęcia do usunięcia");
     }
 
     if (!photo) {
-        return res.send("Could not find image to delete");
+        return res.send("Nie można znaleźć zdjęcia do usunięcia");
     }
 
     try {
@@ -387,10 +387,10 @@ export const deleteImageDelete = async (req: Request, res: Response) => {
         await db.deleteImage(Number(photoid));
     } catch (error) {
         addLog(error as string);
-        return res.send("Could not delete image.");
+        return res.send("Nie udało się usunąć zdjęcia");
     }
 
-    res.send('<span style="color: green;">Deleted image!</span>');
+    res.send('<span style="color: green;">Usunięto zdjęcie!</span>');
 };
 
 export const postImgUpdate = async (req: Request, res: Response) => {
@@ -398,17 +398,17 @@ export const postImgUpdate = async (req: Request, res: Response) => {
     const { src, local } = req.body;
 
     if (photoid == undefined) {
-        return res.send("Required parametrs are missing.");
+        return res.send("Brak wymaganych parametrów");
     }
 
     try {
         await db.updateImg(Number(photoid), src ?? "", local ?? "");
     } catch (error) {
         addLog(error as string);
-        return res.send("Could not update image.");
+        return res.send("Nie udało się zaktualizować zdjęcia");
     }
 
-    res.send('<span style="color: green;">Updated image!</span>');
+    res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
 };
 
 export const getImgPrevious = async (req: Request, res: Response) => {
@@ -464,7 +464,7 @@ export const postApiAddImg = async (req: Request, res: Response) => {
     const [imgFile] = req.files as Express.Multer.File[];
 
     if (!imgUrl && !imgFile) {
-        return res.send("Image url or file must be provided.");
+        return res.send("Należy podać adres URL zdjęcia lub plik");
     }
 
     let local;
@@ -474,7 +474,7 @@ export const postApiAddImg = async (req: Request, res: Response) => {
             local = upload.uploadImage(imgFile);
         } catch (error) {
             addLog(error as string);
-            return res.send("Could not save file.");
+            return res.send("Nie udało się zapisać pliku");
         }
     }
 
@@ -484,7 +484,7 @@ export const postApiAddImg = async (req: Request, res: Response) => {
         photoid = await db.addImg(imgUrl, local);
     } catch (error) {
         addLog(error as string);
-        return res.send("Image could not be uploaded.");
+        return res.send("Nie udało się zapisać zdjęcia");
     }
 
     res.render("./components/addImgAproval.ejs", { photoid });
@@ -690,7 +690,7 @@ export const getImageTaglist = async (req: Request, res: Response) => {
 
     if (imagetabs.length === 0) {
         return res.send(
-            '<small class="light">No more images was found...</small>'
+            '<small class="light">Nie znaleziono więcej zdjęć...</small>'
         );
     }
 
