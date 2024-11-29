@@ -1,38 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Add Image</title>
+        <title>Gwiazdy ZSI | Dodaj zdjęcie</title>
         <link rel="stylesheet" href="/style/forms.css" />
     </head>
 
     <body>
         <main>
-            <h1>Add Image</h1>
+            <h1>Dodaj zdjęcie</h1>
 
             <form
                 hx-post="/api/addImg"
                 hx-boost="true"
                 hx-target="#error"
-                hx-confirm="Are you sure you want to add this image?"
+                hx-confirm="Czy na pewno chesz dodać to zdjęcie?"
                 hx-encoding="multipart/form-data"
             >
                 <p id="error"></p>
 
                 <div class="field">
                     <label for="imgUrl">URL</label>
-                    <input type="text" name="imgUrl" id="imgUrl" />
+                    <input
+                        type="text"
+                        name="imgUrl"
+                        id="imgUrl"
+                        placeholder="URL..."
+                    />
                 </div>
 
                 <div class="field">
-                    <label for="imgFile">File</label>
+                    <label for="imgFile">Plik</label>
                     <input type="file" name="imgFile" id="imgFile" />
                 </div>
 
-                <button type="submit">Add</button>
+                <button type="submit">Dodaj</button>
             </form>
 
-            <a href="/admin">Go back</a>
+            <a href="/admin">Powrót</a>
         </main>
     </body>
 </html>

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Photo <%= photo.id %></title>
+        <title>Gwiazdy ZSI | Zdjęcie <%= photo.id %></title>
         <link rel="stylesheet" href="/style/photos.css" />
     </head>
 
     <body>
         <header>
             <nav class="wraper">
-                <a href="/" class="return"><button>Home</button></a>
+                <a href="/" class="return"><button>Strona główna</button></a>
 
                 <% if(authorized){ %>
-                <a href="/img/<%= photo.id %>/update"><button>Edit</button></a>
+                <a href="/img/<%= photo.id %>/update"
+                    ><button>Edytuj</button></a
+                >
                 <% } %>
             </nav>
 
-            <h1>Image id: <%= photo.id %></h1>
+            <h1>Id: <%= photo.id %></h1>
 
             <div class="tag-section">
                 <div id="tags" class="tags">
@@ -31,7 +33,7 @@
                         type="text"
                         id="promptInput"
                         name="prompt"
-                        placeholder="Search..."
+                        placeholder="Wyszukaj..."
                         hx-get="/api/img/<%= photo.id %>/tag"
                         hx-trigger="keyup changed delay:250ms, search"
                         hx-target="next #results"
@@ -58,7 +60,7 @@
                 hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
                 ><button>&leftarrow;</button></a
             >
-            <a href="/randomimg"><button>Random</button></a>
+            <a href="/randomimg"><button>Losowe zdjęcie</button></a>
             <a
                 href="/img/<%= Number(photo.id) %>/next"
                 hx-boost="true"

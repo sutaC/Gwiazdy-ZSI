@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Add Admin User</title>
+        <title>Gwiazdy ZSI | Użytkownicy</title>
         <link rel="stylesheet" href="/style/users.css" />
     </head>
 
     <body>
         <header id="top-header">
-            <h1>Users</h1>
+            <h1>Użytkownicy</h1>
         </header>
 
         <section class="users">
-            <h2>Users list</h2>
+            <h2>Lista użytkowników</h2>
 
             <% users.forEach(user=> { %>
             <div class="user">
@@ -20,10 +20,10 @@
                 <% if(user.login !=="admin" ){ %>
                 <button
                     hx-delete="/deleteUser/<%= user.login %>"
-                    hx-confirm="Are you sure you want to delete user <%= user.login %>?"
+                    hx-confirm="Czy na pewno chcesz usunąć użytkownika <%= user.login %>?"
                     hx-target="closest .user"
                 >
-                    Delete user
+                    Usuń użytkownika
                 </button>
                 <% } %>
             </div>
@@ -31,7 +31,7 @@
         </section>
 
         <main>
-            <h2>Add User</h2>
+            <h2>Dodaj użytkownika</h2>
 
             <small id="error"></small>
 
@@ -40,7 +40,7 @@
                 action="/addAdminUser"
                 method="post"
                 hx-target="#error"
-                hx-confirm="Are you sure you want to add new admin user?"
+                hx-confirm="Czy na pewno chcesz dodać nowego użytkownika?"
                 hx-push-url="false"
             >
                 <div class="field">
@@ -49,39 +49,39 @@
                         type="text"
                         name="login"
                         id="login"
-                        placeholder="Login"
+                        placeholder="Login..."
                         required
                     />
                 </div>
 
                 <div class="field">
-                    <label for="password">Password</label>
+                    <label for="password">Hasło</label>
                     <input
                         type="password"
                         name="password"
                         id="password"
-                        placeholder="Password"
+                        placeholder="Hasło..."
                         required
                     />
                 </div>
 
                 <div class="field">
-                    <label for="repeatPassword">Repeat Password</label>
+                    <label for="repeatPassword">Powtórz hasło</label>
                     <input
                         type="password"
                         name="repeatPassword"
                         id="repeatPassword"
-                        placeholder="Repeat Pasword"
+                        placeholder="Powtórz hasło..."
                         required
                     />
                 </div>
 
-                <button type="submit">Add</button>
+                <button type="submit">Dodaj</button>
             </form>
         </main>
 
         <footer>
-            <a href="/admin"><button>Return</button></a>
+            <a href="/admin"><button>Powrót</button></a>
 
             <a href="#top-header">
                 <button>^</button>

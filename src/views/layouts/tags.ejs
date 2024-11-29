@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Reset</title>
+        <title>Gwiazdy ZSI | Etykiety</title>
         <link rel="stylesheet" href="/style/tags.css" />
     </head>
 
     <body>
         <header id="top-header">
-            <h1>Tags</h1>
+            <h1>Etykiety</h1>
         </header>
 
         <main>
-            <h2>Add tag</h2>
+            <h2>Dodaj etykietę</h2>
 
             <small id="error"></small>
 
@@ -21,34 +21,34 @@
                 hx-put="/tags"
                 hx-target="next #tags-list"
                 hx-swap="afterend"
-                hx-confirm="Are you sure you want to add new tag?"
+                hx-confirm="Czy na pewno chcesz dodać nową etykietę?"
                 hx-push-url="false"
             >
                 <div class="field">
-                    <label for="name">Name</label>
+                    <label for="name">Nazwa</label>
                     <input
                         type="text"
                         name="name"
                         id="name"
-                        placeholder="Name"
+                        placeholder="Nazwa..."
                         required
                         autocomplete="off"
                     />
                 </div>
 
-                <button type="submit">Add</button>
+                <button type="submit">Dodaj</button>
             </form>
         </main>
 
         <section class="tags-container">
-            <h2 id="tags-list">Tag list</h2>
+            <h2 id="tags-list">Lista etykiet</h2>
 
             <% tags.forEach(tag=> { %> <%- include("../components/editTag.ejs",
             {tag, highlight: false}) %> <% }); %>
         </section>
 
         <footer>
-            <a href="/"><button>Return</button></a>
+            <a href="/"><button>Powrót</button></a>
 
             <a href="#top-header">
                 <button>^</button>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Reset</title>
+        <title>Gwiazdy ZSI | Zresetuj hasło</title>
         <link rel="stylesheet" href="/style/forms.css" />
     </head>
 
     <body>
         <main>
-            <h1>Reset password</h1>
+            <h1>Zresetuj hasło</h1>
 
             <p id="error"></p>
 
@@ -17,34 +17,34 @@
                 action="/reset"
                 method="post"
                 hx-target="#error"
-                hx-confirm="Are you sure you want to reset password?"
+                hx-confirm="Czy na pewno chcesz zresetować hasło?"
             >
                 <div class="field">
-                    <label for="newPassword">New Password</label>
+                    <label for="newPassword">Nowe hasło</label>
                     <input
                         type="password"
                         name="newPassword"
                         id="newPassword"
-                        placeholder="New Password"
+                        placeholder="Nowe hasło..."
                         required
                     />
                 </div>
 
                 <div class="field">
-                    <label for="repeatPassword">Repeat Password</label>
+                    <label for="repeatPassword">Powtórz hasło</label>
                     <input
                         type="password"
                         name="repeatPassword"
                         id="repeatPassword"
-                        placeholder="Repeat Pasword"
+                        placeholder="Powtórz hasło..."
                         required
                     />
                 </div>
 
-                <button type="submit">Reset</button>
+                <button type="submit">Zapisz</button>
             </form>
 
-            <a href="/admin">Return</a>
+            <a href="/admin">Powrót</a>
         </main>
     </body>
 </html>
