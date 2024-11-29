@@ -1,19 +1,23 @@
-<% if(authorized){ %>
+<% if(authorized){ %> <% if(checked){ %>
+<button
+    class="tag delete"
+    hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>"
+    hx-swap="outerHTML"
+    hx-target="closest .tag"
+>
+    <% } else { %>
+    <button
+        class="tag add"
+        hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>"
+        hx-swap="beforeend"
+        hx-target="#tags"
+        hx-on::after-request='document.querySelector("#promptInput").value = "";
+                document.querySelector("#results").innerHTML = ""'
+    >
+        <% } %> <%= tag.name %>
+    </button>
 
-    <% if(checked){ %>
-        <button class="tag delete" hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="outerHTML"
-            hx-target="closest .tag">
-            <% } else { %>
-                <button class="tag add" hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>" hx-swap="beforeend"
-                    hx-target="#tags" hx-on::after-request='document.querySelector("#promptInput").value = "";
-                document.querySelector("#results").innerHTML = ""'>
-                    <% } %>
-
-                        <%= tag.name %>
-                </button>
-
-                <% } else { %>
-                    <div class="tag">
-                        <%= tag.name %>
-                    </div>
-                    <% } %>
+    <% } else { %>
+    <div class="tag"><%= tag.name %></div>
+    <% } %>
+</button>

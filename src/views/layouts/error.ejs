@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Error <%= error.code ?? 500 %></title>
+        <title>Gwiazdy ZSI | Błąd <%= error.code ?? 500 %></title>
         <link rel="stylesheet" href="/style/error.css" />
     </head>
 
     <body>
         <main>
-            <h1>Oopsie!</h1>
-
-            <p>
-                <%= error.messsage ?? `Error ${error.code ?? 500} occurred` %>
-            </p>
-
-            <img src="https://http.cat/<%= error.code ?? 500 %>" alt="error" />
-
-            <a onclick="history.back()">Go back</a>
+            <h1>Ojejku!</h1>
+            <p><%= error.messsage ?? `Wystąpił błąd ${error.code ?? 500}` %></p>
+            <img src="https://http.cat/<%= error.code ?? 500 %>" alt="Błąd" />
+            <a onclick="history.back()">Powrót</a>
         </main>
     </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
         <title>Gwiazdy ZSI</title>
@@ -15,19 +15,19 @@
             <aside>
                 <nav>
                     <div class="nav-tile btn-tile about">
-                        <a href="/about">About</a>
+                        <a href="/about">Więcej informacji</a>
                     </div>
 
                     <div class="nav-tile btn-tile tag-ranking">
-                        <a href="/statistics">Statistics</a>
+                        <a href="/statistics">Statystyki</a>
                     </div>
 
                     <div class="nav-tile btn-tile random-image">
-                        <a href="/randomimg">Random<br />image</a>
+                        <a href="/randomimg">Losowe<br />zdjęcie</a>
                     </div>
 
                     <form action="/img" method="post" class="nav-tile find-id">
-                        <p>Find by id</p>
+                        <p>Wyszukaj po id:</p>
                         <div class="wraper">
                             <input
                                 type="number"
@@ -37,18 +37,18 @@
                                 min="0"
                                 autocomplete="off"
                             />
-                            <button type="submit">Find</button>
+                            <button type="submit">Szuakj</button>
                         </div>
                     </form>
 
                     <div class="nav-tile find-tags">
-                        <p>Find by tags</p>
+                        <p>Wyszukaj po etykiecie:</p>
                         <div class="search-field">
                             <input
                                 type="text"
                                 id="promptInput"
                                 name="prompt"
-                                placeholder="Search..."
+                                placeholder="Etykieta..."
                                 hx-get="/api/tag"
                                 hx-trigger="keyup changed delay:250ms, search"
                                 hx-target="next #results"
@@ -63,15 +63,15 @@
             </aside>
 
             <main id="imagetablist">
-                <small class="light">No images was found...</small>
+                <small class="light">Nie znaleziono więcej zdjęć...</small>
             </main>
         </div>
 
         <footer>
             <% if(authorized){ %>
-            <a href="/admin"><button>User</button></a>
+            <a href="/admin"><button>Profil</button></a>
             <% } else { %>
-            <a href="/login"><button>Login</button></a>
+            <a href="/login"><button>Zaloguj</button></a>
             <% } %>
 
             <a href="#top-header">

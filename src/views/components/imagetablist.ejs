@@ -1,12 +1,20 @@
 <% imagetabs.forEach(imagetab=> { %>
 
-    <div class="imagetab">
-        <img src='<%= imagetab.src %>' onerror='this.src = "<%= "/uploads/" + imagetab.local %>"' alt="Gwiazda ZSI">
-        <a href="/img/<%= imagetab.id %>">Image id: <%= imagetab.id %></a>
-    </div>
+<div class="imagetab">
+    <img
+        src="<%= imagetab.src %>"
+        onerror='this.src = "<%= "/uploads/" + imagetab.local %>"'
+        alt="Gwiazda ZSI"
+    />
+    <a href="/img/<%= imagetab.id %>">Id: <%= imagetab.id %></a>
+</div>
 
-    <% }); %>
+<% }); %>
 
-        <small class="light" hx-get="/api/imagetaglist/<%= tagid %>?list=<%= Number(list) + 1 %>" hx-swap="outerHTML"
-            hx-trigger="revealed">
-            Loading...</small>
+<small
+    class="light"
+    hx-get="/api/imagetaglist/<%= tagid %>?list=<%= Number(list) + 1 %>"
+    hx-swap="outerHTML"
+    hx-trigger="revealed"
+    >Loading...</small
+>

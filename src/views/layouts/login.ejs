@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Login</title>
+        <title>Gwiazdy ZSI | Zaloguj się</title>
         <link rel="stylesheet" href="/style/forms.css" />
     </head>
 
     <body>
         <main>
-            <h1>Login</h1>
+            <h1>Zaloguj się</h1>
 
             <form
                 action="/login"
@@ -24,26 +24,26 @@
                         type="text"
                         id="login"
                         name="login"
-                        placeholder="Login"
+                        placeholder="Login..."
                         required
                     />
                 </div>
 
                 <div class="field">
-                    <label for="password">Password</label>
+                    <label for="password">Hasło</label>
                     <input
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Hasło..."
                         required
                     />
                 </div>
 
-                <button type="submit">Login</button>
+                <button type="submit">Zaloguj</button>
             </form>
 
-            <a href="/">Go back</a>
+            <a href="/">Powrót</a>
         </main>
     </body>
 </html>

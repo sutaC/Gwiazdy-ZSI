@@ -124,6 +124,7 @@ button {
     font-size: 0.8rem;
     color: var(--text);
     background: var(--background);
+    cursor: pointer;
 }
 
 .highlight {

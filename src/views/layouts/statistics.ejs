@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Statistics</title>
+        <title>Gwiazdy ZSI | Statystyki</title>
         <link rel="stylesheet" href="/style/statistics.css" />
     </head>
 
     <body>
         <header id="top-header">
-            <h1>Statistics</h1>
+            <h1>Statystyki</h1>
         </header>
 
         <section aria-labelledby="quantity" class="quantity">
-            <h2 id="quantity">Quantity of images</h2>
+            <h2 id="quantity">Ilość zdjęć</h2>
 
-            <p>Total of <%= imagesAmmount %> imgs</p>
+            <p>Łącznie <%= imagesAmmount %> zdjęć</p>
             <div class="bar">
                 <small
                     class="taged"
@@ -25,7 +25,7 @@
                             )
                             %>%;
                     "
-                    >Tagged: <%= imagesWithTagsAmmount %>
+                    >Oznaczone: <%= imagesWithTagsAmmount %>
                 </small>
                 <small
                     class="notTaged"
@@ -40,30 +40,27 @@
                             %>%;
                     "
                 >
-                    Not tagged: <%= (imagesAmmount - imagesWithTagsAmmount) %>
+                    Nieoznaczone: <%= (imagesAmmount - imagesWithTagsAmmount) %>
                 </small>
             </div>
         </section>
 
         <main aria-labelledby="ranking">
-            <h2 id="ranking">Teacher ranking</h2>
+            <h2 id="ranking">Ranking etykiet</h2>
 
             <% ranks.forEach((rank, idx)=> { %>
 
             <div class="rank">
                 <div><%= Number(idx) + 1 %>.</div>
                 <div class="name"><%= rank.name %></div>
-                <div>
-                    <%= rank.ammount %>&nbsp;img<%= rank.ammount> 1 ? "s" : ""
-                    %>
-                </div>
+                <div><%= rank.ammount %></div>
             </div>
 
             <% }); %>
         </main>
 
         <footer>
-            <a href="/"><button>Return</button></a>
+            <a href="/"><button>Powrót</button></a>
 
             <a href="#top-header">
                 <button>^</button>
