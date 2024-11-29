@@ -25,7 +25,10 @@ app.use(
     }).any()
 );
 
-export const directory = path.dirname(fileURLToPath(import.meta.url));
+export const directory = path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    ".."
+);
 app.use(express.static(path.join(directory, "/static")));
 app.set("views", path.join(directory, "/src/views"));
 

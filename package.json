@@ -2,11 +2,11 @@
     "name": "gwiazdy-zsi",
     "version": "2.0.0",
     "description": "",
-    "main": "app.ts",
+    "main": "./src/app.ts",
     "type": "module",
     "scripts": {
-        "start": "rm /tmp/tsx-0 -r -f && npx tsx app.ts",
-        "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch app.ts"
+        "start": "rm /tmp/tsx-0 -r -f && npx tsx .",
+        "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch ."
     },
     "keywords": [],
     "author": "sutaC",

@@ -3,7 +3,7 @@ import * as db from "$/data/db";
 import * as upload from "$/data/upload";
 import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
 import { addLog, clearLogs } from "$/data/log";
-import { directory } from "$/../app";
+import { directory } from "$/app";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
 
