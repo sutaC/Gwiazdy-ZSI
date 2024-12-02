@@ -62,11 +62,7 @@
 
             <hr />
 
-            <img
-                src="<%= photo.src %>"
-                onerror='this.src = "<%= "/uploads/" + photo.local %>"'
-                alt="Gwiazda ZSI"
-            />
+            <%- include("../components/imgDisplay.ejs", {photo}) %>
         </main>
     </body>
 </html>
