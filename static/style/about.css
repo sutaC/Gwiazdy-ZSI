@@ -1,3 +1,7 @@
+body {
+    padding-bottom: 15vh;
+}
+
 header {
     background: var(--secondary);
     text-align: center;
