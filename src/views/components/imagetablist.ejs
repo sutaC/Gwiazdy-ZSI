@@ -1,11 +1,8 @@
 <% imagetabs.forEach(imagetab=> { %>
 
 <div class="imagetab">
-    <img
-        src="<%= imagetab.src %>"
-        onerror='this.src = "<%= "/uploads/" + imagetab.local %>"'
-        alt="Gwiazda ZSI"
-    />
+    <%- include("../components/imgDisplay.ejs", {photo: {src: imagetab.src,
+    local: imagetab.local}}) %>
     <a href="/img/<%= imagetab.id %>">Id: <%= imagetab.id %></a>
 </div>
 
