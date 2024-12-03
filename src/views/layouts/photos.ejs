@@ -45,13 +45,7 @@
             </div>
         </header>
 
-        <main>
-            <img
-                src="<%= photo.src %>"
-                onerror='this.src = "<%= "/uploads/" + photo.local %>"'
-                alt="Gwiazda ZSI"
-            />
-        </main>
+        <main><%- include("../components/imgDisplay.ejs", {photo}) %></main>
 
         <footer>
             <a
