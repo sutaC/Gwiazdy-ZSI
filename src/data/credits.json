@@ -1,0 +1,18 @@
+{
+    "administrators": [
+        {
+            "name": "Solewap",
+            "url": "https://github.com/solewap"
+        },
+        {
+            "name": "Khajiitos",
+            "url": "https://github.com/Khajiitos"
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Khajiitos",
+            "url": "https://github.com/Khajiitos"
+        }
+    ]
+}

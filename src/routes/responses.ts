@@ -6,6 +6,7 @@ import { addLog, clearLogs } from "$/data/log";
 import { directory } from "$/app";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
+import { readFile } from "fs/promises";
 
 // Responses
 export const getRoot = (req: Request, res: Response) => {
@@ -33,8 +34,19 @@ export const getStatistics = async (req: Request, res: Response) => {
     });
 };
 
-export const getAbout = (req: Request, res: Response): void => {
-    return res.render("./layouts/about.ejs");
+export const getAbout = async (req: Request, res: Response): Promise<void> => {
+    let credits = {
+        administrators: [],
+        contributors: [],
+    };
+    try {
+        const data = await readFile(`${directory}/src/data/credits.json`);
+        const json = JSON.parse(data.toString());
+        if (json) credits = json;
+    } catch (error) {
+        addLog(`Failed to read credits - ${error}`);
+    }
+    return res.render("./layouts/about.ejs", { credits });
 };
 
 // --- Admin panel ---

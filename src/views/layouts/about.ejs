@@ -62,23 +62,35 @@
 
                 <div>
                     <h3>Kontrybutorzy i kontrybutariuszki</h3>
+
+                    <% if (credits.administrators.length == 0) { %>
                     <small
                         >Nie ma jeszcze żadnych kontrybutorów, ale możesz zostać
                         pierwszym! ;3</small
                     >
+                    <% } %>
+
                     <ul class="credits">
-                        <!-- Empty -->
+                        <% for(const admin of credits.administrators) { %>
+                        <a href="<%= admin.url %>"><%= admin.name %></a>
+                        <% } %>
                     </ul>
                 </div>
 
                 <div>
                     <h3>Administracja</h3>
+
+                    <% if (credits.contributors.length == 0) { %>
                     <small
                         >Nie ma jeszcze administratorów, ale możesz zostać
                         pierwszym! ;3</small
                     >
+                    <% } %>
+
                     <ul class="credits">
-                        <!-- Empty -->
+                        <% for(const contr of credits.contributors) { %>
+                        <a href="<%= contr.url %>"><%= contr.name %></a>
+                        <% } %>
                     </ul>
                 </div>
             </section>
