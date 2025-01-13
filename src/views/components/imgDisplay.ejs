@@ -1,5 +1,1 @@
-<img
-    src="<%= photo.src %>"
-    onerror='if ("<%= photo.local %>".length > 0 && !window.loadedImg) {this.src = "<%= "/uploads/" + photo.local %>"; window.loadedImg = true}'
-    alt="Gwiazda ZSI"
-/>
+<img src="<%= photo.src || ("/uploads/" + photo.local) %>" alt="Gwiazda ZSI" />
