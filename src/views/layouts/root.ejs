@@ -32,7 +32,7 @@
                             <input
                                 type="number"
                                 name="photoid"
-                                placeholder="Id..."
+                                placeholder="707..."
                                 required
                                 min="0"
                                 autocomplete="off"
@@ -48,7 +48,7 @@
                                 type="text"
                                 id="promptInput"
                                 name="prompt"
-                                placeholder="Etykieta..."
+                                placeholder="Artur..."
                                 hx-get="/api/tag"
                                 hx-trigger="keyup changed delay:250ms, search"
                                 hx-target="next #results"
@@ -63,7 +63,9 @@
             </aside>
 
             <main id="imagetablist">
-                <small class="light">Nie znaleziono więcej zdjęć...</small>
+                <small class="light"
+                    >Wyszukaj etykietę aby wyświetlić zdjęcia...</small
+                >
             </main>
         </div>
 
