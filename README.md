@@ -21,6 +21,7 @@ ZSI Stars is an original project aimed at storing and categorizing photos of tea
 **Other**
 
 1. Docker
+2. PostHog
 
 ## How to start app?
 
