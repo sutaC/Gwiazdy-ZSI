@@ -1,7 +1,10 @@
-import { Router } from "express";
 import * as responses from "./responses.js";
 import * as auth from "./auth.js";
+import { Router } from "express";
 
+/**
+ * Router for authenticated pages
+ */
 const router = Router();
 
 // Authentication
