@@ -1,13 +1,12 @@
-import path from "path";
-import { fileURLToPath } from "url";
-import express, { type ErrorRequestHandler } from "express";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import dotenv from "dotenv";
 import multer from "multer";
-
+import path from "path";
 import router from "$/routes/router";
 import authRouter from "$/routes/authRouter";
+import express, { type ErrorRequestHandler } from "express";
+import { fileURLToPath } from "url";
 import { addLog } from "$/data/log";
 
 const app = express();
@@ -25,6 +24,9 @@ app.use(
     }).any()
 );
 
+/**
+ * Root directory of project
+ */
 export const directory = path.join(
     path.dirname(fileURLToPath(import.meta.url)),
     ".."
@@ -39,9 +41,7 @@ app.use(authRouter);
 // Error handling
 const handleServerError: ErrorRequestHandler = (err, req, res, next) => {
     if (!err) next(err);
-
     addLog(err);
-
     res.status(500).render("./layouts/error.ejs", {
         error: { code: 500, messsage: err },
     });

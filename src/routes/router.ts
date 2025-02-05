@@ -1,6 +1,9 @@
-import { Router } from "express";
 import * as responses from "$/routes/responses";
+import { Router } from "express";
 
+/**
+ * Router for regular pages
+ */
 const router = Router();
 
 // Urls

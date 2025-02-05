@@ -4,6 +4,7 @@ networks:
 services:
     app:
         build: .
+        # entrypoint: ["npm", "run", "dev"] # DEV (Uncomment to turn on hot reloading)
         depends_on:
             - database
         volumes:
@@ -11,7 +12,7 @@ services:
             - /app/node_modules
         environment:
             - PORT=4100
-            - SECRET=47453756456554697
+            - SECRET=47453756456554697 # Secret for cookie parsing
             - DB_HOST=database
             - DB_USER=server
             - DB_PASS=password
@@ -32,5 +33,7 @@ services:
             - MYSQL_DATABASE=gwiazdy-zsi
         expose:
             - 3306
+        ports:
+            # - 3306:3306 # DEV (Uncomment to be able to connect to database from outside of docker network)
         networks:
             - app-net
