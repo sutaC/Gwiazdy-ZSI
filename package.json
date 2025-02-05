@@ -1,14 +1,13 @@
 {
     "name": "gwiazdy-zsi",
     "version": "2.0.0",
-    "description": "",
     "main": "./src/app.ts",
     "type": "module",
     "scripts": {
         "start": "rm /tmp/tsx-0 -r -f && npx tsx .",
-        "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch ."
+        "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch .",
+        "doc": "tsdoc --src=src/*,src/data/*,src/routes/* --dest=DOCS.md --repo=https://github.com/sutaC/Gwiazdy-ZSI --types"
     },
-    "keywords": [],
     "author": "sutaC",
     "license": "ISC",
     "dependencies": {
@@ -19,14 +18,15 @@
         "express": "^4.21.2",
         "multer": "^1.4.5-lts.1",
         "mysql2": "^3.9.8",
-        "tsx": "^4.7.0",
-        "typescript": "^5.3.3"
+        "tsx": "^4.7.0"
     },
     "devDependencies": {
         "@types/compression": "^1.7.5",
         "@types/cookie-parser": "^1.4.7",
         "@types/express": "^4.17.21",
         "@types/multer": "^1.4.11",
-        "@types/node": "^20.17.9"
+        "@types/node": "^20.17.9",
+        "tsdoc-markdown": "^1.1.1",
+        "typescript": "^5.3.3"
     }
 }
