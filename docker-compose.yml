@@ -4,6 +4,7 @@ networks:
 services:
     app:
         build: .
+        # entrypoint: ["npm", "run", "dev"] # Dev
         depends_on:
             - database
         volumes:
