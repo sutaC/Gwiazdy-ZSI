@@ -9,6 +9,9 @@ export interface Request extends ExRequest {
 }
 
 // --- Authentication ---
+/**
+ * Middleweare for user authentication. Attaches `authorized` token to given request.
+ */
 export async function authenticate(
     req: Request,
     res: Response,
@@ -42,6 +45,10 @@ export async function authenticate(
 }
 
 // --- Authorization ---
+/**
+ * Middleweare for user authorization only for `root admin`.
+ * @returns If unauthorized send 401 code and renders error page.
+ */
 export function authorizePageRootAdmin(
     req: Request,
     res: Response,
@@ -54,6 +61,10 @@ export function authorizePageRootAdmin(
     next();
 }
 
+/**
+ * Middleweare for user authorization only for `root admin` on api route.
+ * @returns If unauthorized send 401 code.
+ */
 export function authorizeApiRootAdmin(
     req: Request,
     res: Response,
@@ -66,6 +77,10 @@ export function authorizeApiRootAdmin(
     next();
 }
 
+/**
+ * Middleweare for user authorization.
+ * @returns If unauthorized send 401 code and renders error page.
+ */
 export function authorizePage(
     req: Request,
     res: Response,
@@ -78,6 +93,10 @@ export function authorizePage(
     next();
 }
 
+/**
+ * Middleweare for user authorization on api route.
+ * @returns If unauthorized send 401 code.
+ */
 export function authorizeApi(
     req: Request,
     res: Response,
@@ -90,6 +109,10 @@ export function authorizeApi(
     next();
 }
 
+/**
+ * Middleweare for user redirection if authorized.
+ * @returns If authorized redirects to `/admin`.
+ */
 export function authorizePageToAdmin(
     req: Request,
     res: Response,
@@ -102,6 +125,10 @@ export function authorizePageToAdmin(
     next();
 }
 
+/**
+ * Middleweare for user redirection if authorized on api route.
+ * @returns If authorized redirects to `/admin` on client end.
+ */
 export function authorizeApiToAdmin(
     req: Request,
     res: Response,
@@ -117,11 +144,22 @@ export function authorizeApiToAdmin(
 }
 
 // --- Functions ---
+/**
+ * Hashes given string.
+ * @param string Value to be hashed
+ * @returns Hashed value
+ */
 export function hashString(string: string): string {
     return createHash("sha256").update(string).digest("base64");
 }
 
 // --- Users ---
+/**
+ * Authenticates user by given credentials.
+ * @param login User login
+ * @param password User password
+ * @returns `null` or error message if error appears
+ */
 export async function authenticateUser(
     login: string,
     password: string
@@ -139,7 +177,18 @@ export async function authenticateUser(
     return null;
 }
 
-export function validatePassword(password: string | undefined): string | null {
+/**
+ * Validates user password. Checks if:
+ * - is present
+ * - is at least 8 characters long
+ * - does it have a lowercase letter
+ * - does it have a biggercase letter
+ * - does it have a number
+ * - does it have a special symbol (`!@#$%,.?:;`)
+ * @param password User password
+ * @returns `null` or error message if error appears
+ */
+export function validatePassword(password?: string): string | null {
     const pass = password;
 
     // Required
