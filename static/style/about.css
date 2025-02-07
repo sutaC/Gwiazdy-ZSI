@@ -36,6 +36,11 @@ a {
     text-decoration: underline;
 }
 
+a.ghSocials {
+    display: inline-block;
+    margin: 1rem auto;
+}
+
 ul.credits {
     padding: 0;
     margin: 0.5rem 0;
