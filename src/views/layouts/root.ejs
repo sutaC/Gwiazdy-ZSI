@@ -63,9 +63,20 @@
             </aside>
 
             <main id="imagetablist">
+                <% if (tagid !== undefined) { %>
+
+                <small
+                    hx-get="/api/imagetaglist/<%= tagid %>"
+                    hx-trigger="load"
+                    hx-swap="outerHTML"
+                    >Ładowanie zdjęć...</small
+                >
+
+                <% } else { %>
                 <small class="light"
                     >Wyszukaj etykietę aby wyświetlić zdjęcia...</small
                 >
+                <% } %>
             </main>
         </div>
 

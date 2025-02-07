@@ -52,6 +52,7 @@
                 href="/img/<%= Number(photo.id) %>/previous"
                 hx-boost="true"
                 hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
+                hx-replace-url="true"
                 ><button>&leftarrow;</button></a
             >
             <a href="/randomimg"><button>Losuj</button></a>
@@ -59,6 +60,7 @@
                 href="/img/<%= Number(photo.id) %>/next"
                 hx-boost="true"
                 hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+                hx-replace-url="true"
                 ><button>&rightarrow;</button></a
             >
         </footer>

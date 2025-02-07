@@ -4,6 +4,7 @@
     hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>"
     hx-swap="outerHTML"
     hx-target="closest .tag"
+    hx-confirm="Czy na pewno chcesz usunąć ten tag?"
 >
     <% } else { %>
     <button
@@ -11,6 +12,7 @@
         hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>"
         hx-swap="beforeend"
         hx-target="#tags"
+        hx-confirm="Czy na pewno chcesz dodać ten tag?"
         hx-on::after-request='document.querySelector("#promptInput").value = "";
                 document.querySelector("#results").innerHTML = ""'
     >
@@ -18,6 +20,6 @@
     </button>
 
     <% } else { %>
-    <div class="tag"><%= tag.name %></div>
+    <a href="/?tagid=<%= tag.id %>" class="tag"><%= tag.name %></a>
     <% } %>
 </button>
