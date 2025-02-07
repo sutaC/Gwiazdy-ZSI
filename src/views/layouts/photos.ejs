@@ -49,18 +49,26 @@
 
         <footer>
             <a
-                href="/img/<%= Number(photo.id) %>/previous"
+                href="/img/<%= prevImgId %>"
                 hx-boost="true"
                 hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
                 hx-replace-url="true"
+                <% if (prevImgId === null) { %>
+                    style="visibility: hidden;"
+                    aria-hidden="true"
+                <% } %>
                 ><button>&leftarrow;</button></a
             >
             <a href="/randomimg"><button>Losuj</button></a>
             <a
-                href="/img/<%= Number(photo.id) %>/next"
-                hx-boost="true"
-                hx-trigger="click, keyup[key=='ArrowRight'] from:body"
-                hx-replace-url="true"
+            href="/img/<%= nextImgId %>"
+            hx-boost="true"
+            hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+            hx-replace-url="true"
+                <% if (nextImgId === null) { %>
+                    style="visibility: hidden;"
+                    aria-hidden="true"
+                <% } %>
                 ><button>&rightarrow;</button></a
             >
         </footer>

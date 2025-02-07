@@ -57,7 +57,8 @@ export const postLogin = async (req: Request, res: Response) => {
     const { login, password } = req.body;
     const error = await authenticateUser(login, password);
     if (error) {
-        return res.send(error);
+        res.send(error);
+        return;
     }
     const newToken = hashString(randomUUID());
     await db.updateUserToken(login, newToken);
@@ -67,7 +68,7 @@ export const postLogin = async (req: Request, res: Response) => {
         signed: true,
         secure: true,
     });
-    return res.append("HX-Redirect", "/admin").sendStatus(303);
+    res.append("HX-Redirect", "/admin").sendStatus(303);
 };
 
 export const getAdmin = (req: Request, res: Response) => {
@@ -197,54 +198,27 @@ export const deleteDeleteUser = async (
 
 // --- Images ---
 export const getImg = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
-    if (!photoid) {
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid))
         return res
             .status(404)
             .render("./layouts/error.ejs", { error: { code: 404 } });
-    }
-    let photo, tags;
-    try {
-        photo = await db.getImgById(Number(photoid));
-        if (!photo) throw new Error("Could not find image with id " + photoid);
-        tags = await db.getSelectedTeachers(photo.id);
-    } catch (error) {
-        addLog(error as string);
+    const photo = await db.getImgById(photoid);
+    if (photo === null)
         return res
             .status(404)
             .render("./layouts/error.ejs", { error: { code: 404 } });
-    }
-    if (!photo) {
-        return res
-            .status(400)
-            .render("./layouts/error.ejs", { error: { code: 400 } });
-    }
+    const tags = await db.getSelectedTeachers(photo.id);
+    const nextImgId = await db.getNextImg(photo.id);
+    const prevImgId = await db.getPreviousImg(photo.id);
+    res.setHeader("HX-Redirect", `/img/${photo.id}`);
     res.render("./layouts/photos.ejs", {
         photo,
         tags,
+        nextImgId,
+        prevImgId,
         authorized: req.authorized,
     });
-};
-
-export const postImg = async (req: Request, res: Response) => {
-    const { photoid } = req.body;
-    if (!photoid) {
-        return res
-            .status(400)
-            .render("./layouts/error.ejs", { error: { code: 400 } });
-    }
-    res.redirect(`/img/${photoid}`);
-};
-
-export const getImgNext = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
-    const newphotoid = await db.getNextImg(Number(photoid));
-    if (!newphotoid) {
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
-    }
-    res.redirect(`/img/${newphotoid}`);
 };
 
 export const getImgUpdate = async (req: Request, res: Response) => {
@@ -313,17 +287,6 @@ export const postImgUpdate = async (req: Request, res: Response) => {
         return res.send("Nie udało się zaktualizować zdjęcia");
     }
     res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
-};
-
-export const getImgPrevious = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
-    const newphotoid = await db.getPreviousImg(Number(photoid));
-    if (!newphotoid) {
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
-    }
-    res.redirect(`/img/${newphotoid}`);
 };
 
 export const getRandomImg = async (req: Request, res: Response) => {

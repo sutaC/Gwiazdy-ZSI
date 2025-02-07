@@ -26,7 +26,13 @@
                         <a href="/randomimg">Losowe<br />zdjęcie</a>
                     </div>
 
-                    <form action="/img" method="post" class="nav-tile find-id">
+                    <form
+                        class="nav-tile find-id"
+                        hx-boost="true"
+                        hx-params="none"
+                        hx-on::config-request="event.detail.path = `/img/${event.target.photoid.value}`"
+                        hx-on::response-error="alert('Nie znaleziono zdjęcia z tym id'); this.photoid.value = ''"
+                    >
                         <p>Wyszukaj po id:</p>
                         <div class="wraper">
                             <input
