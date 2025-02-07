@@ -11,7 +11,14 @@ import type { Request } from "$/routes/auth";
 // Responses
 export const getRoot = (req: Request, res: Response) => {
     const authorized = req.authorized ?? false;
-    res.render("./layouts/root.ejs", { authorized });
+    let tagid: number | undefined;
+    if (typeof req.query.tagid === "string") {
+        tagid = Number.parseInt(req.query.tagid);
+        if (!Number.isSafeInteger(tagid)) tagid = undefined;
+    } else {
+        tagid = undefined;
+    }
+    res.render("./layouts/root.ejs", { authorized, tagid });
 };
 
 export const getStatistics = async (req: Request, res: Response) => {
