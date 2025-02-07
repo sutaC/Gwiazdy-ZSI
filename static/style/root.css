@@ -111,7 +111,7 @@ nav {
 main {
     width: 100%;
     padding: 1em;
-    padding-bottom: 20%;
+    padding-bottom: 30%;
 
     z-index: -1;
 
@@ -132,7 +132,7 @@ main {
 
 .imagetab > img {
     max-width: 100%;
-    max-height: 100vh;
+    max-height: 100%;
     margin-bottom: 0.5em;
 
     border: 2px solid var(--accent);
