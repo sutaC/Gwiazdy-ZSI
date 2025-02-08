@@ -51,7 +51,7 @@
             <a
                 href="/img/<%= prevImgId %>"
                 hx-boost="true"
-                hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
+                hx-trigger="click, keydown[key=='ArrowLeft'] from:body"
                 hx-replace-url="true"
                 <% if (prevImgId === null) { %>
                     style="visibility: hidden;"
@@ -59,11 +59,14 @@
                 <% } %>
                 ><button>&leftarrow;</button></a
             >
-            <a href="/randomimg"><button>Losuj</button></a>
+            <a href="/randomimg" 
+            hx-boost="true"
+            hx-trigger="click, keydown[key==' '] from:body"
+            ><button>Losuj</button></a>
             <a
             href="/img/<%= nextImgId %>"
             hx-boost="true"
-            hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+            hx-trigger="click, keydown[key=='ArrowRight'] from:body"
             hx-replace-url="true"
                 <% if (nextImgId === null) { %>
                     style="visibility: hidden;"
