@@ -27,6 +27,11 @@ nav a {
     border-radius: 1rem;
     text-align: center;
     background: var(--secondary);
+    transition: all 100ms ease-out;
+}
+
+nav a:hover {
+    scale: 1.0125;
 }
 
 .tile {

@@ -43,6 +43,11 @@ nav a {
     padding: 0.25rem;
     border: 1px solid var(--primary);
     background-color: var(--background);
+    transition: all 100ms ease-out;
+}
+
+nav a:hover {
+    translate: 0 -1px;
 }
 
 .field {

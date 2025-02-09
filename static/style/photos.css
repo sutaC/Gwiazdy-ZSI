@@ -38,12 +38,9 @@ nav {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5em;
-
     padding: 0.5em 0.125em;
-
     border: 1px solid var(--primary);
     border-radius: 0.5rem;
-
     background: var(--background);
 }
 
@@ -54,13 +51,16 @@ nav {
 .tags .tag {
     width: fit-content;
     padding: 0.125em;
-
     border: 1px solid var(--accent);
     border-radius: 0.25rem;
     box-shadow: 0 0 4px 1px var(--accent);
-
     background: var(--secondary);
     font-size: 0.75rem;
+    transition: all 100ms ease-out;
+}
+
+.tags .tag:is(:hover, :focus) {
+    translate: 0 -1px;
 }
 
 .search-field {
@@ -76,11 +76,8 @@ nav {
     bottom: 0;
     left: 0;
     translate: 0 calc(100% - 2px);
-
     z-index: 1;
-
     width: 100%;
-
     border: 1px solid var(--accent);
     border-radius: 0 0 0.5em 0.5em;
 }
@@ -93,13 +90,16 @@ nav {
     display: block;
     width: 100%;
     border-radius: 0;
-
     cursor: pointer;
     box-shadow: none;
 }
 
 .search-results .tag:last-of-type {
     border-radius: 0 0 0.5em 0.5em;
+}
+
+.search-results .tag:is(:hover, :focus) {
+    box-shadow: 0 2px var(--accent);
 }
 
 .tag.delete:focus,
@@ -115,14 +115,12 @@ nav {
 main {
     display: grid;
     place-items: center;
-
     margin: 1rem;
     padding-bottom: 25%;
 }
 
 main img {
     max-height: 100vh;
-
     border: 2px solid var(--accent);
     border-radius: 1rem;
     box-shadow: 0 0 4px 1px var(--accent);

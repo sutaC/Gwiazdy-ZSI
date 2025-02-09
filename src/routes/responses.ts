@@ -236,12 +236,12 @@ export const getImgUpdate = async (
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     if (!Number.isSafeInteger(photoid)) {
-        res.status(400).render("./layouts/error.ejs", { error: { code: 404 } });
+        res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
         return;
     }
     const photo = await db.getImgById(photoid);
     if (photo === null) {
-        res.status(404).render("./layouts/error.ejs", { error: { code: 400 } });
+        res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
         return;
     }
     const [nextImgId, prevImgId] = await Promise.all([

@@ -104,11 +104,9 @@ input {
     width: 100%;
     padding: 0.5em;
     margin: 0.25em 0;
-
     border: 1px solid var(--accent);
     border-radius: 0.5rem;
     box-shadow: 0 0 4px 1px var(--accent);
-
     font-size: 0.8rem;
     color: var(--text);
     background: var(--background);
@@ -128,6 +126,11 @@ a.buttonlike {
     align-content: center;
     text-decoration: none;
     cursor: pointer;
+    transition: all 100ms ease-out;
+}
+
+:is(button, a.buttonlike):hover {
+    translate: 0 -1px;
 }
 
 .highlight {
