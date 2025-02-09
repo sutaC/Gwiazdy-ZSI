@@ -7,23 +7,42 @@ body {
     flex-direction: column;
 }
 
-a {
-    margin: 1em;
-    text-decoration: underline;
-}
-
 main {
     margin: 1rem auto;
-    padding: 2em 4em;
-
     border-radius: 1rem;
+    padding: clamp(0.5em, 3vw, 2em) clamp(1em, 6vw, 4em);
     text-align: center;
     background: var(--secondary);
+    width: 100%;
     max-width: 30rem;
 }
 
 form {
-    margin: 2em 1em;
+    margin: 2em 0;
+}
+
+button {
+    width: 100%;
+    margin: 2em 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+nav a {
+    flex: 1;
+    aspect-ratio: 1;
+    align-content: center;
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    border: 1px solid var(--primary);
+    background-color: var(--background);
 }
 
 .field {
@@ -34,4 +53,14 @@ form {
 #error {
     color: red;
     margin: 0;
+}
+
+#error:empty {
+    visibility: hidden;
+}
+
+img.imageDisplay {
+    border: 2px solid var(--primary);
+    border-radius: 0.5rem;
+    max-width: 100%;
 }

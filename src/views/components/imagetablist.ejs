@@ -1,4 +1,4 @@
-<% imagetabs.forEach(imagetab=> { %>
+<% for( const imagetab of imagetabs) { %>
 
 <div class="imagetab">
     <%- include("../components/imgDisplay.ejs", {photo: {src: imagetab.src,
@@ -6,7 +6,7 @@
     <a href="/img/<%= imagetab.id %>">Id: <%= imagetab.id %></a>
 </div>
 
-<% }); %>
+<% } %>
 
 <small
     class="light"

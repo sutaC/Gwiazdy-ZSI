@@ -235,7 +235,7 @@ export async function getTags(): Promise<Teacher[]> {
         "SELECT * FROM teachers ORDER BY name;"
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
-    if (!data[0]) return [];
+    if (!data[0]?.id) return [];
     return data as Teacher[];
 }
 
@@ -289,7 +289,7 @@ export async function getSelectedTeachers(id: number): Promise<Teacher[]> {
         [id]
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
-    if (!data[0]) return [];
+    if (!data[0]?.id) return [];
     return data as Teacher[];
 }
 
@@ -305,7 +305,7 @@ export async function searchTeachers(prompt: string): Promise<Teacher[]> {
         [prompt]
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
-    if (!data[0]) return [];
+    if (!data[0]?.id) return [];
     return data as Teacher[];
 }
 
@@ -325,7 +325,7 @@ export async function searchUnselectedTeachers(
         [prompt, imageId]
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
-    if (!data[0]) return [];
+    if (!data[0]?.id) return [];
     return data as Teacher[];
 }
 

@@ -244,8 +244,14 @@ export const getImgUpdate = async (
         res.status(404).render("./layouts/error.ejs", { error: { code: 400 } });
         return;
     }
+    const [nextImgId, prevImgId] = await Promise.all([
+        db.getNextImg(photo.id),
+        db.getPreviousImg(photo.id),
+    ]);
     res.render("./layouts/editImage.ejs", {
         photo,
+        prevImgId,
+        nextImgId,
     });
 };
 

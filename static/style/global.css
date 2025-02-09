@@ -114,16 +114,19 @@ input {
     background: var(--background);
 }
 
-button {
+button,
+a.buttonlike {
+    display: block;
     padding: 0.5em 1.5em;
-
     border: 1px solid var(--accent);
     border-radius: 0.5rem;
     box-shadow: 0 0 4px 1px var(--accent);
-
     font-size: 0.8rem;
     color: var(--text);
     background: var(--background);
+    text-align: center;
+    align-content: center;
+    text-decoration: none;
     cursor: pointer;
 }
 

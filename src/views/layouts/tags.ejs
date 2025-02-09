@@ -40,18 +40,23 @@
             </form>
         </main>
 
-        <section class="tags-container">
+        <section class="tags-container" aria-labelledby="tags-list">
             <h2 id="tags-list">Lista etykiet</h2>
-
-            <% tags.forEach(tag=> { %> <%- include("../components/editTag.ejs",
-            {tag, highlight: false}) %> <% }); %>
+            <% for( const tag of tags ) { %> <%-
+            include("../components/editTag.ejs", {tag, highlight: false}) %> <%
+            } %>
         </section>
 
         <footer>
-            <a href="/"><button>Powrót</button></a>
+            <a href="/admin" class="buttonlike">Powrót</a>
 
-            <a href="#top-header">
-                <button>^</button>
+            <a
+                href="#top-header"
+                class="buttonlike"
+                aria-label="Powróć na początek strony"
+                title="Powróć na początek strony"
+            >
+                ^
             </a>
         </footer>
     </body>

@@ -33,10 +33,11 @@
                         hx-on::config-request="event.detail.path = `/img/${event.target.photoid.value}`"
                         hx-on::response-error="alert('Nie znaleziono zdjęcia z tym id'); this.photoid.value = ''"
                     >
-                        <p>Wyszukaj po id:</p>
+                        <label for="searchPhotoid">Wyszukaj po id:</label>
                         <div class="wraper">
                             <input
                                 type="number"
+                                id="searchPhotoid"
                                 name="photoid"
                                 placeholder="707..."
                                 required
@@ -48,7 +49,7 @@
                     </form>
 
                     <div class="nav-tile find-tags">
-                        <p>Wyszukaj po etykiecie:</p>
+                        <label for="promptInput">Wyszukaj po etykiecie:</label>
                         <div class="search-field">
                             <input
                                 type="text"
@@ -70,14 +71,12 @@
 
             <main id="imagetablist">
                 <% if (tagid !== undefined) { %>
-
                 <small
                     hx-get="/api/imagetaglist/<%= tagid %>"
                     hx-trigger="load"
                     hx-swap="outerHTML"
                     >Ładowanie zdjęć...</small
                 >
-
                 <% } else { %>
                 <small class="light"
                     >Wyszukaj etykietę aby wyświetlić zdjęcia...</small
@@ -88,14 +87,18 @@
 
         <footer>
             <% if(authorized){ %>
-            <a href="/admin"><button>Profil</button></a>
+            <a href="/admin" class="buttonlike">Profil</a>
             <% } else { %>
-            <a href="/login"><button>Zaloguj</button></a>
+            <a href="/login" class="buttonlike">Zaloguj</a>
             <% } %>
 
-            <a href="#top-header">
-                <button>^</button>
-            </a>
+            <a
+                href="#top-header"
+                class="buttonlike"
+                aria-label="Powróć na początek strony"
+                title="Powróć na początek strony"
+                >^</a
+            >
         </footer>
     </body>
 </html>

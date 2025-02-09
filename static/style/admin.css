@@ -1,9 +1,7 @@
 header {
     padding: 1em;
     margin-bottom: 2rem;
-
     border-radius: 0 0 2rem 2rem;
-
     text-align: center;
     background: var(--secondary);
 }
@@ -20,17 +18,13 @@ nav {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-
     margin: 0 1rem;
 }
 
 nav a {
     display: block;
-
     padding: 1em;
-
     border-radius: 1rem;
-
     text-align: center;
     background: var(--secondary);
 }
@@ -40,9 +34,7 @@ nav a {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-
     padding: 0.33rem;
-
     border: 1px solid var(--primary);
     border-radius: 1rem;
 }
@@ -51,6 +43,8 @@ nav a {
     flex: 1;
 }
 
-.highlite {
-    color: var(--accent);
+nav a.highlight {
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 1em;
 }

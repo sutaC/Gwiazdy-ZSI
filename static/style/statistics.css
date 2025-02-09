@@ -12,10 +12,8 @@ header {
 section.quantity {
     margin: 1rem;
     padding: 2rem 1rem;
-
     border: 1px solid var(--primary);
     border-radius: 1rem;
-
     text-align: center;
 }
 
@@ -23,10 +21,8 @@ section.quantity {
     display: flex;
     justify-content: center;
     align-items: stretch;
-
     max-width: 80%;
     margin: 1rem auto;
-
     border: 1px solid var(--accent);
     border-radius: 1rem;
     box-shadow: 0 0 4px 1px var(--accent);
@@ -106,11 +102,10 @@ footer {
     background: var(--secondary);
 }
 
-footer button {
+footer a.buttonlike {
     min-width: 4rem;
     padding: 0.75em;
     aspect-ratio: 1;
-
     cursor: pointer;
 }
 
@@ -119,7 +114,12 @@ footer button {
         padding-bottom: 10%;
     }
 
+    main {
+        z-index: 1;
+    }
+
     footer {
         background: transparent;
+        z-index: 0;
     }
 }

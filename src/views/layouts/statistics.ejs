@@ -51,7 +51,7 @@
             <% ranks.forEach((rank, idx)=> { %>
 
             <div class="rank">
-                <div><%= Number(idx) + 1 %>.</div>
+                <div><%= idx + 1 %>.</div>
                 <div class="name"><%= rank.name %></div>
                 <div><%= rank.ammount %></div>
             </div>
@@ -60,11 +60,15 @@
         </main>
 
         <footer>
-            <a href="/"><button>Powrót</button></a>
+            <a href="/" class="buttonlike">Powrót</a>
 
-            <a href="#top-header">
-                <button>^</button>
-            </a>
+            <a
+                href="#top-header"
+                class="buttonlike"
+                aria-label="Powróć na początek strony"
+                title="Powróć na początek strony"
+                >^</a
+            >
         </footer>
     </body>
 </html>
