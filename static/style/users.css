@@ -1,9 +1,34 @@
-@import url("./forms.css");
-
 body {
     padding: 0;
     padding-bottom: 30%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main {
+    margin: 1rem auto;
+    padding: 2em 4em;
+    border-radius: 1rem;
+    text-align: center;
+    background: var(--secondary);
+    max-width: 30rem;
+}
+
+form {
+    margin: 2em 0;
+}
+
+.field {
+    margin: 1.5em 0;
+    text-align: left;
+}
+
+button {
+    width: 100%;
+    margin: 2em 0;
 }
 
 header {
@@ -26,14 +51,17 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     width: 80%;
     min-height: 3rem;
     margin: 0.5rem auto;
     padding: 0.5rem;
-
     border: 1px solid var(--primary);
     border-radius: 1rem;
+}
+
+.user button.delete {
+    width: fit-content;
+    margin: 0;
 }
 
 footer {
@@ -41,22 +69,18 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 0.5em;
-
     background: var(--secondary);
 }
 
-footer button {
-    min-width: 4rem;
+footer a.buttonlike {
+    width: 100%;
+    max-width: 4rem;
     padding: 0.75em;
     aspect-ratio: 1;
-
-    cursor: pointer;
 }
 
 @media (min-width: 750px) {
@@ -64,7 +88,12 @@ footer button {
         padding-bottom: 10%;
     }
 
+    main {
+        z-index: 1;
+    }
+
     footer {
         background: transparent;
+        z-index: 0;
     }
 }

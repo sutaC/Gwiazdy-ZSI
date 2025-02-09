@@ -31,11 +31,6 @@ p.description {
     text-wrap: balance;
 }
 
-a {
-    color: var(--accent);
-    text-decoration: underline;
-}
-
 a.ghSocials {
     display: inline-block;
     margin: 1rem auto;
@@ -58,27 +53,26 @@ ul.credits li {
     text-shadow: 0 0 0.125rem var(--accent);
 }
 
+ul.credits a {
+    font-weight: normal;
+}
+
 footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 0.5em;
-
     background: var(--secondary);
 }
 
-footer button {
+footer a.buttonlike {
     min-width: 4rem;
     padding: 0.75em;
     aspect-ratio: 1;
-
-    cursor: pointer;
 }
 
 @media (min-width: 750px) {

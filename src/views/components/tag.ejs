@@ -1,4 +1,4 @@
-<% if(authorized){ %> <% if(checked){ %>
+<% if (authorized) { %> <% if (checked) { %>
 <button
     class="tag delete"
     hx-delete="/api/img/<%= photoid %>/tag/<%= tag.id %>"
@@ -6,8 +6,7 @@
     hx-target="closest .tag"
     hx-confirm="Czy na pewno chcesz usunąć ten tag?"
 >
-    <% } else { %>
-    <button
+    <% } else { %><button
         class="tag add"
         hx-put="/api/img/<%= photoid %>/tag/<%= tag.id %>"
         hx-swap="beforeend"
@@ -16,10 +15,10 @@
         hx-on::after-request='document.querySelector("#promptInput").value = "";
                 document.querySelector("#results").innerHTML = ""'
     >
-        <% } %> <%= tag.name %>
+        <% } %><%= tag.name %>
     </button>
-
-    <% } else { %>
-    <a href="/?tagid=<%= tag.id %>" class="tag"><%= tag.name %></a>
+    <% } else { %><a href="/?tagid=<%= tag.id %>" class="tag"
+        ><%= tag.name %></a
+    >
     <% } %>
 </button>

@@ -11,7 +11,7 @@
             <h1>Ojejku!</h1>
             <p><%= error.messsage ?? `Wystąpił błąd ${error.code ?? 500}` %></p>
             <img src="https://http.cat/<%= error.code ?? 500 %>" alt="Błąd" />
-            <a onclick="history.back()">Powrót</a>
+            <button onclick="history.back()">Powrót</button>
         </main>
     </body>
 </html>

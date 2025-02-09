@@ -1,8 +1,10 @@
-@import url("./forms.css");
-
 body {
     padding: 0;
     padding-bottom: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-align: center;
 }
 
@@ -10,14 +12,31 @@ header {
     width: 100%;
     padding: 1em;
     margin-bottom: 2rem;
-
     border-radius: 0 0 2rem 2rem;
-
     background: var(--secondary);
 }
 
 main {
-    margin: 2rem;
+    margin: 1rem auto;
+    padding: 2em 4em;
+    border-radius: 1rem;
+    text-align: center;
+    background: var(--secondary);
+    max-width: 30rem;
+}
+
+form {
+    margin: 2em 0;
+}
+
+.field {
+    margin: 1.5em 0;
+    text-align: left;
+}
+
+button {
+    width: 100%;
+    margin: 2em 0;
 }
 
 .tags-container {
@@ -28,12 +47,14 @@ form.tag {
     display: flex;
     align-items: baseline;
     gap: 1rem;
-
     margin: 1rem;
     padding: 0.5rem;
-
     border: 1px solid var(--primary);
     border-radius: 1rem;
+}
+
+form.tag button {
+    margin: 0;
 }
 
 form.tag.highlight {
@@ -45,22 +66,18 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 0.5em;
-
     background: var(--secondary);
 }
 
-footer button {
-    min-width: 4rem;
+footer a.buttonlike {
+    width: 100%;
+    max-width: 4rem;
     padding: 0.75em;
     aspect-ratio: 1;
-
-    cursor: pointer;
 }
 
 @media (min-width: 750px) {
@@ -70,9 +87,11 @@ footer button {
 
     .tags-container {
         width: 50%;
+        z-index: 1;
     }
 
     footer {
         background: transparent;
+        z-index: 0;
     }
 }

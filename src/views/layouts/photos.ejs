@@ -9,11 +9,11 @@
     <body>
         <header>
             <nav class="wraper">
-                <a href="/" class="return"><button>Strona główna</button></a>
+                <a href="/" class="buttonlike">Strona główna</a>
 
                 <% if(authorized){ %>
-                <a href="/img/<%= photo.id %>/update"
-                    ><button>Edytuj</button></a
+                <a href="/img/<%= photo.id %>/update" class="buttonlike"
+                    >Edytuj</a
                 >
                 <% } %>
             </nav>
@@ -22,8 +22,9 @@
 
             <div class="tag-section">
                 <div id="tags" class="tags">
-                    <%- include('../components/taglist.ejs', {tags, photoid:
-                    photo.id, checked: true, authorized}) %>
+                    <% if (tags.length > 0) { %> <%-
+                    include('../components/taglist.ejs', {tags, photoid:
+                    photo.id, checked: true, authorized}) %><% } %>
                 </div>
 
                 <% if(authorized){ %>
@@ -48,29 +49,49 @@
         <main><%- include("../components/imgDisplay.ejs", {photo}) %></main>
 
         <footer>
+            <% if (prevImgId !== null) { %>
             <a
                 href="/img/<%= prevImgId %>"
+                class="buttonlike"
                 hx-boost="true"
                 hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
                 hx-replace-url="true"
-                <% if (prevImgId === null) { %>
-                    style="visibility: hidden;"
-                    aria-hidden="true"
-                <% } %>
-                ><button>&leftarrow;</button></a
+                >&leftarrow;</a
             >
-            <a href="/randomimg"><button>Losuj</button></a>
+            <% } else { %>
             <a
-            href="/img/<%= nextImgId %>"
-            hx-boost="true"
-            hx-trigger="click, keyup[key=='ArrowRight'] from:body"
-            hx-replace-url="true"
-                <% if (nextImgId === null) { %>
-                    style="visibility: hidden;"
-                    aria-hidden="true"
-                <% } %>
-                ><button>&rightarrow;</button></a
+                href="#"
+                class="buttonlike"
+                style="visibility: hidden"
+                aria-hidden="true"
+                >&leftarrow;</a
             >
+            <% } %>
+            <a
+                href="/randomimg"
+                class="buttonlike"
+                hx-boost="true"
+                hx-trigger="click, keyup[key==' '] from:body"
+                >Losuj</a
+            >
+            <% if (nextImgId !== null) { %>
+            <a
+                href="/img/<%= nextImgId %>"
+                class="buttonlike"
+                hx-boost="true"
+                hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+                hx-replace-url="true"
+                >&rightarrow;</a
+            >
+            <% } else { %>
+            <a
+                href="#"
+                class="buttonlike"
+                style="visibility: hidden"
+                aria-hidden="true"
+                >&rightarrow;</a
+            >
+            <% } %>
         </footer>
     </body>
 </html>

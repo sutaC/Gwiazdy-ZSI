@@ -25,7 +25,7 @@
                     href="https://github.com/sutaC/Gwiazdy-ZSI"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="ghSocials"
+                    class="highlight ghSocials"
                     >Gwiazdy ZSI na GitHub!</a
                 >
             </section>
@@ -63,6 +63,7 @@
                         href="http://github.com/sutaC"
                         target="_blank"
                         rel="noopener noreferrer"
+                        class="highlight"
                         >sutaC</a
                     >
                 </p>
@@ -81,6 +82,7 @@
                         <% for(const contr of credits.contributors) { %>
                         <li>
                             <a
+                                class="highlight"
                                 href="<%= contr.url %>"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -108,6 +110,7 @@
                                 href="<%= admin.url %>"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                class="highlight"
                                 ><%= admin.name %></a
                             >
                         </li>
@@ -118,7 +121,7 @@
         </main>
 
         <footer>
-            <a href="/"><button>Porwót</button></a>
+            <a href="/" class="buttonlike">Porwót</a>
         </footer>
     </body>
 </html>

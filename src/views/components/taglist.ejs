@@ -1,2 +1,2 @@
-<% tags.forEach(tag=> { %> <%- include("../components/tag.ejs", {tag, photoid,
-checked, authorized}) %> <% }); %>
+<% for (const tag of tags) { %><%- include("../components/tag.ejs", {tag,
+photoid, checked, authorized}) %><% } %>

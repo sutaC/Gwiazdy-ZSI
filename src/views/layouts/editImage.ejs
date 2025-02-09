@@ -4,7 +4,6 @@
         <%- include('../components/globalHead.ejs') %>
         <title>Gwiazdy ZSI | Edytuj zdjęcie <%= photo.id %></title>
         <link rel="stylesheet" href="/style/forms.css" />
-        <link rel="stylesheet" href="/style/addImage.css" />
     </head>
 
     <body>
@@ -27,6 +26,7 @@
                         value="<%= photo.src %>"
                         name="src"
                         id="src"
+                        title="URL do zdjęcia w Internecie"
                     />
                 </div>
 
@@ -38,13 +38,12 @@
                         value="<%= photo.local %>"
                         name="localsrc"
                         id="localsrc"
+                        title="Nazwa pliku zapisanego na serwerze"
                     />
                 </div>
 
                 <button type="submit">Zapisz</button>
             </form>
-
-            <hr />
 
             <button
                 hx-delete="/img/<%= photo.id %>/delete"
@@ -54,14 +53,25 @@
                 Usuń zdjęcie
             </button>
 
-            <hr />
+            <nav>
+                <% if (prevImgId !== null) { %>
+                <a href="/img/<%= prevImgId %>/update">Poprzednie zdjęcie</a>
+                <% } else { %>
+                <a href="#" style="visibility: hidden" aria-hidden="true"
+                    >Poprzednie zdjęcie</a
+                >
+                <% } %>
+                <a href="/img/<%= photo.id %>">Otwórz zdjęcie</a>
+                <% if (nextImgId !== null) { %>
+                <a href="/img/<%= nextImgId %>/update">Następne zdjęcie</a>
+                <% } else { %>
+                <a href="#" style="visibility: hidden" aria-hidden="true"
+                    >Następne zdjęcie</a
+                >
+                <% } %>
+            </nav>
 
-            <a href="/img/<%= photo.id %>/previous">Poprzednie zdjęcie</a>
-            <a href="/img/<%= photo.id %>">Powrt</a>
-            <a href="/img/<%= photo.id %>/next">Następne zdjęcie</a>
-
-            <hr />
-
+            <p>Podgląd zdjęcia:</p>
             <%- include("../components/imgDisplay.ejs", {photo}) %>
         </main>
     </body>
