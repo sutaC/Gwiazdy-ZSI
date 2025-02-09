@@ -4,12 +4,12 @@ import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
 import { addLog, clearLogs } from "$/data/log";
 import { randomUUID } from "crypto";
 import { directory } from "$/app";
-import { readFile } from "fs/promises";
+import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
 
 // Responses
-export const getRoot = (req: Request, res: Response) => {
+export const getRoot = (req: Request, res: Response): void => {
     const authorized = req.authorized ?? false;
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
@@ -21,11 +21,15 @@ export const getRoot = (req: Request, res: Response) => {
     res.render("./layouts/root.ejs", { authorized, tagid });
 };
 
-export const getStatistics = async (req: Request, res: Response) => {
-    let ranks, imagesAmmount, imagesWithTagsAmmount;
-    ranks = await db.getImageAmmountOnTeachers();
-    imagesAmmount = await db.getImageAmmount();
-    imagesWithTagsAmmount = await db.getImageWithTagAmmount();
+export const getStatistics = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const [ranks, imagesAmmount, imagesWithTagsAmmount] = await Promise.all([
+        db.getImageAmmountOnTeachers(),
+        db.getImageAmmount(),
+        db.getImageWithTagAmmount(),
+    ]);
     res.render("./layouts/statistics.ejs", {
         ranks,
         imagesAmmount,
@@ -38,22 +42,18 @@ export const getAbout = async (req: Request, res: Response): Promise<void> => {
         administrators: [],
         contributors: [],
     };
-    try {
-        const data = await readFile(`${directory}/src/data/credits.json`);
-        const json = JSON.parse(data.toString());
-        if (json) credits = json;
-    } catch (error) {
-        addLog(`Failed to read credits - ${error}`);
-    }
-    return res.render("./layouts/about.ejs", { credits });
+    const data = await readFile(`${directory}/src/data/credits.json`);
+    const json = JSON.parse(data.toString());
+    if (json) credits = json;
+    res.render("./layouts/about.ejs", { credits });
 };
 
 // --- Admin panel ---
-export const getLogin = async (req: Request, res: Response) => {
+export const getLogin = async (req: Request, res: Response): Promise<void> => {
     res.render("./layouts/login.ejs");
 };
 
-export const postLogin = async (req: Request, res: Response) => {
+export const postLogin = async (req: Request, res: Response): Promise<void> => {
     const { login, password } = req.body;
     const error = await authenticateUser(login, password);
     if (error) {
@@ -71,43 +71,46 @@ export const postLogin = async (req: Request, res: Response) => {
     res.append("HX-Redirect", "/admin").sendStatus(303);
 };
 
-export const getAdmin = (req: Request, res: Response) => {
+export const getAdmin = (req: Request, res: Response): void => {
     res.render("./layouts/admin.ejs", { user: req.authorized });
 };
 
-export const getLogout = async (req: Request, res: Response) => {
+export const getLogout = async (req: Request, res: Response): Promise<void> => {
     const { token } = req.signedCookies;
     const login = await db.getUserByToken(token);
     if (!login) {
-        return res
-            .status(400)
-            .render("./layouts/error.ejs", { error: { code: 400 } });
+        res.status(400).render("./layouts/error.ejs", { error: { code: 400 } });
+        return;
     }
     await db.updateUserToken(login, "");
     res.clearCookie("token", { secure: true, signed: true });
     res.append("HX-Redirect", "/").sendStatus(303);
 };
 
-export const getReset = (req: Request, res: Response) => {
+export const getReset = (req: Request, res: Response): void => {
     res.render("./layouts/reset.ejs");
 };
 
-export const postReset = async (req: Request, res: Response) => {
+export const postReset = async (req: Request, res: Response): Promise<void> => {
     const { newPassword, repeatPassword } = req.body;
     if (!String(newPassword) || !String(repeatPassword)) {
-        return res.send("Hasło jest wymagane");
+        res.send("Hasło jest wymagane");
+        return;
     }
     if (newPassword !== repeatPassword) {
-        return res.send("Hasło i powtórzenie hasła muszą być takie same");
+        res.send("Hasło i powtórzenie hasła muszą być takie same");
+        return;
     }
     const error = validatePassword(newPassword);
     if (error) {
-        return res.send(error);
+        res.send(error);
+        return;
     }
     const { token } = req.signedCookies;
     const login = await db.getUserByToken(token);
     if (!login) {
-        return res.send("Nie można znaleźć Twojego konta");
+        res.send("Nie można znaleźć twojego konta");
+        return;
     }
     await db.updateUserPassword(login, hashString(newPassword));
     res.send(
@@ -115,18 +118,23 @@ export const postReset = async (req: Request, res: Response) => {
     );
 };
 
-export const getLog = (req: Request, res: Response) => {
+export const getLog = async (req: Request, res: Response): Promise<void> => {
+    try {
+        await access(directory + "errors.log");
+    } catch (err) {
+        res.send("");
+        return;
+    }
     res.sendFile("errors.log", { root: directory });
 };
 
-export const deleteLog = (req: Request, res: Response) => {
+export const deleteLog = (req: Request, res: Response): void => {
     clearLogs();
-    res.status(200).send("Cleard logs");
+    res.send("Cleard logs");
 };
 
-export const getUsers = async (req: Request, res: Response) => {
-    let users;
-    users = await db.getUsers();
+export const getUsers = async (req: Request, res: Response): Promise<void> => {
+    const users = await db.getUsers();
     res.render("./layouts/users.ejs", { users });
 };
 
@@ -193,24 +201,25 @@ export const deleteDeleteUser = async (
         return;
     }
     res.send(`<p style="color: red;">Usunięto użytkownika ${login}</p>`);
-    return;
 };
 
 // --- Images ---
-export const getImg = async (req: Request, res: Response) => {
+export const getImg = async (req: Request, res: Response): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
-    if (!Number.isSafeInteger(photoid))
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
+    if (!Number.isSafeInteger(photoid)) {
+        res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
+        return;
+    }
     const photo = await db.getImgById(photoid);
-    if (photo === null)
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
-    const tags = await db.getSelectedTeachers(photo.id);
-    const nextImgId = await db.getNextImg(photo.id);
-    const prevImgId = await db.getPreviousImg(photo.id);
+    if (photo === null) {
+        res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
+        return;
+    }
+    const [tags, nextImgId, prevImgId] = await Promise.all([
+        db.getSelectedTeachers(photo.id),
+        db.getNextImg(photo.id),
+        db.getPreviousImg(photo.id),
+    ]);
     res.setHeader("HX-Redirect", `/img/${photo.id}`);
     res.render("./layouts/photos.ejs", {
         photo,
@@ -221,127 +230,145 @@ export const getImg = async (req: Request, res: Response) => {
     });
 };
 
-export const getImgUpdate = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
-    if (!photoid) {
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
+export const getImgUpdate = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid)) {
+        res.status(400).render("./layouts/error.ejs", { error: { code: 404 } });
+        return;
     }
-    let photo;
-    try {
-        photo = await db.getImgById(Number(photoid));
-    } catch (error) {
-        addLog(error as string);
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
-    }
-    if (!photo) {
-        return res
-            .status(400)
-            .render("./layouts/error.ejs", { error: { code: 400 } });
+    const photo = await db.getImgById(photoid);
+    if (photo === null) {
+        res.status(404).render("./layouts/error.ejs", { error: { code: 400 } });
+        return;
     }
     res.render("./layouts/editImage.ejs", {
         photo,
     });
 };
 
-export const deleteImageDelete = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
-    if (!photoid) {
-        return res.send("Brak wymaganych parametrów");
+export const deleteImageDelete = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid)) {
+        res.send("Nieprawidłowe id");
+        return;
     }
-    let photo;
-    try {
-        photo = await db.getImgById(Number(photoid));
-    } catch (error) {
-        addLog(error as string);
-        return res.send("Nie można znaleźć zdjęcia do usunięcia");
-    }
-    if (!photo) {
-        return res.send("Nie można znaleźć zdjęcia do usunięcia");
+    const photo = await db.getImgById(photoid);
+    if (photo === null) {
+        res.send("Nie można znaleźć zdjęcia do usunięcia");
+        return;
     }
     try {
         if (photo.local) {
             upload.deleteImage(photo.local);
         }
-        await db.deleteImage(Number(photoid));
+        await db.deleteImage(photoid);
     } catch (error) {
         addLog(error as string);
-        return res.send("Nie udało się usunąć zdjęcia");
+        res.send("Nie udało się usunąć zdjęcia");
+        return;
     }
     res.send('<span style="color: green;">Usunięto zdjęcie!</span>');
 };
 
-export const postImgUpdate = async (req: Request, res: Response) => {
-    const { photoid } = req.params;
+export const postImgUpdate = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const photoid = Number.parseInt(req.params.photoid);
     const { src, local } = req.body;
-    if (photoid == undefined) {
-        return res.send("Brak wymaganych parametrów");
+    if (!Number.isSafeInteger(photoid)) {
+        res.send("Brak wymaganych parametrów");
+        return;
     }
     try {
-        await db.updateImg(Number(photoid), src ?? "", local ?? "");
+        await db.updateImg(photoid, src ?? "", local ?? "");
     } catch (error) {
         addLog(error as string);
-        return res.send("Nie udało się zaktualizować zdjęcia");
+        res.send("Nie udało się zaktualizować zdjęcia");
+        return;
     }
     res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
 };
 
-export const getRandomImg = async (req: Request, res: Response) => {
+export const getRandomImg = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
     const photoid = await db.getRandomImg();
-    if (!photoid) {
-        return res
-            .status(404)
-            .render("./layouts/error.ejs", { error: { code: 404 } });
+    if (photoid === null) {
+        res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
+        return;
     }
     res.redirect(`/img/${photoid}`);
 };
 
-export const getAddImg = (req: Request, res: Response) => {
+export const getAddImg = (req: Request, res: Response): void => {
     res.render("./layouts/addImage.ejs");
 };
 
-export const postApiAddImg = async (req: Request, res: Response) => {
-    const { imgUrl } = req.body as { imgUrl: string };
-    const [imgFile] = req.files as Express.Multer.File[];
+export const postApiAddImg = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const imgUrl = req.body.imgUrl as string | undefined;
+    const [imgFile] = req.files as Express.Multer.File[] | undefined[];
     if (!imgUrl && !imgFile) {
-        return res.send("Należy podać adres URL zdjęcia lub plik");
+        res.send("Należy podać adres URL zdjęcia lub plik");
+        return;
     }
-    let local;
+    let local: string | undefined = undefined;
     if (imgFile) {
         try {
             local = upload.uploadImage(imgFile);
         } catch (error) {
             addLog(error as string);
-            return res.send("Nie udało się zapisać pliku");
+            res.send("Nie udało się zapisać pliku");
+            return;
         }
     }
-    let photoid;
+    if (local === undefined) {
+        res.send("Nie udało się zapisać pliku");
+        return;
+    }
+    let photoid: number | null;
     try {
         photoid = await db.addImg(imgUrl, local);
     } catch (error) {
         addLog(error as string);
-        return res.send("Nie udało się zapisać zdjęcia");
+        res.send("Nie udało się zapisać zdjęcia");
+        return;
+    }
+    if (photoid === null) {
+        res.send("Nie udało się zapisać zdjęcia");
+        return;
     }
     res.render("./components/addImgAproval.ejs", { photoid });
 };
 
 // --- Tags ---
-export const getTags = async (req: Request, res: Response) => {
+export const getTags = async (req: Request, res: Response): Promise<void> => {
     const tags = await db.getTags();
     return res.render("./layouts/tags.ejs", { tags });
 };
 
-export const patchUpdateInTags = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { name } = req.body;
-    if (!id || !name) {
-        return res.sendStatus(400);
+export const patchUpdateInTags = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const id = Number.parseInt(req.params.id);
+    const name: string | undefined = req.body.name;
+    if (!Number.isSafeInteger(id) || !name) {
+        res.sendStatus(400);
+        return;
     }
-    await db.updateInTags(Number(id), name);
-    return res.render("./components/editTag.ejs", {
+    await db.updateInTags(id, name);
+    res.render("./components/editTag.ejs", {
         tag: { id, name },
         highlight: true,
     });
@@ -351,33 +378,43 @@ export const deleteDeleteFromTags = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const { id } = req.params;
-    if (!id) {
+    const id = Number.parseInt(req.params.id);
+    if (!Number.isSafeInteger(id)) {
         res.sendStatus(400);
         return;
     }
-    await db.deleteFromTags(Number(id));
+    await db.deleteFromTags(id);
     res.send("");
     return;
 };
 
-export const putAddToTags = async (req: Request, res: Response) => {
-    const { name } = req.body;
+export const putAddToTags = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const name: string | undefined = req.body.name;
     if (!name) {
-        return res.sendStatus(400);
+        res.sendStatus(400);
+        return;
     }
     const id = await db.addToTags(name);
-    return res.render("./components/editTag.ejs", {
+    res.render("./components/editTag.ejs", {
         tag: { id, name },
         highlight: true,
     });
 };
 
-export const putImgTag = async (req: Request, res: Response) => {
-    const { photoid, tagid } = req.params;
-    const tag = await db.addTag(Number(photoid), Number(tagid));
-    if (!tag) {
-        return res.sendStatus(400);
+export const putImgTag = async (req: Request, res: Response): Promise<void> => {
+    const photoid = Number.parseInt(req.params.photoid);
+    const tagid = Number.parseInt(req.params.tagid);
+    if (!Number.isSafeInteger(photoid) || !Number.isSafeInteger(tagid)) {
+        res.sendStatus(400);
+        return;
+    }
+    const tag = await db.addTag(photoid, tagid);
+    if (tag === null) {
+        res.sendStatus(400);
+        return;
     }
     res.render("./components/tag.ejs", {
         tag,
@@ -391,22 +428,28 @@ export const deleteImgTag = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const { photoid, tagid } = req.params;
-    await db.deleteTag(Number(photoid), Number(tagid));
+    const photoid = Number.parseInt(req.params.photoid);
+    const tagid = Number.parseInt(req.params.tagid);
+    if (!Number.isSafeInteger(photoid) || !Number.isSafeInteger(tagid)) {
+        res.sendStatus(400);
+        return;
+    }
+    await db.deleteTag(photoid, tagid);
     res.send("");
-    return;
 };
 
-export const getImgTag = async (req: Request, res: Response) => {
-    const { prompt } = req.query as { prompt: string };
-    const { photoid } = req.params as { photoid: string };
-    if (!prompt || !prompt.trim()) {
-        return res.send("");
+export const getImgTag = async (req: Request, res: Response): Promise<void> => {
+    const prompt = req.query.prompt;
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid)) {
+        res.sendStatus(400);
+        return;
     }
-    const tags = await db.searchUnselectedTeachers(Number(photoid), prompt);
-    if (!tags) {
-        return res.sendStatus(400);
+    if (typeof prompt !== "string" || prompt.trim().length === 0) {
+        res.send("");
+        return;
     }
+    const tags = await db.searchUnselectedTeachers(photoid, prompt);
     res.render("./components/taglist.ejs", {
         tags,
         photoid,
@@ -415,33 +458,37 @@ export const getImgTag = async (req: Request, res: Response) => {
     });
 };
 
-export const getTag = async (req: Request, res: Response) => {
-    const { prompt } = req.query;
-    if (!prompt) {
-        return res.send("");
+export const getTag = async (req: Request, res: Response): Promise<void> => {
+    const prompt = req.query.prompt;
+    if (typeof prompt !== "string" || prompt.trim().length === 0) {
+        res.send("");
+        return;
     }
-    const tagtabs = await db.searchTeachers(String(prompt));
-    if (!tagtabs) {
-        return res.sendStatus(400);
-    }
+    const tagtabs = await db.searchTeachers(prompt);
     res.render("./components/tagtablist.ejs", { tagtabs });
 };
 
-export const getImageTaglist = async (req: Request, res: Response) => {
-    const { tagid } = req.params;
-    let { list } = req.query as { list: number | undefined };
-    list = list ?? 1;
+export const getImageTaglist = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const tagid = Number.parseInt(req.params.tagid);
+    if (!Number.isSafeInteger(tagid)) {
+        res.sendStatus(400);
+        return;
+    }
+    let list = 1;
+    if (typeof req.query.list === "string") {
+        list = Number.parseInt(req.query.list);
+        if (!Number.isSafeInteger(list)) list = 1;
+    }
     if (list < 1) {
         list = 1;
     }
-    if (!tagid) {
-        return res.sendStatus(400);
-    }
-    const imagetabs = await db.getImgsByTagId(Number(tagid), list);
+    const imagetabs = await db.getImgsByTagId(tagid, list);
     if (imagetabs.length === 0) {
-        return res.send(
-            '<small class="light">Nie znaleziono więcej zdjęć...</small>'
-        );
+        res.send('<small class="light">Nie znaleziono więcej zdjęć...</small>');
+        return;
     }
     res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
 };
