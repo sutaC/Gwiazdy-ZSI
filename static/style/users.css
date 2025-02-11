@@ -8,12 +8,21 @@ body {
     flex-direction: column;
 }
 
+header {
+    max-width: 100%;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
 main {
     margin: 1rem auto;
-    padding: 2em 4em;
     border-radius: 1rem;
+    padding: clamp(0.5em, 3vw, 2em) clamp(1em, 6vw, 4em);
     text-align: center;
     background: var(--secondary);
+    width: 100%;
     max-width: 30rem;
 }
 
