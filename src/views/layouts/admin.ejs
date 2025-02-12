@@ -23,18 +23,7 @@
             >
             <a href="/tags">Etykiety</a>
             <a href="/addImg">Dodaj zdjęcie</a>
-            <div class="tile">
-                <a href="/log">Otwórz logi serwera</a>
-                <a
-                    href="/log"
-                    hx-boost="true"
-                    hx-delete="/log"
-                    class="highlight"
-                    hx-boost="true"
-                    hx-confirm="Czy na pewno chcesz wyczyścić logi serwera?"
-                    >Wyczyść logi serwera</a
-                >
-            </div>
+            <a href="/logs">Logi serwera</a>
             <a href="/reset">Zresetuj hasło</a>
             <% if (user==="admin" ) { %>
             <a href="/users">Użytkownicy</a>

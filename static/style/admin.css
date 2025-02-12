@@ -34,20 +34,6 @@ nav a:hover {
     scale: 1.0125;
 }
 
-.tile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.33rem;
-    border: 1px solid var(--primary);
-    border-radius: 1rem;
-}
-
-.tile > * {
-    flex: 1;
-}
-
 nav a.highlight {
     font-weight: normal;
     text-decoration: none;
