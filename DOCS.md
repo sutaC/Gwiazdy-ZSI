@@ -50,18 +50,15 @@
 - [getLogout](#gear-getlogout)
 - [getReset](#gear-getreset)
 - [postReset](#gear-postreset)
-- [getLog](#gear-getlog)
-- [deleteLog](#gear-deletelog)
+- [getLogs](#gear-getlogs)
+- [deleteLogs](#gear-deletelogs)
 - [getUsers](#gear-getusers)
 - [postAddAdminUser](#gear-postaddadminuser)
 - [deleteDeleteUser](#gear-deletedeleteuser)
 - [getImg](#gear-getimg)
-- [postImg](#gear-postimg)
-- [getImgNext](#gear-getimgnext)
 - [getImgUpdate](#gear-getimgupdate)
 - [deleteImageDelete](#gear-deleteimagedelete)
 - [postImgUpdate](#gear-postimgupdate)
-- [getImgPrevious](#gear-getimgprevious)
 - [getRandomImg](#gear-getrandomimg)
 - [getAddImg](#gear-getaddimg)
 - [postApiAddImg](#gear-postapiaddimg)
@@ -644,7 +641,7 @@ Parameters:
 | ---------- | ---------- |
 | `getRoot` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L12)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L13)
 
 ### :gear: getStatistics
 
@@ -652,7 +649,7 @@ Parameters:
 | ---------- | ---------- |
 | `getStatistics` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L17)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L25)
 
 ### :gear: getAbout
 
@@ -660,7 +657,7 @@ Parameters:
 | ---------- | ---------- |
 | `getAbout` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L29)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L41)
 
 ### :gear: getLogin
 
@@ -668,15 +665,15 @@ Parameters:
 | ---------- | ---------- |
 | `getLogin` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L45)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L53)
 
 ### :gear: postLogin
 
 | Function | Type |
 | ---------- | ---------- |
-| `postLogin` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>>>` |
+| `postLogin` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L49)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L57)
 
 ### :gear: getAdmin
 
@@ -684,7 +681,7 @@ Parameters:
 | ---------- | ---------- |
 | `getAdmin` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L66)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L75)
 
 ### :gear: getLogout
 
@@ -692,7 +689,7 @@ Parameters:
 | ---------- | ---------- |
 | `getLogout` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L70)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L79)
 
 ### :gear: getReset
 
@@ -700,31 +697,31 @@ Parameters:
 | ---------- | ---------- |
 | `getReset` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L83)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L91)
 
 ### :gear: postReset
 
 | Function | Type |
 | ---------- | ---------- |
-| `postReset` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `postReset` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L87)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L95)
 
-### :gear: getLog
-
-| Function | Type |
-| ---------- | ---------- |
-| `getLog` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
-
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L110)
-
-### :gear: deleteLog
+### :gear: getLogs
 
 | Function | Type |
 | ---------- | ---------- |
-| `deleteLog` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
+| `getLogs` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L114)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L122)
+
+### :gear: deleteLogs
+
+| Function | Type |
+| ---------- | ---------- |
+| `deleteLogs` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
+
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L152)
 
 ### :gear: getUsers
 
@@ -732,7 +729,7 @@ Parameters:
 | ---------- | ---------- |
 | `getUsers` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L119)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L157)
 
 ### :gear: postAddAdminUser
 
@@ -740,7 +737,7 @@ Parameters:
 | ---------- | ---------- |
 | `postAddAdminUser` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L125)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L162)
 
 ### :gear: deleteDeleteUser
 
@@ -748,7 +745,7 @@ Parameters:
 | ---------- | ---------- |
 | `deleteDeleteUser` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L167)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L204)
 
 ### :gear: getImg
 
@@ -756,23 +753,7 @@ Parameters:
 | ---------- | ---------- |
 | `getImg` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L192)
-
-### :gear: postImg
-
-| Function | Type |
-| ---------- | ---------- |
-| `postImg` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
-
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L222)
-
-### :gear: getImgNext
-
-| Function | Type |
-| ---------- | ---------- |
-| `getImgNext` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
-
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L232)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L228)
 
 ### :gear: getImgUpdate
 
@@ -780,31 +761,23 @@ Parameters:
 | ---------- | ---------- |
 | `getImgUpdate` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L243)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L254)
 
 ### :gear: deleteImageDelete
 
 | Function | Type |
 | ---------- | ---------- |
-| `deleteImageDelete` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `deleteImageDelete` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L269)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L279)
 
 ### :gear: postImgUpdate
 
 | Function | Type |
 | ---------- | ---------- |
-| `postImgUpdate` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `postImgUpdate` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L296)
-
-### :gear: getImgPrevious
-
-| Function | Type |
-| ---------- | ---------- |
-| `getImgPrevious` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
-
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L311)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L306)
 
 ### :gear: getRandomImg
 
@@ -812,7 +785,7 @@ Parameters:
 | ---------- | ---------- |
 | `getRandomImg` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L322)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L326)
 
 ### :gear: getAddImg
 
@@ -820,15 +793,15 @@ Parameters:
 | ---------- | ---------- |
 | `getAddImg` | `(req: Request, res: Response<any, Record<string, any>>) => void` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L332)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L338)
 
 ### :gear: postApiAddImg
 
 | Function | Type |
 | ---------- | ---------- |
-| `postApiAddImg` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `postApiAddImg` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L336)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L342)
 
 ### :gear: getTags
 
@@ -836,15 +809,15 @@ Parameters:
 | ---------- | ---------- |
 | `getTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L362)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L382)
 
 ### :gear: patchUpdateInTags
 
 | Function | Type |
 | ---------- | ---------- |
-| `patchUpdateInTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void or Response<any, Record<string, any>>>` |
+| `patchUpdateInTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L367)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L387)
 
 ### :gear: deleteDeleteFromTags
 
@@ -852,23 +825,23 @@ Parameters:
 | ---------- | ---------- |
 | `deleteDeleteFromTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L380)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L404)
 
 ### :gear: putAddToTags
 
 | Function | Type |
 | ---------- | ---------- |
-| `putAddToTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void or Response<any, Record<string, any>>>` |
+| `putAddToTags` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L394)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L418)
 
 ### :gear: putImgTag
 
 | Function | Type |
 | ---------- | ---------- |
-| `putImgTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `putImgTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L406)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L434)
 
 ### :gear: deleteImgTag
 
@@ -876,31 +849,31 @@ Parameters:
 | ---------- | ---------- |
 | `deleteImgTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L420)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L454)
 
 ### :gear: getImgTag
 
 | Function | Type |
 | ---------- | ---------- |
-| `getImgTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `getImgTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L430)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L468)
 
 ### :gear: getTag
 
 | Function | Type |
 | ---------- | ---------- |
-| `getTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `getTag` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L448)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L488)
 
 ### :gear: getImageTaglist
 
 | Function | Type |
 | ---------- | ---------- |
-| `getImageTaglist` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<Response<any, Record<string, any>> or undefined>` |
+| `getImageTaglist` | `(req: Request, res: Response<any, Record<string, any>>) => Promise<void>` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L460)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/routes/responses.ts#L498)
 
 
 ## :wrench: Constants
@@ -915,7 +888,7 @@ Root directory of project
 | ---------- | ---------- |
 | `directory` | `any` |
 
-[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/app.ts#L30)
+[:link: Source](https://github.com/sutaC/Gwiazdy-ZSI/tree/main/src/app.ts#L29)
 
 
 

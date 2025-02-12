@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <%- include('../components/globalHead.ejs') %>
+        <title>Gwiazdy ZSI | Logi</title>
+        <link rel="stylesheet" href="/style/logs.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Logi serwera</h1>
+        </header>
+
+        <main>
+            <div class="controlls">
+                <a
+                    href="/logs?type=raw"
+                    download="errors.log"
+                    class="buttonlike"
+                    >Pobierz logi</a
+                >
+                <button
+                    hx-target="next .logs"
+                    hx-swap="outerHTML"
+                    hx-delete=""
+                    hx-get="/logs?type=html"
+                >
+                    Odświerz logi
+                </button>
+                <button
+                    hx-target="next .logs"
+                    hx-swap="outerHTML"
+                    hx-delete="/logs"
+                    hx-confirm="Na pewno usunąć logi?"
+                >
+                    Usuń logi
+                </button>
+            </div>
+
+            <!-- ul.logs > li.log -->
+            <%- include('../components/logElements.ejs', logs) %>
+        </main>
+
+        <footer>
+            <a href="/admin" class="buttonlike">Powrót</a>
+        </footer>
+    </body>
+</html>

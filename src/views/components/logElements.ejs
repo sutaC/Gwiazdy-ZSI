@@ -1,0 +1,8 @@
+<ul class="logs">
+    <% if(logs.length === 0) { %>
+    <small class="empty">Nie ma obecnie żadnych logów</small>
+    <% } else { %> <% for (const log of logs.split("\n")) { if(log.length === 0)
+    continue; %>
+    <li class="log"><%= log %></li>
+    <% } %> <% } %>
+</ul>
