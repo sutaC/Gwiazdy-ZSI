@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import multer from "multer";
 import path from "path";
 import router from "$/routes/router";
-import authRouter from "$/routes/authRouter";
 import express, { type ErrorRequestHandler } from "express";
 import { fileURLToPath } from "url";
 import { addLog } from "$/data/log";
@@ -36,7 +35,6 @@ app.set("views", path.join(directory, "/src/views"));
 
 // Attach router
 app.use(router);
-app.use(authRouter);
 
 // Error handling
 const handleServerError: ErrorRequestHandler = (err, req, res, next) => {

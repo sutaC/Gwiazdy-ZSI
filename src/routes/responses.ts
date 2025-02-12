@@ -1,3 +1,4 @@
+import path from "path";
 import * as upload from "$/data/upload";
 import * as db from "$/data/db";
 import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
@@ -7,7 +8,6 @@ import { directory } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
-import path from "path";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
