@@ -165,15 +165,9 @@ export async function authenticateUser(
     password: string
 ): Promise<string | null> {
     const dbPassword = await db.getUser(login);
-
-    if (!dbPassword) {
-        return "Nie znaleziono użytkownika o tym loginie";
-    }
-
-    if (hashString(password) !== dbPassword) {
-        return "Nieprawidłowe hasło";
-    }
-
+    if (!dbPassword) return "Nieprawidłowy login lub hasło";
+    if (hashString(password) !== dbPassword)
+        return "Nieprawidłowy login lub hasło";
     return null;
 }
 
