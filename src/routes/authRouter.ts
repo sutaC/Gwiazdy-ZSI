@@ -84,15 +84,15 @@ router.post(
 );
 
 router.get(
-    "/log",
+    "/logs",
     auth.authorizePage as () => Promise<void>,
-    responses.getLog as () => Promise<void>
+    responses.getLogs as () => Promise<void>
 );
 
 router.delete(
-    "/log",
+    "/logs",
     auth.authorizePage as () => Promise<void>,
-    responses.deleteLog as () => Promise<void>
+    responses.deleteLogs as () => Promise<void>
 );
 
 // --- Root Admin access ---

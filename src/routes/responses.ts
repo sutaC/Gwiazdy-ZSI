@@ -7,6 +7,7 @@ import { directory } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
+import path from "path";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
@@ -118,19 +119,39 @@ export const postReset = async (req: Request, res: Response): Promise<void> => {
     );
 };
 
-export const getLog = async (req: Request, res: Response): Promise<void> => {
-    try {
-        await access(directory + "errors.log");
-    } catch (err) {
-        res.send("");
+export const getLogs = async (req: Request, res: Response): Promise<void> => {
+    // Sends raw file
+    if (req.query.type === "raw") {
+        try {
+            await access(path.join(directory, "errors.log"));
+        } catch (err) {
+            addLog(`Could not open server logs:\n${err}`);
+            res.send("");
+            return;
+        }
+        res.sendFile("errors.log", { root: directory });
         return;
     }
-    res.sendFile("errors.log", { root: directory });
+    // Load logs
+    let logs: string = "";
+    try {
+        logs = (await readFile(path.join(directory, "errors.log"))).toString();
+    } catch (err) {
+        addLog(`Could not open server logs: ${err}`);
+        logs = "";
+    }
+    // Sends component
+    if (req.query.type === "html") {
+        res.render("./components/logElements.ejs", { logs });
+        return;
+    }
+    // Sends page
+    res.render("./layouts/logs.ejs", { logs });
 };
 
-export const deleteLog = (req: Request, res: Response): void => {
+export const deleteLogs = (req: Request, res: Response): void => {
     clearLogs();
-    res.send("Cleard logs");
+    res.render("./components/logElements.ejs", { logs: "" });
 };
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
