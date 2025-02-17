@@ -6,7 +6,11 @@
     "scripts": {
         "start": "rm /tmp/tsx-0 -r -f && npx tsx .",
         "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch .",
-        "doc": "tsdoc --src=src/*,src/data/*,src/routes/* --dest=DOCS.md --repo=https://github.com/sutaC/Gwiazdy-ZSI --types"
+        "doc": "tsdoc --src=src/*,src/data/*,src/routes/* --dest=DOCS.md --repo=https://github.com/sutaC/Gwiazdy-ZSI --types",
+        "db-open": "docker exec -it gwiazdy-zsi-database-1 mysql -u root -proot gwiazdy-zsi",
+        "db-dump": "docker exec gwiazdy-zsi-database-1 mysqldump -u root -proot --databases gwiazdy-zsi --single-transaction",
+        "db-dump:schema": "docker exec gwiazdy-zsi-database-1 mysqldump -u root -proot --databases gwiazdy-zsi --no-data --skip-comments --single-transaction > ./database/init/00-schema.sql",
+        "db-dump:data": "docker exec gwiazdy-zsi-database-1 mysqldump -u root -proot --databases gwiazdy-zsi --no-create-info --no-create-db --skip-comments --single-transaction > ./database/init/01-data.sql"
     },
     "author": "sutaC",
     "license": "ISC",

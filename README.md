@@ -39,6 +39,15 @@ ZSI Stars is an original project aimed at storing and categorizing photos of tea
 
     - _Password:_ **Passw0rd;**
 
+## Database handling
+
+-   To open database cli run `npm run db-open`
+-   To dump database run `npm run db-dump`
+    > If you want to direct db dump to file use:
+    > ` npm run --silent db-dump > /path/to/file.sql`
+-   To dump database schema for db init run `npm run db-dump:schema`
+-   To dump database data for db init run `npm run db-dump:data`
+
 ## Documentation
 
 Documentation is avaliable at [DOCS.md](DOCS.md) file and are generated using `tsdoc` npm package.
