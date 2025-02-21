@@ -31,7 +31,7 @@ ZSI Stars is an original project aimed at storing and categorizing photos of tea
 
 3. In root directory run `docker compose up`
 
-    > If you don't want to see server logs run `docker compose --attach app`
+    > If you don't want to see database logs run `docker compose --attach app`
 
 4. To log in as the default user after loading the database, use the following credentials:
 

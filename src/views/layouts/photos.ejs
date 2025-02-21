@@ -36,7 +36,7 @@
                         name="prompt"
                         placeholder="Wyszukaj..."
                         hx-get="/api/img/<%= photo.id %>/tag"
-                        hx-trigger="keyup changed delay:250ms, search"
+                        hx-trigger="keydown changed consume delay:250ms, search"
                         hx-target="next #results"
                     />
                     <div id="results" class="search-results"></div>
@@ -54,8 +54,9 @@
                 href="/img/<%= prevImgId %>"
                 class="buttonlike"
                 hx-boost="true"
-                hx-trigger="click, keyup[key=='ArrowLeft'] from:body"
+                hx-trigger="click, keydown[key=='ArrowLeft'] consume from:body"
                 hx-replace-url="true"
+                title="(ArrowLeft)"
                 >&leftarrow;</a
             >
             <% } else { %>
@@ -71,7 +72,8 @@
                 href="/randomimg"
                 class="buttonlike"
                 hx-boost="true"
-                hx-trigger="click, keyup[key==' '] from:body"
+                hx-trigger="click, keydown[key==' '] consume from:body"
+                title="(Space)"
                 >Losuj</a
             >
             <% if (nextImgId !== null) { %>
@@ -79,8 +81,9 @@
                 href="/img/<%= nextImgId %>"
                 class="buttonlike"
                 hx-boost="true"
-                hx-trigger="click, keyup[key=='ArrowRight'] from:body"
+                hx-trigger="click, keydown[key=='ArrowRight'] consume from:body"
                 hx-replace-url="true"
+                title="(ArrowRight)"
                 >&rightarrow;</a
             >
             <% } else { %>
