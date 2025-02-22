@@ -59,6 +59,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     const error = await authenticateUser(login, password);
     if (error) {
         res.send(error);
+        await Logger.info(`Failed login attempt for '${login}'`);
         return;
     }
     const newToken = hashString(randomUUID());
@@ -70,6 +71,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
         secure: true,
     });
     res.append("HX-Redirect", "/admin").sendStatus(303);
+    await Logger.info(`Login as '${login}'`);
 };
 
 export const getAdmin = (req: Request, res: Response): void => {
@@ -157,7 +159,16 @@ export const deleteLogs = async (
 ): Promise<void> => {
     await Logger.clear();
     await Logger.info("Cleared logs");
-    res.render("./components/logElements.ejs", { logs: "" });
+    let logs: string = "";
+    try {
+        logs = (
+            await readFile(path.join(directory, Logger.LOGFILE))
+        ).toString();
+    } catch (err) {
+        await Logger.error(`Could not open server logs: ${err}`);
+        logs = "";
+    }
+    res.render("./components/logElements.ejs", { logs });
 };
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {

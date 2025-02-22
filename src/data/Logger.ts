@@ -14,7 +14,7 @@ export default class Logger {
     private static async log(message: string, type: string): Promise<void> {
         const date = new Date();
         const log = `${date.toISOString()} | ${type} | ${message}\n`;
-        await fs.writeFile(this.LOGFILE, log);
+        await fs.appendFile(this.LOGFILE, log);
     }
 
     /**
