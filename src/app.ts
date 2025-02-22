@@ -6,7 +6,7 @@ import path from "path";
 import router from "$/routes/router";
 import express, { type ErrorRequestHandler } from "express";
 import { fileURLToPath } from "url";
-import { addLog } from "$/data/log";
+import Logger from "$/data/Logger";
 
 const app = express();
 dotenv.config();
@@ -37,9 +37,9 @@ app.set("views", path.join(directory, "/src/views"));
 app.use(router);
 
 // Error handling
-const handleServerError: ErrorRequestHandler = (err, req, res, next) => {
+const handleServerError: ErrorRequestHandler = async (err, req, res, next) => {
     if (!err) next(err);
-    addLog(err);
+    await Logger.error(err);
     res.status(500).render("./layouts/error.ejs", {
         error: { code: 500, messsage: err },
     });
