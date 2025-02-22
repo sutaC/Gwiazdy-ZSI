@@ -56,4 +56,4 @@ Documentation is avaliable at [DOCS.md](DOCS.md) file and are generated using `t
 
 ## Error logging
 
-Errors are logged to `errors.log` file in root directory of the project. You can access logs directly or by using admin panel on page. You can also clear server logs from that panel.
+Errors are logged to `logs.log` file in root directory of the project. You can access logs directly or by using admin panel on page. You can also clear server logs from that panel.
