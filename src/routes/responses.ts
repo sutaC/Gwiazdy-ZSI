@@ -2,7 +2,7 @@ import path from "path";
 import * as upload from "$/data/upload";
 import * as db from "$/data/db";
 import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
-import { addLog, clearLogs } from "$/data/log";
+import Logger from "$/data/Logger";
 import { randomUUID } from "crypto";
 import { directory } from "$/app";
 import { readFile, access } from "fs/promises";
@@ -59,6 +59,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     const error = await authenticateUser(login, password);
     if (error) {
         res.send(error);
+        await Logger.info(`Failed login attempt for '${login}'`);
         return;
     }
     const newToken = hashString(randomUUID());
@@ -70,6 +71,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
         secure: true,
     });
     res.append("HX-Redirect", "/admin").sendStatus(303);
+    await Logger.info(`Login as '${login}'`);
 };
 
 export const getAdmin = (req: Request, res: Response): void => {
@@ -123,21 +125,23 @@ export const getLogs = async (req: Request, res: Response): Promise<void> => {
     // Sends raw file
     if (req.query.type === "raw") {
         try {
-            await access(path.join(directory, "errors.log"));
+            await access(path.join(directory, Logger.LOGFILE));
         } catch (err) {
-            addLog(`Could not open server logs:\n${err}`);
+            await Logger.error(`Could not open server logs:\n${err}`);
             res.send("");
             return;
         }
-        res.sendFile("errors.log", { root: directory });
+        res.sendFile(Logger.LOGFILE, { root: directory });
         return;
     }
     // Load logs
     let logs: string = "";
     try {
-        logs = (await readFile(path.join(directory, "errors.log"))).toString();
+        logs = (
+            await readFile(path.join(directory, Logger.LOGFILE))
+        ).toString();
     } catch (err) {
-        addLog(`Could not open server logs: ${err}`);
+        await Logger.error(`Could not open server logs: ${err}`);
         logs = "";
     }
     // Sends component
@@ -149,9 +153,22 @@ export const getLogs = async (req: Request, res: Response): Promise<void> => {
     res.render("./layouts/logs.ejs", { logs });
 };
 
-export const deleteLogs = (req: Request, res: Response): void => {
-    clearLogs();
-    res.render("./components/logElements.ejs", { logs: "" });
+export const deleteLogs = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    await Logger.clear();
+    await Logger.info("Cleared logs");
+    let logs: string = "";
+    try {
+        logs = (
+            await readFile(path.join(directory, Logger.LOGFILE))
+        ).toString();
+    } catch (err) {
+        await Logger.error(`Could not open server logs: ${err}`);
+        logs = "";
+    }
+    res.render("./components/logElements.ejs", { logs });
 };
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -181,7 +198,7 @@ export const postAddAdminUser = async (
     try {
         user = await db.getUser(login);
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.send("Nie udało się dodać użytkownika...");
         return;
     }
@@ -193,7 +210,7 @@ export const postAddAdminUser = async (
     try {
         await db.addUser(login, hashedPassword);
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.send("Nie udało się dodać użytkownika...");
         return;
     }
@@ -217,7 +234,7 @@ export const deleteDeleteUser = async (
     try {
         db.deleteUser(login);
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.status(400).send("Nie udało się usunąć użytkownika");
         return;
     }
@@ -296,7 +313,7 @@ export const deleteImageDelete = async (
         }
         await db.deleteImage(photoid);
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.send("Nie udało się usunąć zdjęcia");
         return;
     }
@@ -316,7 +333,7 @@ export const postImgUpdate = async (
     try {
         await db.updateImg(photoid, src ?? "", local ?? "");
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.send("Nie udało się zaktualizować zdjęcia");
         return;
     }
@@ -354,7 +371,7 @@ export const postApiAddImg = async (
         try {
             local = upload.uploadImage(imgFile);
         } catch (error) {
-            addLog(error as string);
+            await Logger.error(error as string);
             res.send("Nie udało się zapisać pliku");
             return;
         }
@@ -367,7 +384,7 @@ export const postApiAddImg = async (
     try {
         photoid = await db.addImg(imgUrl, local);
     } catch (error) {
-        addLog(error as string);
+        await Logger.error(error as string);
         res.send("Nie udało się zapisać zdjęcia");
         return;
     }
