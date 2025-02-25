@@ -17,7 +17,10 @@ section {
 }
 
 section h2 {
+    color: var(--primary);
+    font-size: 2rem;
     color: var(--accent);
+    margin-bottom: 0;
 }
 
 section h3 {
@@ -27,13 +30,9 @@ section h3 {
 }
 
 p.description {
+    margin-bottom: 1em;
     max-width: 50ch;
     text-wrap: balance;
-}
-
-a.ghSocials {
-    display: inline-block;
-    margin: 1rem auto;
 }
 
 ul.credits {
@@ -55,6 +54,10 @@ ul.credits li {
 
 ul.credits a {
     font-weight: normal;
+}
+
+.creditsEmptyMsg {
+    opacity: 0.75;
 }
 
 footer {

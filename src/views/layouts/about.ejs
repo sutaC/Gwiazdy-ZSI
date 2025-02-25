@@ -21,60 +21,70 @@
                     tworzy solidną bazę obrazków. Autor strony nie odpowiada za
                     zamieszczone zdjęcia, jedynie za ich skatalogowwanie.
                 </p>
-                <a
-                    href="https://github.com/sutaC/Gwiazdy-ZSI"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="highlight ghSocials"
-                    >Gwiazdy ZSI na GitHub!</a
-                >
             </section>
 
-            <section aria-labelledby="hAnnouncement">
-                <h2 id="hAnnouncement" class="highlight">Ogłoszenie!</h2>
+            <section aria-labelledby="hContact">
+                <h2 id="hContact">Kontakt</h2>
 
                 <p class="description">
-                    Poszukiwany jest ochotnik na miejsce administratora witryny!
-                    Wymagana jest znajomość nauczycieli ZSI Kielce. Zasłużeni
-                    kontrybutorzy, na życzenie, zostaną uwzględnieni na stronie
-                    ;3. Po więcej informacji kontakt przez discord:
+                    Chcesz wziąć udział w tworzeniu Gwiazd ZSI? Odwiedź
                     <a
-                        href="https://discord.com/users/560883480251334666"
+                        href="https://github.com/sutaC/Gwiazdy-ZSI"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="highlight"
-                        >sutac_pl</a
-                    >, inne formy komunikacji znajdziesz na mojej stronie:
+                        >Gwiazdy ZSI na GitHub</a
+                    >
+                    i zobacz co możesz zrobić!
+                </p>
+
+                <p class="description">
+                    Chciałbyś aby na stronie znalazło się wiecej zdjęć twojego
+                    ulubionego nauczyciela? Skontaktuj się ze mną, a możesz
+                    zostać administratorem! Napisz na
                     <a
-                        href="https://sutac.pl"
+                        href="mailto:catus.pl@gmail.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="highlight"
-                        >sutac.pl</a
+                        >mojego maila</a
+                    >, albo sprawdź inne formy kontaktu ze mna na
+                    <a
+                        href="https://sutac.pl#contact"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="highlight"
+                        >mojej stronie</a
                     >.
                 </p>
             </section>
 
             <section aria-labelledby="hCredits">
                 <h2 id="hCredits">Zasługi</h2>
-                <p>
-                    Projekt stworzony i utrzymywany przez:
-                    <a
-                        href="http://github.com/sutaC"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="highlight"
-                        >sutaC</a
-                    >
-                </p>
+                <div aria-labelledby="hOwner">
+                    <h3 id="hOwner">Projekt stworzony i utrzymywany przez:</h3>
+                    <ul class="credits">
+                        <li>
+                            <a
+                                href="http://github.com/sutaC"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="highlight"
+                                >sutaC</a
+                            >
+                        </li>
+                    </ul>
+                </div>
 
-                <div>
-                    <h3>Kontrybutorzy i kontrybutariuszki</h3>
+                <div aria-labelledby="hContributors">
+                    <h3 id="hContributors">
+                        Kontrybutorzy i kontrybutariuszki
+                    </h3>
 
                     <% if (credits.contributors.length == 0) { %>
-                    <small
+                    <small class="creditsEmptyMsg"
                         >Nie ma jeszcze żadnych kontrybutorów, ale możesz zostać
-                        pierwszym! ;3</small
+                        pierwszym!</small
                     >
                     <% } %>
 
@@ -93,13 +103,13 @@
                     </ul>
                 </div>
 
-                <div>
-                    <h3>Administracja</h3>
+                <div aria-labelledby="hAdministrators">
+                    <h3 id="hAdministrators">Administracja</h3>
 
                     <% if (credits.administrators.length == 0) { %>
-                    <small
+                    <small class="creditsEmptyMsg"
                         >Nie ma jeszcze administratorów, ale możesz zostać
-                        pierwszym! ;3</small
+                        pierwszym!</small
                     >
                     <% } %>
 
