@@ -33,6 +33,7 @@ CREATE TABLE `imagesteachers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `relations` (`id_images`,`id_teachers`) USING BTREE,
   KEY `imagesteachers_ibfk_2` (`id_teachers`),
+  KEY `id_images` (`id_images`,`id_teachers`),
   CONSTRAINT `imagesteachers_ibfk_1` FOREIGN KEY (`id_images`) REFERENCES `images` (`id`) ON DELETE CASCADE,
   CONSTRAINT `imagesteachers_ibfk_2` FOREIGN KEY (`id_teachers`) REFERENCES `teachers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=701 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
