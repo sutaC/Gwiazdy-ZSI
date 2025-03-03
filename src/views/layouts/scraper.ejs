@@ -19,14 +19,14 @@
         </main>
 
         <% if (user==="admin" ) { %>
-        <section aria-labelledby="hScrapingImages">
+        <section aria-labelledby="hScrapingImages" class="scraping">
             <h2 id="hScrapingImages">Skrobanie zdjęć</h2>
             <form
                 hx-boost="true"
                 hx-confirm="Na pewno chcesz skrobać zdjęcia? Może to zająć chwilę, zależnie od liczby wybranych stron..."
                 hx-post="/scraper/scrape"
                 hx-target="next .result"
-                hx-swap="innerHTML"
+                hx-swap="outerHTML"
                 hx-on::before-request="this.querySelector('button').disabled = true;"
                 hx-on::after-request="this.querySelector('button').disabled = false;"
                 hx-indicator="#spinner"
@@ -40,6 +40,7 @@
                         placeholder="1..."
                         min="1"
                         max="150"
+                        required
                     />
                 </div>
 

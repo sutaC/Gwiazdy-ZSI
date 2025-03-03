@@ -181,5 +181,11 @@ router.get(
     responses.getScraper as () => Promise<void>
 );
 
+router.post(
+    "/scraper/scrape",
+    auth.authorizeApiRootAdmin as () => void,
+    responses.postScraperScrape as () => Promise<void>
+);
+
 // ---
 export default router;

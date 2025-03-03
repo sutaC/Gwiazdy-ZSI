@@ -7,28 +7,28 @@
     <div class="controlls">
         <button
             class="action"
-            hx-delete="/scraper/img/<%= image.id %>"
-            hx-target="next .result"
-            hx-swap="innerHTML"
-            hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
-        >
-            Odrzuć
-        </button>
-        <button
-            hx-get="/scraper/img"
-            hx-target="previous .scrapedImageController"
-            hx-swap="outerHTML"
-        >
-            Następne
-        </button>
-        <button
-            class="action"
             hx-post="/scraper/img/<%= image.id %>"
             hx-target="next .result"
             hx-swap="innerHTML"
             hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
         >
             Dodaj
+        </button>
+        <button
+            hx-get="/scraper/img"
+            hx-target="previous .scrapedImageController"
+            hx-swap="outerHTML"
+        >
+            Zamień zdjęcie
+        </button>
+        <button
+            class="action"
+            hx-delete="/scraper/img/<%= image.id %>"
+            hx-target="next .result"
+            hx-swap="innerHTML"
+            hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
+        >
+            Odrzuć
         </button>
     </div>
     <% } else { %>

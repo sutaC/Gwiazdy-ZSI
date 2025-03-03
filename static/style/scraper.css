@@ -30,9 +30,16 @@ section {
     margin-top: 2rem;
 }
 
+.scrapedImageController p {
+    margin: 1rem 0;
+}
+
 .scrapedImageController img {
     width: 100%;
     max-width: min(90vw, 30rem);
+    border: 2px solid var(--accent);
+    border-radius: 1rem;
+    box-shadow: 0 0 4px 1px var(--accent);
 }
 
 .scrapedImageController .empty {
@@ -52,6 +59,24 @@ button:disabled {
 
 form .field {
     margin: 1rem 0;
+}
+
+.result:empty {
+    display: none;
+}
+
+.scraping .result {
+    padding-top: 1rem;
+    border-top: 1px dotted var(--text);
+}
+
+.scraping .result ul {
+    padding: 0;
+    list-style: none;
+}
+
+.scraping .result h3 {
+    color: var(--accent);
 }
 
 @keyframes spin {

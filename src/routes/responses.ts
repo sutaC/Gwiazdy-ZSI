@@ -8,6 +8,7 @@ import { directory } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
+import scrape from "$/data/scraper";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
@@ -548,7 +549,33 @@ export const getScraper = async (
     }
     res.render("./layouts/scraper.ejs", {
         image,
-        imageCount: 0,
+        imageCount,
         user: req.authorized,
+    });
+};
+
+export const postScraperScrape = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const limit = Number.parseInt(req.body.pages);
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 150) {
+        res.sendStatus(400);
+        return;
+    }
+    const images = await scrape(limit);
+    let added = 0;
+    const dbHandler = new db.ScrapedImagseHandler();
+    await dbHandler.connect();
+    for (const src of images) {
+        if (await dbHandler.isSrcPresent(src)) continue;
+        await dbHandler.addScrapedImage(src);
+        added++;
+    }
+    await dbHandler.disconnect();
+    res.render("./components/scrapingResults.ejs", {
+        pages: limit,
+        found: images.length,
+        added,
     });
 };
