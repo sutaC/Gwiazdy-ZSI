@@ -173,5 +173,13 @@ router.get(
     responses.getImageTaglist as () => Promise<void>
 );
 
+// --- Scraper ---
+
+router.get(
+    "/scraper",
+    auth.authorizePage as () => void,
+    responses.getScraper as () => Promise<void>
+);
+
 // ---
 export default router;

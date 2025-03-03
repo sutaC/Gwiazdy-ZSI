@@ -1,0 +1,119 @@
+body {
+    padding: 0;
+    padding-bottom: 30%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+}
+
+header {
+    width: 100%;
+    padding: 1em;
+    border-radius: 0 0 2rem 2rem;
+    background: var(--secondary);
+}
+
+main,
+section {
+    margin: 0 1.5rem;
+    padding: 2em 4em;
+    border-radius: 1rem;
+    text-align: center;
+    background: var(--secondary);
+    max-width: 30rem;
+}
+
+.scrapedImageController {
+    margin-top: 2rem;
+}
+
+.scrapedImageController img {
+    width: 100%;
+    max-width: min(90vw, 30rem);
+}
+
+.scrapedImageController .empty {
+    display: inline-block;
+    margin: 1rem;
+    opacity: 0.75;
+}
+
+button {
+    width: 100%;
+    margin: 2em 0;
+}
+
+button:disabled {
+    opacity: 0.5;
+}
+
+form .field {
+    margin: 1rem 0;
+}
+
+@keyframes spin {
+    to {
+        rotate: 359deg;
+    }
+}
+
+.my-indicator {
+    display: none;
+    position: relative;
+    width: 2rem;
+    aspect-ratio: 1;
+    border: 2px dashed var(--text);
+    border-bottom-color: transparent;
+    border-radius: 100%;
+    animation: spin 900ms ease-in-out 100ms infinite;
+    margin: 1rem auto;
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+}
+
+.htmx-request .my-indicator {
+    display: block;
+    opacity: 1;
+}
+.htmx-request.my-indicator {
+    display: block;
+    opacity: 1;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em;
+    background: var(--secondary);
+}
+
+footer a.buttonlike {
+    width: 100%;
+    max-width: 4rem;
+    padding: 0.75em;
+    aspect-ratio: 1;
+}
+
+@media (min-width: 750px) {
+    body {
+        padding-bottom: 10%;
+    }
+
+    .tags-container {
+        width: 50%;
+        z-index: 1;
+    }
+
+    footer {
+        background: transparent;
+        z-index: 0;
+    }
+}

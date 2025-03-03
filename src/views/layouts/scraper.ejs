@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <%- include('../components/globalHead.ejs') %>
+        <title>Gwiazdy ZSI | Skrobak</title>
+        <link rel="stylesheet" href="/style/scraper.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Skrobak</h1>
+        </header>
+
+        <main>
+            <h2>Zebrane zdjęcia</h2>
+
+            <%- include("../components/scrapedImageController.ejs", {imageCount,
+            image}) %>
+        </main>
+
+        <% if (user==="admin" ) { %>
+        <section aria-labelledby="hScrapingImages">
+            <h2 id="hScrapingImages">Skrobanie zdjęć</h2>
+            <form
+                hx-boost="true"
+                hx-confirm="Na pewno chcesz skrobać zdjęcia? Może to zająć chwilę, zależnie od liczby wybranych stron..."
+                hx-post="/scraper/scrape"
+                hx-target="next .result"
+                hx-swap="innerHTML"
+                hx-on::before-request="this.querySelector('button').disabled = true;"
+                hx-on::after-request="this.querySelector('button').disabled = false;"
+                hx-indicator="#spinner"
+            >
+                <div class="field">
+                    <label for="pages">Liczba stron do zeskrobania</label>
+                    <input
+                        type="number"
+                        name="pages"
+                        id="pages"
+                        placeholder="1..."
+                        min="1"
+                        max="150"
+                    />
+                </div>
+
+                <button type="submit">Skrób</button>
+            </form>
+
+            <div id="spinner" class="my-indicator"></div>
+
+            <div class="result"></div>
+        </section>
+        <% } %>
+
+        <footer>
+            <a href="/admin" class="buttonlike">Powrót</a>
+        </footer>
+    </body>
+</html>

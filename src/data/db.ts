@@ -7,7 +7,7 @@ import mysql from "mysql2/promise";
  * @property {string} src - Source web url
  * @property {string} local - Name of local file saved on server
  */
-interface Image {
+export interface Image {
     id: number;
     src: string;
     local: string;
@@ -18,7 +18,7 @@ interface Image {
  * @property {number} id - Id
  * @property {string} name - Name
  */
-interface Teacher {
+export interface Teacher {
     id: number;
     name: string;
 }
@@ -28,7 +28,7 @@ interface Teacher {
  * @property {string} name - Name
  * @property {number} ammount - Ammount of related images
  */
-interface TeacherCount {
+export interface TeacherCount {
     name: string;
     ammount: number;
 }
@@ -38,7 +38,7 @@ interface TeacherCount {
  * @property {number} id - Image id
  * @property {string} src - Image source url
  */
-interface ScrapedImage {
+export interface ScrapedImage {
     id: number;
     src: string;
 }
@@ -562,6 +562,19 @@ export async function getRandomScrapedImage(): Promise<ScrapedImage | null> {
     )) as unknown as ScrapedImage[][];
     await con.end();
     return data ?? null;
+}
+
+/**
+ * Gets number of not rejected scraped images
+ * @returns Number of not rejected scraped images
+ */
+export async function getScrapedImageAmount(): Promise<number> {
+    const con = await getConnection();
+    const [[data]] = (await con.query(
+        "SELECT COUNT(*) as 'count' FROM scrapedimages WHERE rejected = 0;"
+    )) as unknown as { count: number }[][];
+    await con.end();
+    return data.count;
 }
 
 /**

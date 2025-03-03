@@ -4,7 +4,7 @@ networks:
 services:
     app:
         build: .
-        # entrypoint: ["npm", "run", "dev"] # DEV (Uncomment to turn on hot reloading)
+        entrypoint: ["npm", "run", "dev"] # DEV (Uncomment to turn on hot reloading)
         depends_on:
             - database
         volumes:
@@ -33,7 +33,7 @@ services:
             - MYSQL_DATABASE=gwiazdy-zsi
         expose:
             - 3306
-        # ports: # DEV (Required for this \/)
-        # - 3306:3306 # DEV (Uncomment to be able to connect to database from outside of docker network)
+        ports: # DEV (Required for this \/)
+            - 3306:3306 # DEV (Uncomment to be able to connect to database from outside of docker network)
         networks:
             - app-net

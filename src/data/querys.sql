@@ -90,8 +90,10 @@ SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teache
 INSERT INTO scrapedimages (id, src, rejected) VALUES (NULL, ?, '0');
 -- Sets scraped image as rejected
 UPDATE scrapedimages SET rejected = '1' WHERE id = ?;
--- Gets random scraped image
+-- Gets random not rejected scraped image
 SELECT id, src FROM scrapedimages WHERE rejected = 0 ORDER BY RAND() LIMIT 1;
+-- Gets amount of scraped images that are not rejected
+SELECT COUNT(*) as 'count' FROM scrapedimages WHERE rejected = 0;
 -- Gets src from scraped image
 SELECT src FROM scrapedimages WHERE id = ?;
 -- Deletes scraped image

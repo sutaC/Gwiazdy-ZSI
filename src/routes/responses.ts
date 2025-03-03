@@ -536,3 +536,19 @@ export const getImageTaglist = async (
     }
     res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
 };
+
+export const getScraper = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const imageCount = await db.getScrapedImageAmount();
+    let image: db.ScrapedImage | null = null;
+    if (imageCount > 0) {
+        image = await db.getRandomScrapedImage();
+    }
+    res.render("./layouts/scraper.ejs", {
+        image,
+        imageCount: 0,
+        user: req.authorized,
+    });
+};
