@@ -1,0 +1,11 @@
+<div class="result">
+    <h3>Skrobanie zakończone</h3>
+    <ul>
+        <li>Limit stron: <%= pages %></li>
+        <li>Znalezione zdjęcia: <%= found %></li>
+        <li>Dodane nowe zdjęcia: <%= added %></li>
+    </ul>
+    <button hx-boost="true" hx-on:click="location.reload()">
+        Załaduj nowe
+    </button>
+</div>

@@ -33,9 +33,20 @@ CREATE TABLE `imagesteachers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `relations` (`id_images`,`id_teachers`) USING BTREE,
   KEY `imagesteachers_ibfk_2` (`id_teachers`),
+  KEY `id_images` (`id_images`,`id_teachers`),
   CONSTRAINT `imagesteachers_ibfk_1` FOREIGN KEY (`id_images`) REFERENCES `images` (`id`) ON DELETE CASCADE,
   CONSTRAINT `imagesteachers_ibfk_2` FOREIGN KEY (`id_teachers`) REFERENCES `teachers` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=701 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `scrapedimages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `scrapedimages` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `src` text NOT NULL,
+  `rejected` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `teachers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

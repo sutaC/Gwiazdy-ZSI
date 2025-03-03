@@ -173,5 +173,37 @@ router.get(
     responses.getImageTaglist as () => Promise<void>
 );
 
+// --- Scraper ---
+
+router.get(
+    "/scraper",
+    auth.authorizePage as () => void,
+    responses.getScraper as () => Promise<void>
+);
+
+router.post(
+    "/scraper/scrape",
+    auth.authorizeApiRootAdmin as () => void,
+    responses.postScraperScrape as () => Promise<void>
+);
+
+router.get(
+    "/scraper/img",
+    auth.authorizeApi as () => void,
+    responses.getScraperImage as () => Promise<void>
+);
+
+router.delete(
+    "/scraper/img/:id",
+    auth.authorizeApi as () => void,
+    responses.deleteScraperImageId as () => Promise<void>
+);
+
+router.post(
+    "/scraper/img/:id",
+    auth.authorizeApi as () => void,
+    responses.postScraperImageId as () => Promise<void>
+);
+
 // ---
 export default router;

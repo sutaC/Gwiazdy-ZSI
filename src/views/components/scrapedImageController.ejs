@@ -1,0 +1,45 @@
+<div class="scrapedImageController">
+    <p>Ilość zebranych zdjęć: <%= imageCount %></p>
+    <% if (image !== null || imageCount > 0) { %>
+
+    <img
+        src="<%= image.src %>"
+        alt="Zeskrobane zdjęcie"
+        hx-on:click="window.open(this.src, '_blank')"
+    />
+
+    <button
+        class="action"
+        hx-post="/scraper/img/<%= image.id %>"
+        hx-target="next .result"
+        hx-swap="innerHTML"
+        hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
+    >
+        Dodaj
+    </button>
+    <button
+        hx-get="/scraper/img"
+        hx-target="closest .scrapedImageController"
+        hx-swap="outerHTML"
+        hx-on:click="window.scroll(0, 0)"
+    >
+        Zamień zdjęcie
+    </button>
+    <button
+        class="action"
+        hx-delete="/scraper/img/<%= image.id %>"
+        hx-target="next .result"
+        hx-swap="innerHTML"
+        hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
+    >
+        Odrzuć
+    </button>
+    <% } else { %>
+    <small class="empty"
+        >Nie ma żadnych nowych zdjęć do załadowania. Jeśli pojawił się nowy
+        artykuł skontaktuj się z głównym administratorem w celu zeskrobania
+        nowych zdjęć.</small
+    >
+    <% } %>
+    <div class="result"></div>
+</div>

@@ -8,6 +8,7 @@ import { directory } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
+import scrape from "$/data/scraper";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
@@ -535,4 +536,94 @@ export const getImageTaglist = async (
         return;
     }
     res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
+};
+
+export const getScraper = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const imageCount = await db.getScrapedImageAmount();
+    let image: db.ScrapedImage | null = null;
+    if (imageCount > 0) {
+        image = await db.getRandomScrapedImage();
+    }
+    res.render("./layouts/scraper.ejs", {
+        image,
+        imageCount,
+        user: req.authorized,
+    });
+};
+
+export const postScraperScrape = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const limit = Number.parseInt(req.body.pages);
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 150) {
+        res.sendStatus(400);
+        return;
+    }
+    const images = await scrape(limit);
+    let added = 0;
+    const dbHandler = new db.ScrapedImagseHandler();
+    await dbHandler.connect();
+    for (const src of images) {
+        if (await dbHandler.isSrcPresent(src)) continue;
+        await dbHandler.addScrapedImage(src);
+        added++;
+    }
+    await dbHandler.disconnect();
+    res.render("./components/scrapingResults.ejs", {
+        pages: limit,
+        found: images.length,
+        added,
+    });
+};
+
+export const getScraperImage = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const imageCount = await db.getScrapedImageAmount();
+    let image: db.ScrapedImage | null = null;
+    if (imageCount > 0) {
+        image = await db.getRandomScrapedImage();
+    }
+    res.render("./components/scrapedImageController.ejs", {
+        image,
+        imageCount,
+        user: req.authorized,
+    });
+};
+
+export const deleteScraperImageId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const id = Number.parseInt(req.params.id);
+    if (!Number.isSafeInteger(id)) {
+        res.sendStatus(400);
+        return;
+    }
+    await db.setScrapedImageAsRejected(id);
+    res.send("Zdjęcie zostało odrzucone");
+};
+
+export const postScraperImageId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const id = Number.parseInt(req.params.id);
+    if (!Number.isSafeInteger(id)) {
+        res.sendStatus(400);
+        return;
+    }
+    const newId = await db.transferScrapedImageToImages(id);
+    if (newId === null) {
+        res.send("Nie udało się dodać zdjęcia...");
+        return;
+    }
+    res.send(
+        `Dodano nowe zdjęcie o id <a href="/img/${newId}" target="_blank">${newId}</a>`
+    );
 };

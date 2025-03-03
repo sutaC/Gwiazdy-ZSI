@@ -7,7 +7,7 @@ import mysql from "mysql2/promise";
  * @property {string} src - Source web url
  * @property {string} local - Name of local file saved on server
  */
-interface Image {
+export interface Image {
     id: number;
     src: string;
     local: string;
@@ -18,7 +18,7 @@ interface Image {
  * @property {number} id - Id
  * @property {string} name - Name
  */
-interface Teacher {
+export interface Teacher {
     id: number;
     name: string;
 }
@@ -28,9 +28,19 @@ interface Teacher {
  * @property {string} name - Name
  * @property {number} ammount - Ammount of related images
  */
-interface TeacherCount {
+export interface TeacherCount {
     name: string;
     ammount: number;
+}
+
+/**
+ * Scraped image object interface
+ * @property {number} id - Image id
+ * @property {string} src - Image source url
+ */
+export interface ScrapedImage {
+    id: number;
+    src: string;
 }
 
 // --- Functions ---
@@ -471,4 +481,126 @@ export async function getImageAmmountOnTeachers(): Promise<TeacherCount[]> {
     await con.end();
     if (!data[0]) return [];
     return data as TeacherCount[];
+}
+
+/**
+ * Allows for quick single-connection handling of scraped images
+ */
+export class ScrapedImagseHandler {
+    /**
+     * Db connection
+     */
+    private connection: mysql.Connection | null = null;
+
+    /**
+     * Connects handler to db
+     * > **You have to connect to db before using db queries!**
+     */
+    public async connect(): Promise<void> {
+        await this.connection?.end();
+        this.connection = await getConnection();
+    }
+
+    /**
+     * Disconnects from db
+     * > **You should always disconnect from db when finished using handler!**
+     */
+    public async disconnect(): Promise<void> {
+        this.connection?.end();
+        this.connection = null;
+    }
+
+    /**
+     * Check if image url is present in `scrapedimages` table or `images` table
+     * @param src Image url
+     * @returns True if url is present in db
+     */
+    public async isSrcPresent(src: string): Promise<boolean> {
+        if (!this.connection)
+            throw Error("There is no running database connection");
+        const [data] = (await this.connection.query(
+            "(SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ?) LIMIT 1;",
+            [src, src]
+        )) as unknown as number[][];
+        return data.length !== 0;
+    }
+
+    /**
+     * Adds scraped image
+     * @param src Source url for scraped image
+     */
+    public async addScrapedImage(src: string): Promise<void> {
+        if (!this.connection)
+            throw Error("There is no running database connection");
+        await this.connection.query(
+            "INSERT INTO scrapedimages (id, src, rejected) VALUES (NULL, ?, '0');",
+            [src]
+        );
+    }
+}
+
+/**
+ * Sets scraped image status as rejected
+ * @param id Scraped image id
+ */
+export async function setScrapedImageAsRejected(id: number): Promise<void> {
+    const con = await getConnection();
+    await con.query("UPDATE scrapedimages SET rejected = '1' WHERE id = ?;", [
+        id,
+    ]);
+    await con.end();
+}
+
+/**
+ * Gets random scraped image which is not rejected
+ * @returns Random scraped image or null if not present
+ */
+export async function getRandomScrapedImage(): Promise<ScrapedImage | null> {
+    const con = await getConnection();
+    const [[data]] = (await con.query(
+        "SELECT id, src FROM scrapedimages WHERE rejected = 0 ORDER BY RAND() LIMIT 1;"
+    )) as unknown as ScrapedImage[][];
+    await con.end();
+    return data ?? null;
+}
+
+/**
+ * Gets number of not rejected scraped images
+ * @returns Number of not rejected scraped images
+ */
+export async function getScrapedImageAmount(): Promise<number> {
+    const con = await getConnection();
+    const [[data]] = (await con.query(
+        "SELECT COUNT(*) as 'count' FROM scrapedimages WHERE rejected = 0;"
+    )) as unknown as { count: number }[][];
+    await con.end();
+    return data.count;
+}
+
+/**
+ * Sets scraped image status as rejected
+ * @param id Scraped image id
+ * @returns Id of image in `images` table or null when image could not be added
+ */
+export async function transferScrapedImageToImages(
+    id: number
+): Promise<number | null> {
+    const con = await getConnection();
+    const [[dataSrc]] = (await con.query(
+        "SELECT src FROM scrapedimages WHERE id = ?;",
+        [id]
+    )) as unknown as { src: string }[][] | undefined[][];
+    if (!dataSrc?.src) return null;
+    const src = dataSrc.src;
+    await con.query(
+        "INSERT INTO images (id, src, local) VALUES (NULL, ?, NULL);",
+        [src]
+    );
+    await con.query("DELETE FROM scrapedimages WHERE id = ?;", [id]);
+    const [[dataId]] = (await con.query(
+        "SELECT id FROM images WHERE src = ?;",
+        [src]
+    )) as unknown as { id: number }[][] | undefined[][];
+    await con.end();
+    return dataId?.id ?? null;
 }
