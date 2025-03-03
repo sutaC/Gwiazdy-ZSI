@@ -579,3 +579,19 @@ export const postScraperScrape = async (
         added,
     });
 };
+
+export const getScraperImage = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const imageCount = await db.getScrapedImageAmount();
+    let image: db.ScrapedImage | null = null;
+    if (imageCount > 0) {
+        image = await db.getRandomScrapedImage();
+    }
+    res.render("./components/scrapedImageController.ejs", {
+        image,
+        imageCount,
+        user: req.authorized,
+    });
+};

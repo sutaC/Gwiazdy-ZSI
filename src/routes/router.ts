@@ -187,5 +187,11 @@ router.post(
     responses.postScraperScrape as () => Promise<void>
 );
 
+router.get(
+    "/scraper/img",
+    auth.authorizeApi as () => void,
+    responses.getScraperImage as () => Promise<void>
+);
+
 // ---
 export default router;

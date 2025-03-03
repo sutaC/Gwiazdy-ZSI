@@ -61,13 +61,13 @@ form .field {
     margin: 1rem 0;
 }
 
-.result:empty {
-    display: none;
-}
-
 .scraping .result {
     padding-top: 1rem;
     border-top: 1px dotted var(--text);
+}
+
+.scraping .result:empty {
+    border: none;
 }
 
 .scraping .result ul {
