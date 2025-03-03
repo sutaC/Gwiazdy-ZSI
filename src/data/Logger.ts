@@ -12,6 +12,7 @@ export default class Logger {
      * @param type Log type
      */
     private static async log(message: string, type: string): Promise<void> {
+        message = message.replaceAll("\n", " ");
         const date = new Date();
         const log = `${date.toISOString()} | ${type} | ${message}\n`;
         await fs.appendFile(this.LOGFILE, log);

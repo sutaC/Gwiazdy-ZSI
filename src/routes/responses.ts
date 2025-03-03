@@ -595,3 +595,16 @@ export const getScraperImage = async (
         user: req.authorized,
     });
 };
+
+export const deleteScraperImageId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const id = Number.parseInt(req.params.id);
+    if (!Number.isSafeInteger(id)) {
+        res.sendStatus(400);
+        return;
+    }
+    await db.setScrapedImageAsRejected(id);
+    res.send("Zdjęcie zostało odrzucone");
+};

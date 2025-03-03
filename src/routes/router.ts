@@ -193,5 +193,11 @@ router.get(
     responses.getScraperImage as () => Promise<void>
 );
 
+router.delete(
+    "/scraper/img/:id",
+    auth.authorizeApi as () => void,
+    responses.deleteScraperImageId as () => Promise<void>
+);
+
 // ---
 export default router;
