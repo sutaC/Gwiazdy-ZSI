@@ -54,6 +54,6 @@ Documentation is avaliable at [DOCS.md](DOCS.md) file and are generated using `t
 
 > To generate docs yourself run `npm run doc`
 
-## Error logging
+## Logging (errors and other)
 
-Errors are logged to `logs.log` file in root directory of the project. You can access logs directly or by using admin panel on page. You can also clear server logs from that panel.
+Loggs are saved to `logs.log` file in root directory of the project. You can access logs directly or by using admin panel on page. You can also clear server logs from that panel.
