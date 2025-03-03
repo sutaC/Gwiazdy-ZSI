@@ -2,7 +2,11 @@
     <p>Ilość zebranych zdjęć: <%= imageCount %></p>
     <% if (image !== null || imageCount > 0) { %>
 
-    <img src="<%= image.src %>" alt="Zeskrobane zdjęcie" />
+    <img
+        src="<%= image.src %>"
+        alt="Zeskrobane zdjęcie"
+        hx-on:click="window.open(this.src, '_blank')"
+    />
 
     <button
         class="action"
