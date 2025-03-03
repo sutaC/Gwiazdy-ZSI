@@ -608,3 +608,22 @@ export const deleteScraperImageId = async (
     await db.setScrapedImageAsRejected(id);
     res.send("Zdjęcie zostało odrzucone");
 };
+
+export const postScraperImageId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    const id = Number.parseInt(req.params.id);
+    if (!Number.isSafeInteger(id)) {
+        res.sendStatus(400);
+        return;
+    }
+    const newId = await db.transferScrapedImageToImages(id);
+    if (newId === null) {
+        res.send("Nie udało się dodać zdjęcia...");
+        return;
+    }
+    res.send(
+        `Dodano nowe zdjęcie o id <a href="/img/${newId}" target="_blank">${newId}</a>`
+    );
+};

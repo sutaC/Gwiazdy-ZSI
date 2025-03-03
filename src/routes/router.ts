@@ -199,5 +199,11 @@ router.delete(
     responses.deleteScraperImageId as () => Promise<void>
 );
 
+router.post(
+    "/scraper/img/:id",
+    auth.authorizeApi as () => void,
+    responses.postScraperImageId as () => Promise<void>
+);
+
 // ---
 export default router;

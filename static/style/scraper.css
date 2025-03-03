@@ -48,6 +48,12 @@ section {
     opacity: 0.75;
 }
 
+.scrapedImageController .result a {
+    color: var(--accent);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 button {
     width: 100%;
     margin: 2em 0;
