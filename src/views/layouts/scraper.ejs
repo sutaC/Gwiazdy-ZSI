@@ -51,7 +51,16 @@
             <% if (scrapingRunning) { %> <%-
             include("../components/scrapingResults.ejs", {spinner: true}) %> <%
             } else { %>
-            <div class="result"></div>
+            <div class="result">
+                <button
+                    hx-boost="true"
+                    hx-get="/scraper/status"
+                    hx-swap="outerHTML"
+                    hx-target="closest .result"
+                >
+                    Pokaż poprzednie rezultaty
+                </button>
+            </div>
             <% } %>
         </section>
         <% } %>
