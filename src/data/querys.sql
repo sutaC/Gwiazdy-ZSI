@@ -85,7 +85,7 @@ SELECT COUNT(DISTINCT id_images) AS "ammount" FROM imagesteachers;
 SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;
 
 -- Gets id of selected src from images and scraped images
-(SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ?) LIMIT 1;
+SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ? LIMIT 1;
 -- Adds scraped image
 INSERT INTO scrapedimages (id, src, rejected) VALUES (NULL, ?, '0');
 -- Sets scraped image as rejected

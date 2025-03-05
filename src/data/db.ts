@@ -519,7 +519,7 @@ export class ScrapedImagseHandler {
         if (!this.connection)
             throw Error("There is no running database connection");
         const [data] = (await this.connection.query(
-            "(SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ?) LIMIT 1;",
+            "SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ? LIMIT 1;",
             [src, src]
         )) as unknown as number[][];
         return data.length !== 0;
