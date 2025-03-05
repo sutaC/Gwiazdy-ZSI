@@ -92,8 +92,7 @@ form .field {
     }
 }
 
-.my-indicator {
-    display: none;
+.spinner {
     position: relative;
     width: 2rem;
     aspect-ratio: 1;
@@ -102,17 +101,6 @@ form .field {
     border-radius: 100%;
     animation: spin 900ms ease-in-out 100ms infinite;
     margin: 1rem auto;
-    opacity: 0;
-    transition: opacity 300ms ease-out;
-}
-
-.htmx-request .my-indicator {
-    display: block;
-    opacity: 1;
-}
-.htmx-request.my-indicator {
-    display: block;
-    opacity: 1;
 }
 
 footer {

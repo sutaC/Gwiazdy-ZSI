@@ -4,6 +4,7 @@ networks:
 services:
     app:
         build: .
+        # Warning! scraping does NOT work in hot reload mode
         # entrypoint: ["npm", "run", "dev"] # DEV (Uncomment to turn on hot reloading)
         depends_on:
             - database

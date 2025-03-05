@@ -181,6 +181,12 @@ router.get(
     responses.getScraper as () => Promise<void>
 );
 
+router.get(
+    "/scraper/status",
+    auth.authorizeApiRootAdmin as () => void,
+    responses.getScraperStatus as () => Promise<void>
+);
+
 router.post(
     "/scraper/scrape",
     auth.authorizeApiRootAdmin as () => void,

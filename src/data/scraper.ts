@@ -1,10 +1,74 @@
 import { JSDOM } from "jsdom";
+import { ScrapedImagesHandler } from "./db";
+import Logger from "./Logger";
+
+export default class ScrapingJob {
+    private jobActive: boolean = false;
+    private lastResults = {
+        limit: 0,
+        found: 0,
+        added: 0,
+    };
+
+    private reset(): void {
+        this.lastResults = {
+            limit: 0,
+            found: 0,
+            added: 0,
+        };
+    }
+
+    /**
+     * Creates job of async scraping image urls from `www.zsi.kielce.pl`. Onlu one jon can be running.
+     * @param limit Limit of read article pages (If unset scrapes all pages)
+     */
+    public async run(limit?: number): Promise<void> {
+        if (this.jobActive) return;
+        Logger.info("Started scraping job");
+        this.jobActive = true;
+        this.reset();
+        this.lastResults.limit = limit ?? 0;
+        try {
+            const images = await scrape(limit);
+            this.lastResults.found += images.length;
+            const dbHandler = new ScrapedImagesHandler();
+            await dbHandler.connect();
+            for (const src of images) {
+                if (await dbHandler.isSrcPresent(src)) continue;
+                await dbHandler.addScrapedImage(src);
+                this.lastResults.added += 1;
+            }
+            await dbHandler.disconnect();
+        } catch (err) {
+            Logger.error(err as string);
+        } finally {
+            Logger.info("Finished scraping job");
+            this.jobActive = false;
+        }
+    }
+
+    /**
+     * Is scraping job currently running
+     * @returns True if job is running
+     */
+    public isRunning(): boolean {
+        return this.jobActive;
+    }
+
+    /**
+     * Gets results of last scraping job
+     * @returns Results of last scraping job
+     */
+    public getLastResults() {
+        return this.lastResults;
+    }
+}
 
 /**
  * Scrapes image urls from `www.zsi.kielce.pl`
  * @param limit Limit of read article pages (If unset scrapes all pages)
  */
-export default async function scrape(limit?: number): Promise<string[]> {
+export async function scrape(limit?: number): Promise<string[]> {
     if (limit === undefined) limit = Infinity;
     if (limit < 0) throw Error("Cannot set negative limit");
     const imageUrls: string[] = [];

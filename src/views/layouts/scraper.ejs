@@ -13,7 +13,6 @@
 
         <main>
             <h2>Zebrane zdjęcia</h2>
-
             <%- include("../components/scrapedImageController.ejs", {imageCount,
             image}) %>
         </main>
@@ -27,9 +26,7 @@
                 hx-post="/scraper/scrape"
                 hx-target="next .result"
                 hx-swap="outerHTML"
-                hx-on::before-request="this.querySelector('button').disabled = true;"
-                hx-on::after-request="this.querySelector('button').disabled = false;"
-                hx-indicator="#spinner"
+                hx-on::after-request="this.querySelector('button').disabled = true;"
             >
                 <div class="field">
                     <label for="pages">Liczba stron do zeskrobania</label>
@@ -44,12 +41,18 @@
                     />
                 </div>
 
+                <% if (scrapingRunning) { %>
+                <button type="submit" disabled>Skrób</button>
+                <% } else { %>
                 <button type="submit">Skrób</button>
+                <% } %>
             </form>
 
-            <div id="spinner" class="my-indicator"></div>
-
+            <% if (scrapingRunning) { %> <%-
+            include("../components/scrapingResults.ejs", {spinner: true}) %> <%
+            } else { %>
             <div class="result"></div>
+            <% } %>
         </section>
         <% } %>
 

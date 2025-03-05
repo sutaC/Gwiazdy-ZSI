@@ -486,7 +486,7 @@ export async function getImageAmmountOnTeachers(): Promise<TeacherCount[]> {
 /**
  * Allows for quick single-connection handling of scraped images
  */
-export class ScrapedImagseHandler {
+export class ScrapedImagesHandler {
     /**
      * Db connection
      */

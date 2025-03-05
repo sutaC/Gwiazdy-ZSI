@@ -4,11 +4,10 @@ import * as db from "$/data/db";
 import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
 import Logger from "$/data/Logger";
 import { randomUUID } from "crypto";
-import { directory } from "$/app";
+import { directory, scrapingJob } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
-import scrape from "$/data/scraper";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
@@ -551,6 +550,7 @@ export const getScraper = async (
         image,
         imageCount,
         user: req.authorized,
+        scrapingRunning: scrapingJob.isRunning(),
     });
 };
 
@@ -563,20 +563,27 @@ export const postScraperScrape = async (
         res.sendStatus(400);
         return;
     }
-    const images = await scrape(limit);
-    let added = 0;
-    const dbHandler = new db.ScrapedImagseHandler();
-    await dbHandler.connect();
-    for (const src of images) {
-        if (await dbHandler.isSrcPresent(src)) continue;
-        await dbHandler.addScrapedImage(src);
-        added++;
+    if (scrapingJob.isRunning()) {
+        res.sendStatus(409);
+        return;
     }
-    await dbHandler.disconnect();
+    scrapingJob.run(limit);
+    res.status(202).render("./components/scrapingResults.ejs", {
+        spinner: true,
+    });
+};
+
+export const getScraperStatus = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    if (scrapingJob.isRunning()) {
+        res.sendStatus(204);
+        return;
+    }
     res.render("./components/scrapingResults.ejs", {
-        pages: limit,
-        found: images.length,
-        added,
+        ...scrapingJob.getLastResults(),
+        spinner: false,
     });
 };
 

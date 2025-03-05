@@ -1,7 +1,18 @@
+<% if(spinner) { %>
+<div
+    class="result"
+    hx-get="/scraper/status"
+    hx-swap="outerHTML"
+    hx-trigger="every 10s"
+>
+    <small>Scraping in process</small>
+    <div class="spinner"></div>
+</div>
+<% } else { %>
 <div class="result">
     <h3>Skrobanie zakończone</h3>
     <ul>
-        <li>Limit stron: <%= pages %></li>
+        <li>Limit stron: <%= limit %></li>
         <li>Znalezione zdjęcia: <%= found %></li>
         <li>Dodane nowe zdjęcia: <%= added %></li>
     </ul>
@@ -9,3 +20,5 @@
         Załaduj nowe
     </button>
 </div>
+
+<% } %>
