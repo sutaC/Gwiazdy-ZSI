@@ -139,6 +139,7 @@ function trimImageResolution(imageUrls: string[]): void {
     let url: string;
     for (let i = 0; i < imageUrls.length; i++) {
         url = imageUrls[i];
+        url = url.replace("thumb/", "");
         queryIdx = url.lastIndexOf("?");
         if (queryIdx > -1) url = url.substring(0, queryIdx);
         resolution = url.match(resolutionRegex)?.toString();
