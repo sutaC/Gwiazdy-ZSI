@@ -13,6 +13,7 @@
         hx-post="/scraper/img/<%= image.id %>"
         hx-target="next .result"
         hx-swap="innerHTML"
+        hx-confirm="Na pewno dodać to zdjęcie?"
         hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
     >
         Dodaj
@@ -30,6 +31,7 @@
         hx-delete="/scraper/img/<%= image.id %>"
         hx-target="next .result"
         hx-swap="innerHTML"
+        hx-confirm="Na pewno usunąć to zdjęcie?"
         hx-on::before-request="document.querySelectorAll('.scrapedImageController button.action').forEach((btn) => (btn.disabled = true));"
     >
         Odrzuć
