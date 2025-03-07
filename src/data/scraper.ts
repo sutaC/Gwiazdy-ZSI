@@ -97,7 +97,7 @@ export async function scrape(limit?: number): Promise<string[]> {
             await scrapeImageUrls(url, imageUrls);
         }
     }
-    trimImageResolution(imageUrls);
+    trimImagesResolution(imageUrls);
     return removeDuplicates(imageUrls);
 }
 
@@ -130,7 +130,7 @@ async function scrapeImageUrls(
  * Removes resolution annotation from urls
  * @param imageUrls Image urls
  */
-function trimImageResolution(imageUrls: string[]): void {
+function trimImagesResolution(imageUrls: string[]): void {
     const resolutionRegex = /-\d+x\d+\..+$/gm;
     let resolution: string | undefined;
     let resolutionIdx: number;
@@ -152,6 +152,25 @@ function trimImageResolution(imageUrls: string[]): void {
         imageUrls[i] =
             url.substring(0, resolutionIdx) + url.substring(extentionIdx);
     }
+}
+
+/**
+ * Removes resolution annotation from url
+ * @param url Image url
+ * @returns Trimed url
+ */
+export function trimImageResolution(url: string): string {
+    const resolutionRegex = /-\d+x\d+\..+$/gm;
+    url = url.replace("thumb/", "");
+    const queryIdx = url.lastIndexOf("?");
+    if (queryIdx > -1) url = url.substring(0, queryIdx);
+    const resolution = url.match(resolutionRegex)?.toString();
+    if (!resolution) {
+        return url;
+    }
+    const resolutionIdx = url.lastIndexOf(resolution);
+    const extentionIdx = url.lastIndexOf(".");
+    return url.substring(0, resolutionIdx) + url.substring(extentionIdx);
 }
 
 /**

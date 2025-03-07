@@ -604,3 +604,9 @@ export async function transferScrapedImageToImages(
     await con.end();
     return dataId?.id ?? null;
 }
+
+export async function deleteScrapedImageBySrc(src: string): Promise<void> {
+    const con = await getConnection();
+    await con.query("DELETE FROM scrapedimages WHERE src = ?;", [src]);
+    await con.end();
+}
