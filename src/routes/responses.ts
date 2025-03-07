@@ -8,6 +8,7 @@ import { directory, scrapingJob } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
+import { trimImageResolution } from "$/data/scraper";
 
 // Responses
 export const getRoot = (req: Request, res: Response): void => {
@@ -325,10 +326,19 @@ export const postImgUpdate = async (
     res: Response
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
-    const { src, local } = req.body;
+    let src: string | undefined = req.body.src;
+    const local: string | undefined = req.body.local;
     if (!Number.isSafeInteger(photoid)) {
         res.send("Brak wymaganych parametrów");
         return;
+    }
+    if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
+        src = trimImageResolution(src);
+        const isPresent = await db.isImagePresent(src);
+        if (isPresent) {
+            res.send("Zdjęcie z takim adresem URL już istnieje");
+            return;
+        }
     }
     try {
         await db.updateImg(photoid, src ?? "", local ?? "");
@@ -336,6 +346,10 @@ export const postImgUpdate = async (
         await Logger.error(error as string);
         res.send("Nie udało się zaktualizować zdjęcia");
         return;
+    }
+    if (src) {
+        // Deletes from scraped images to avoid potential duplicates
+        await db.deleteScrapedImageBySrc(src);
     }
     res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
 };
@@ -360,11 +374,19 @@ export const postApiAddImg = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const imgUrl = req.body.imgUrl as string | undefined;
+    let imgUrl = req.body.imgUrl as string | undefined;
     const [imgFile] = req.files as Express.Multer.File[] | undefined[];
     if (!imgUrl && !imgFile) {
         res.send("Należy podać adres URL zdjęcia lub plik");
         return;
+    }
+    if (imgUrl && imgUrl.startsWith("https://www.zsi.kielce.pl/")) {
+        imgUrl = trimImageResolution(imgUrl);
+        const isPresent = await db.isImagePresent(imgUrl);
+        if (isPresent) {
+            res.send("Zdjęcie z takim adresem URL już istnieje");
+            return;
+        }
     }
     let local: string | undefined = undefined;
     if (imgFile) {
@@ -391,6 +413,10 @@ export const postApiAddImg = async (
     if (photoid === null) {
         res.send("Nie udało się zapisać zdjęcia");
         return;
+    }
+    if (imgUrl) {
+        // Deletes from scraped images to avoid potential duplicates
+        await db.deleteScrapedImageBySrc(imgUrl);
     }
     res.render("./components/addImgAproval.ejs", { photoid });
 };
