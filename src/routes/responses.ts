@@ -326,10 +326,19 @@ export const postImgUpdate = async (
     res: Response
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
-    const { src, local } = req.body;
+    let src: string | undefined = req.body.src;
+    const local: string | undefined = req.body.local;
     if (!Number.isSafeInteger(photoid)) {
         res.send("Brak wymaganych parametrów");
         return;
+    }
+    if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
+        src = trimImageResolution(src);
+        const isPresent = await db.isImagePresent(src);
+        if (isPresent) {
+            res.send("Zdjęcie z takim adresem URL już istnieje");
+            return;
+        }
     }
     try {
         await db.updateImg(photoid, src ?? "", local ?? "");
@@ -337,6 +346,10 @@ export const postImgUpdate = async (
         await Logger.error(error as string);
         res.send("Nie udało się zaktualizować zdjęcia");
         return;
+    }
+    if (src) {
+        // Deletes from scraped images to avoid potential duplicates
+        await db.deleteScrapedImageBySrc(src);
     }
     res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
 };
