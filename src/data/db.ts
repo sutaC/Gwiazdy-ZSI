@@ -521,7 +521,7 @@ export class ScrapedImagesHandler {
         const [data] = (await this.connection.query(
             "SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ? LIMIT 1;",
             [src, src]
-        )) as unknown as number[][];
+        )) as unknown as { id: number }[][];
         return data.length !== 0;
     }
 
@@ -605,8 +605,27 @@ export async function transferScrapedImageToImages(
     return dataId?.id ?? null;
 }
 
+/**
+ * Deletes from sraped image by src
+ * @param src Scraped image src
+ */
 export async function deleteScrapedImageBySrc(src: string): Promise<void> {
     const con = await getConnection();
     await con.query("DELETE FROM scrapedimages WHERE src = ?;", [src]);
     await con.end();
+}
+
+/**
+ * Check if image url is present in `images` table
+ * @param src Image url
+ * @returns True if url is present in db
+ */
+export async function isImagePresent(src: string): Promise<boolean> {
+    const con = await getConnection();
+    const [data] = (await con.query(
+        "SELECT id FROM images WHERE src = ? LIMIT 1;",
+        [src]
+    )) as unknown as { id: number }[][];
+    await con.end();
+    return data.length !== 0;
 }

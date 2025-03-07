@@ -369,6 +369,11 @@ export const postApiAddImg = async (
     }
     if (imgUrl && imgUrl.startsWith("https://www.zsi.kielce.pl/")) {
         imgUrl = trimImageResolution(imgUrl);
+        const isPresent = await db.isImagePresent(imgUrl);
+        if (isPresent) {
+            res.send("Zdjęcie z takim adresem URL już istnieje");
+            return;
+        }
     }
     let local: string | undefined = undefined;
     if (imgFile) {
