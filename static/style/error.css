@@ -19,6 +19,7 @@ img {
     box-shadow: 0 0 4px 1px var(--accent);
 }
 
-button {
+a {
     margin: auto;
+    max-width: 50%;
 }

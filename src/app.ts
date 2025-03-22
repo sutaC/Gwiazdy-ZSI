@@ -44,7 +44,7 @@ const handleServerError: ErrorRequestHandler = async (err, req, res, next) => {
     if (!err) next(err);
     await Logger.error(err);
     res.status(500).render("./layouts/error.ejs", {
-        error: { code: 500, messsage: err },
+        error: { code: 500, messsage: "Wystąpił nieoczekiwany błąd serwera" },
     });
 };
 app.use(handleServerError);

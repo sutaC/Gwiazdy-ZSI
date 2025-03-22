@@ -10,8 +10,11 @@
         <main>
             <h1>Ojejku!</h1>
             <p><%= error.messsage ?? `Wystąpił błąd ${error.code ?? 500}` %></p>
-            <img src="https://http.cat/<%= error.code ?? 500 %>" alt="Błąd" />
-            <button onclick="history.back()">Powrót</button>
+            <img
+                src="https://http.cat/<%= error.code ?? 500 %>"
+                alt="Błąd <%= error.code ?? 500 %>"
+            />
+            <a class="buttonlike" href="/">Powrót</a>
         </main>
     </body>
 </html>
