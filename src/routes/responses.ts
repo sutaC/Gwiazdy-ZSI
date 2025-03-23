@@ -358,7 +358,12 @@ export const getRandomImg = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const photoid = await db.getRandomImg();
+    let photoid: number | null = null;
+    if (req.query.untagged === "true") {
+        photoid = await db.getRandomUntaggedImg();
+    } else {
+        photoid = await db.getRandomImg();
+    }
     if (photoid === null) {
         res.status(404).render("./layouts/error.ejs", { error: { code: 404 } });
         return;

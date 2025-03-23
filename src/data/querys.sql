@@ -12,6 +12,8 @@ SELECT id FROM images WHERE local = ?;
 SELECT id FROM images WHERE src = ?;
 -- Get random image id
 SELECT id FROM images ORDER BY RAND() LIMIT 1;
+-- Get random untagged image id
+SELECT images.id FROM images LEFT JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id IS NULL ORDER BY RAND() LIMIT 1;
 -- Get next image id
 SELECT id FROM images WHERE id > ? LIMIT 1;
 -- Get previous image id

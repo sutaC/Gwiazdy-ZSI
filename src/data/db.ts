@@ -134,6 +134,19 @@ export async function getRandomImg(): Promise<number | null> {
 }
 
 /**
+ * Gets random image object
+ * @returns Image object
+ */
+export async function getRandomUntaggedImg(): Promise<number | null> {
+    const con = await getConnection();
+    const [[data]] = (await con.query(
+        "SELECT images.id FROM images LEFT JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id IS NULL ORDER BY RAND() LIMIT 1;"
+    )) as unknown as { id: number }[][] | undefined[][];
+    await con.end();
+    return data?.id ?? null;
+}
+
+/**
  * Adds image object
  * - Image object have to have `src` or `local` to be added
  * @param src Source web url
