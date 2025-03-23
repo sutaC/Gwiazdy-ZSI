@@ -77,12 +77,12 @@ INSERT INTO users (id, login, password, token) VALUES (NULL, ?, ?, NULL);
 -- Delete user
 DELETE FROM users WHERE login = ?;
 
--- Get ammount of images
-SELECT COUNT(*) AS "ammount" FROM images;
--- Get ammount of images with tag
-SELECT COUNT(DISTINCT id_images) AS "ammount" FROM imagesteachers;
--- Get ammount of teacher with images
-SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;
+-- Get amount of images
+SELECT COUNT(*) AS "amount" FROM images;
+-- Get amount of images with tag
+SELECT COUNT(DISTINCT id_images) AS "amount" FROM imagesteachers;
+-- Get amount of teacher with images
+SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "amount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY amount DESC, name ASC;
 
 -- Gets id of selected src from images and scraped images
 SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ? LIMIT 1;

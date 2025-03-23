@@ -26,11 +26,11 @@ export interface Teacher {
 /**
  * Tag count object interface
  * @property {string} name - Name
- * @property {number} ammount - Ammount of related images
+ * @property {number} amount - Amount of related images
  */
 export interface TeacherCount {
     name: string;
-    ammount: number;
+    amount: number;
 }
 
 /**
@@ -444,39 +444,39 @@ export async function deleteUser(login: string): Promise<void> {
 
 // --- Other ---
 /**
- * Gets ammount of images
- * @returns Ammout of images
+ * Gets amount of images
+ * @returns Amount of images
  */
-export async function getImageAmmount(): Promise<number | null> {
+export async function getImageAmount(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        'SELECT COUNT(*) AS "ammount" FROM images;'
-    )) as unknown as { ammount: number }[][] | undefined[][];
+        'SELECT COUNT(*) AS "amount" FROM images;'
+    )) as unknown as { amount: number }[][] | undefined[][];
     await con.end();
-    return data?.ammount ?? null;
+    return data?.amount ?? null;
 }
 
 /**
- * Gets ammount of images grouped by tags
- * @returns Ammount of images grouped by tags
+ * Gets amount of images grouped by tags
+ * @returns Amount of images grouped by tags
  */
-export async function getImageWithTagAmmount(): Promise<number | null> {
+export async function getImageWithTagAmount(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        'SELECT COUNT(DISTINCT id_images) AS "ammount" FROM imagesteachers;'
-    )) as unknown as { ammount: number }[][] | undefined[][];
+        'SELECT COUNT(DISTINCT id_images) AS "amount" FROM imagesteachers;'
+    )) as unknown as { amount: number }[][] | undefined[][];
     await con.end();
-    return data?.ammount ?? null;
+    return data?.amount ?? null;
 }
 
 /**
- * Gets tags with ammount of related images order descendly
- * @returns Tag ammount objects list
+ * Gets tags with amount of related images order descendly
+ * @returns Tag amount objects list
  */
-export async function getImageAmmountOnTeachers(): Promise<TeacherCount[]> {
+export async function getImageAmountOnTeachers(): Promise<TeacherCount[]> {
     const con = await getConnection();
     const [data] = (await con.query(
-        'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "ammount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY ammount DESC;'
+        'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "amount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY amount DESC, name ASC;'
     )) as unknown as TeacherCount[][] | undefined[][];
     await con.end();
     if (!data[0]) return [];

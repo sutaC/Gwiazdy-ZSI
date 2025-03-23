@@ -27,15 +27,15 @@ export const getStatistics = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const [ranks, imagesAmmount, imagesWithTagsAmmount] = await Promise.all([
-        db.getImageAmmountOnTeachers(),
-        db.getImageAmmount(),
-        db.getImageWithTagAmmount(),
+    const [ranks, imagesAmount, imagesWithTagsAmount] = await Promise.all([
+        db.getImageAmountOnTeachers(),
+        db.getImageAmount(),
+        db.getImageWithTagAmount(),
     ]);
     res.render("./layouts/statistics.ejs", {
         ranks,
-        imagesAmmount,
-        imagesWithTagsAmmount,
+        imagesAmount,
+        imagesWithTagsAmount,
     });
 };
 

@@ -14,33 +14,33 @@
         <section aria-labelledby="quantity" class="quantity">
             <h2 id="quantity">Ilość zdjęć</h2>
 
-            <p>Łącznie <%= imagesAmmount %> zdjęć</p>
+            <p>Łącznie <%= imagesAmount %> zdjęć</p>
             <div class="bar">
                 <small
                     class="taged"
                     style="
-                        --_ammount: <%=
+                        --_amount: <%=
                             Math.floor(
-                                (imagesWithTagsAmmount / imagesAmmount) * 100
+                                (imagesWithTagsAmount / imagesAmount) * 100
                             )
                             %>%;
                     "
-                    >Oznaczone: <%= imagesWithTagsAmmount %>
+                    >Oznaczone: <%= imagesWithTagsAmount %>
                 </small>
                 <small
                     class="notTaged"
                     style="
-                        --_ammount: <%=
+                        --_amount: <%=
                             Math.floor(
                                 (
-                                        (imagesAmmount - imagesWithTagsAmmount) /
-                                            imagesAmmount
+                                        (imagesAmount - imagesWithTagsAmount) /
+                                            imagesAmount
                                     ) * 100
                             )
                             %>%;
                     "
                 >
-                    Nieoznaczone: <%= (imagesAmmount - imagesWithTagsAmmount) %>
+                    Nieoznaczone: <%= (imagesAmount - imagesWithTagsAmount) %>
                 </small>
             </div>
         </section>
@@ -53,7 +53,7 @@
             <div class="rank">
                 <div><%= idx + 1 %>.</div>
                 <div class="name"><%= rank.name %></div>
-                <div><%= rank.ammount %></div>
+                <div><%= rank.amount %></div>
             </div>
 
             <% }); %>
