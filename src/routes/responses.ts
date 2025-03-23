@@ -398,10 +398,6 @@ export const postApiAddImg = async (
             return;
         }
     }
-    if (local === undefined) {
-        res.send("Nie udało się zapisać pliku");
-        return;
-    }
     let photoid: number | null;
     try {
         photoid = await db.addImg(imgUrl, local);

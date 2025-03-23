@@ -1,6 +1,14 @@
 <div style="color: green" hx-boost="false">
     <h2>Zdjęcie zostało dodane!</h2>
     <p>Id: <%= photoid %></p>
-    <a href="/addImg">Dodaj kolejne zdjęcie</a>
-    <a href="/img/<%= photoid %>">Zobacz nowe zdjęcie</a>
+    <a href="/addImg" class="buttonlike" style="margin: 1rem 0"
+        >Dodaj kolejne zdjęcie</a
+    >
+    <a
+        href="/img/<%= photoid %>"
+        target="_blank"
+        class="buttonlike"
+        style="margin: 1rem 0"
+        >Zobacz nowe zdjęcie</a
+    >
 </div>
