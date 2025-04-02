@@ -11,6 +11,7 @@ import ScrapingJob from "./data/scraper";
 
 const app = express();
 dotenv.config();
+app.enable("trust proxy");
 
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));

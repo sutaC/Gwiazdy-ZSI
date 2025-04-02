@@ -60,7 +60,9 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     const error = await authenticateUser(login, password);
     if (error) {
         res.send(error);
-        await Logger.info(`Failed login attempt for '${login}'`);
+        await Logger.info(
+            `Failed login attempt for '${login}' by ip '${req.ip ?? "unknown"}'`
+        );
         return;
     }
     const newToken = hashString(randomUUID());
@@ -72,7 +74,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
         secure: true,
     });
     res.append("HX-Redirect", "/admin").sendStatus(303);
-    await Logger.info(`Login as '${login}'`);
+    await Logger.info(`Login as '${login}' by ip '${req.ip ?? "unknown"}'`);
 };
 
 export const getAdmin = (req: Request, res: Response): void => {
