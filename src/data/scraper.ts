@@ -3,21 +3,16 @@ import { ScrapedImagesHandler } from "./db";
 import Logger from "./Logger";
 
 export default class Scraper {
+    private autoScrapingId: number | null = null;
     private jobActive: boolean = false;
     private lastResults = {
         limit: 0,
         found: 0,
         added: 0,
+        type: "none",
     };
 
-    private reset(): void {
-        this.lastResults = {
-            limit: 0,
-            found: 0,
-            added: 0,
-        };
-    }
-
+    // --- Public methods
     /**
      * Creates job of async scraping image urls from `www.zsi.kielce.pl`. Onlu one jon can be running.
      * @param limit Limit of read article pages (If unset scrapes all pages)
@@ -28,23 +23,51 @@ export default class Scraper {
         this.jobActive = true;
         this.reset();
         this.lastResults.limit = limit ?? 0;
+        this.lastResults.type = "manual";
         try {
-            const images = await this.scrape(limit);
-            this.lastResults.found += images.length;
-            const dbHandler = new ScrapedImagesHandler();
-            await dbHandler.connect();
-            for (const src of images) {
-                if (await dbHandler.isSrcPresent(src)) continue;
-                await dbHandler.addScrapedImage(src);
-                this.lastResults.added += 1;
-            }
-            await dbHandler.disconnect();
+            await this.scrapingJob(limit as number);
         } catch (err) {
             Logger.error(err as string);
         } finally {
             Logger.info("Finished scraping job");
             this.jobActive = false;
         }
+    }
+
+    /**
+     * Sets automatic scraping
+     * @param interval Interval of automatic scraping in ms
+     */
+    public setAutoScraping(interval: number): void {
+        setInterval(async () => {
+            if (this.jobActive) {
+                Logger.info(
+                    "Aborted automatic scraping due to active scraping job"
+                );
+                return;
+            }
+            Logger.info("Started automatic scraping job");
+            this.jobActive = true;
+            this.reset();
+            this.lastResults.limit = 1;
+            this.lastResults.type = "automatic";
+            try {
+                await this.scrapingJob(1);
+            } catch (err) {
+                Logger.error(err as string);
+            } finally {
+                Logger.info("Finished automatic scraping job");
+                this.jobActive = false;
+            }
+        }, interval);
+    }
+
+    /**
+     * Clears automatic scraping
+     */
+    public clearAutoScraping(): void {
+        if (this.autoScrapingId === null) return;
+        clearInterval(this.autoScrapingId);
     }
 
     /**
@@ -61,6 +84,20 @@ export default class Scraper {
      */
     public getLastResults() {
         return this.lastResults;
+    }
+
+    // --- Private methods
+    private async scrapingJob(limit: number) {
+        const images = await this.scrape(limit);
+        this.lastResults.found += images.length;
+        const dbHandler = new ScrapedImagesHandler();
+        await dbHandler.connect();
+        for (const src of images) {
+            if (await dbHandler.isSrcPresent(src)) continue;
+            await dbHandler.addScrapedImage(src);
+            this.lastResults.added += 1;
+        }
+        await dbHandler.disconnect();
     }
 
     /**
@@ -170,6 +207,18 @@ export default class Scraper {
      */
     private async sleep(ms: number): Promise<void> {
         return new Promise((resolve, reject) => setTimeout(resolve, ms));
+    }
+
+    /**
+     * Resets last results
+     */
+    private reset(): void {
+        this.lastResults = {
+            limit: 0,
+            found: 0,
+            added: 0,
+            type: "none",
+        };
     }
 }
 
