@@ -39,3 +39,20 @@ nav a.highlight {
     text-decoration: none;
     font-size: 1em;
 }
+
+nav a.reminder {
+    position: relative;
+}
+
+nav a.reminder::after {
+    --_size: 0.75rem;
+    content: "";
+    width: var(--_size);
+    height: var(--_size);
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: var(--accent);
+    border-radius: 100%;
+    box-shadow: 0 0 2px 1px var(--accent);
+}

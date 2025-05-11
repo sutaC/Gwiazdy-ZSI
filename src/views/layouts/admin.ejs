@@ -24,9 +24,16 @@
             <a href="/tags">Etykiety</a>
             <a href="/addImg">Dodaj zdjęcie</a>
             <a href="/randomimg?untagged=true">Losowe nieoznaczone zdjęcie</a>
+
+            <% if (imagesAvaliable) { %>
+            <a href="/scraper" class="reminder">Skrobak</a>
+            <% } else { %>
             <a href="/scraper">Skrobak</a>
+            <% } %>
+
             <a href="/logs">Logi serwera</a>
             <a href="/reset">Zresetuj hasło</a>
+
             <% if (user==="admin" ) { %>
             <a href="/users">Użytkownicy</a>
             <% } %>

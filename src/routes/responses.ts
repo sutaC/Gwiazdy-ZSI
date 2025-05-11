@@ -77,8 +77,12 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     await Logger.info(`Login as '${login}' by ip '${req.ip ?? "unknown"}'`);
 };
 
-export const getAdmin = (req: Request, res: Response): void => {
-    res.render("./layouts/admin.ejs", { user: req.authorized });
+export const getAdmin = async (req: Request, res: Response): Promise<void> => {
+    const imagesAvaliable = (await db.getScrapedImageAmount()) > 0;
+    res.render("./layouts/admin.ejs", {
+        user: req.authorized,
+        imagesAvaliable,
+    });
 };
 
 export const getLogout = async (req: Request, res: Response): Promise<void> => {
