@@ -7,7 +7,7 @@ import router from "$/routes/router";
 import express, { type ErrorRequestHandler } from "express";
 import { fileURLToPath } from "url";
 import Logger from "$/data/Logger";
-import ScrapingJob from "./data/scraper";
+import Scraper from "./data/scraper";
 
 const app = express();
 dotenv.config();
@@ -36,7 +36,8 @@ app.use(express.static(path.join(directory, "/static")));
 app.set("views", path.join(directory, "/src/views"));
 
 // Setup scraping job
-export const scrapingJob = new ScrapingJob();
+export const scraper = new Scraper();
+scraper.setAutoScraping(86400000); // 24h
 // Attach router
 app.use(router);
 

@@ -4,7 +4,7 @@ import * as db from "$/data/db";
 import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
 import Logger from "$/data/Logger";
 import { randomUUID } from "crypto";
-import { directory, scrapingJob } from "$/app";
+import { directory, scraper } from "$/app";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "$/routes/auth";
@@ -77,8 +77,12 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     await Logger.info(`Login as '${login}' by ip '${req.ip ?? "unknown"}'`);
 };
 
-export const getAdmin = (req: Request, res: Response): void => {
-    res.render("./layouts/admin.ejs", { user: req.authorized });
+export const getAdmin = async (req: Request, res: Response): Promise<void> => {
+    const imagesAvaliable = (await db.getScrapedImageAmount()) > 0;
+    res.render("./layouts/admin.ejs", {
+        user: req.authorized,
+        imagesAvaliable,
+    });
 };
 
 export const getLogout = async (req: Request, res: Response): Promise<void> => {
@@ -579,7 +583,7 @@ export const getScraper = async (
         image,
         imageCount,
         user: req.authorized,
-        scrapingRunning: scrapingJob.isRunning(),
+        scrapingRunning: scraper.isRunning(),
     });
 };
 
@@ -592,11 +596,11 @@ export const postScraperScrape = async (
         res.sendStatus(400);
         return;
     }
-    if (scrapingJob.isRunning()) {
+    if (scraper.isRunning()) {
         res.sendStatus(409);
         return;
     }
-    scrapingJob.run(limit);
+    scraper.run(limit);
     res.status(202).render("./components/scrapingResults.ejs", {
         spinner: true,
     });
@@ -606,12 +610,12 @@ export const getScraperStatus = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    if (scrapingJob.isRunning()) {
+    if (scraper.isRunning()) {
         res.sendStatus(204);
         return;
     }
     res.render("./components/scrapingResults.ejs", {
-        ...scrapingJob.getLastResults(),
+        ...scraper.getLastResults(),
         spinner: false,
     });
 };
