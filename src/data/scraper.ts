@@ -9,7 +9,7 @@ export default class Scraper {
         limit: 0,
         found: 0,
         added: 0,
-        type: "none",
+        type: "brak",
     };
 
     // --- Public methods
@@ -23,11 +23,11 @@ export default class Scraper {
         this.jobActive = true;
         this.reset();
         this.lastResults.limit = limit ?? 0;
-        this.lastResults.type = "manual";
+        this.lastResults.type = "manualny";
         try {
             await this.scrapingJob(limit as number);
         } catch (err) {
-            Logger.error(err as string);
+            Logger.error(`Error ocurred while scraping: ${String(err)}`);
         } finally {
             Logger.info("Finished scraping job");
             this.jobActive = false;
@@ -41,7 +41,7 @@ export default class Scraper {
     public setAutoScraping(interval: number): void {
         setInterval(async () => {
             if (this.jobActive) {
-                Logger.info(
+                Logger.warning(
                     "Aborted automatic scraping due to active scraping job"
                 );
                 return;
@@ -50,7 +50,7 @@ export default class Scraper {
             this.jobActive = true;
             this.reset();
             this.lastResults.limit = 1;
-            this.lastResults.type = "automatic";
+            this.lastResults.type = "automatyczny";
             try {
                 await this.scrapingJob(1);
             } catch (err) {
@@ -89,6 +89,7 @@ export default class Scraper {
     // --- Private methods
     private async scrapingJob(limit: number) {
         const images = await this.scrape(limit);
+        if (images.length === 0) return;
         this.lastResults.found += images.length;
         const dbHandler = new ScrapedImagesHandler();
         await dbHandler.connect();
@@ -121,7 +122,7 @@ export default class Scraper {
                     );
                 mainPage = new JSDOM(await res.text()).window.document;
             } catch (err) {
-                console.error(err);
+                Logger.warning(`Error ocurred while scraping: ${String(err)}`);
                 break;
             }
             articleUrls = Array.from(
