@@ -36,8 +36,9 @@ app.use(express.static(path.join(directory, "/static")));
 app.set("views", path.join(directory, "/src/views"));
 
 // Setup scraping job
-export const scraper = new Scraper();
-scraper.setAutoScraping(86400000); // 24h
+export const scraper = new Scraper(() => {
+    scraper.setAutoScraping(86400000); // 24h
+});
 // Attach router
 app.use(router);
 

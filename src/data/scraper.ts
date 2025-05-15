@@ -4,7 +4,6 @@ import fs from "fs/promises";
 import { JSDOM } from "jsdom";
 import { ScrapedImagesHandler } from "./db";
 import { directory } from "$/app";
-import { arch } from "os";
 
 export default class Scraper {
     private autoScrapingId: number | null = null;
@@ -14,12 +13,13 @@ export default class Scraper {
         found: 0,
         added: 0,
         type: "brak",
+        nextAutoScraping: 0,
     };
     private readonly SAVEFILE: string;
 
-    constructor() {
+    constructor(callback?: () => unknown) {
         this.SAVEFILE = path.join(directory, "scrapersave.json");
-        this.initFileSave();
+        this.initFileSave().then(callback);
     }
 
     // --- Public methods
@@ -49,27 +49,38 @@ export default class Scraper {
      * @param interval Interval of automatic scraping in ms
      */
     public setAutoScraping(interval: number): void {
-        setInterval(async () => {
-            if (this.jobActive) {
-                Logger.warning(
-                    "Aborted automatic scraping due to active scraping job"
-                );
-                return;
-            }
-            Logger.info("Started automatic scraping job");
-            this.jobActive = true;
-            this.reset();
-            this.lastResults.limit = 1;
-            this.lastResults.type = "automatyczny";
-            try {
-                await this.scrapingJob(1);
-            } catch (err) {
-                Logger.error(err as string);
-            } finally {
-                Logger.info("Finished automatic scraping job");
-                this.jobActive = false;
-            }
-        }, interval);
+        // Auto scraping fn
+        const fn = async () => {
+            await this.autoScrapingJob();
+            this.lastResults.nextAutoScraping = Date.now() + interval;
+            this.saveToFile();
+        };
+        // Set fn
+        if (this.lastResults.nextAutoScraping === 0) {
+            this.lastResults.nextAutoScraping = Date.now() + interval;
+            this.saveToFile();
+            setInterval(fn, interval);
+            return;
+        }
+        const now = Date.now();
+        if (now >= this.lastResults.nextAutoScraping) {
+            fn().then(() => {
+                this.lastResults.nextAutoScraping = now + interval;
+                this.saveToFile();
+                setInterval(fn, interval);
+            });
+        } else if (this.lastResults.nextAutoScraping - now >= interval) {
+            this.lastResults.nextAutoScraping = now + interval;
+            this.saveToFile();
+            setInterval(fn, interval);
+        } else {
+            setTimeout(() => {
+                fn().then(() => {
+                    setInterval(fn, interval);
+                });
+            }, this.lastResults.nextAutoScraping - now);
+        }
+        this.saveToFile();
     }
 
     /**
@@ -97,6 +108,28 @@ export default class Scraper {
     }
 
     // --- Private methods
+    private async autoScrapingJob() {
+        if (this.jobActive) {
+            Logger.warning(
+                "Aborted automatic scraping due to active scraping job"
+            );
+            return;
+        }
+        Logger.info("Started automatic scraping job");
+        this.jobActive = true;
+        this.reset();
+        this.lastResults.limit = 1;
+        this.lastResults.type = "automatyczny";
+        try {
+            await this.scrapingJob(1);
+        } catch (err) {
+            Logger.error(err as string);
+        } finally {
+            Logger.info("Finished automatic scraping job");
+            this.jobActive = false;
+        }
+    }
+
     private async scrapingJob(limit: number) {
         const images = await this.scrape(limit);
         if (images.length === 0) {
@@ -269,12 +302,10 @@ export default class Scraper {
      * Resets last results
      */
     private reset(): void {
-        this.lastResults = {
-            limit: 0,
-            found: 0,
-            added: 0,
-            type: "none",
-        };
+        this.lastResults.limit = 0;
+        this.lastResults.found = 0;
+        this.lastResults.added = 0;
+        this.lastResults.type = "brak";
     }
 
     private isSameTypeObject(a: object, b: Object): boolean {
