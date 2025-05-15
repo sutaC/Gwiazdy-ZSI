@@ -1,6 +1,10 @@
+import Logger from "./Logger";
+import path from "path";
+import fs from "fs/promises";
 import { JSDOM } from "jsdom";
 import { ScrapedImagesHandler } from "./db";
-import Logger from "./Logger";
+import { directory } from "$/app";
+import { arch } from "os";
 
 export default class Scraper {
     private autoScrapingId: number | null = null;
@@ -11,6 +15,12 @@ export default class Scraper {
         added: 0,
         type: "brak",
     };
+    private readonly SAVEFILE: string;
+
+    constructor() {
+        this.SAVEFILE = path.join(directory, "scrapersave.json");
+        this.initFileSave();
+    }
 
     // --- Public methods
     /**
@@ -89,7 +99,10 @@ export default class Scraper {
     // --- Private methods
     private async scrapingJob(limit: number) {
         const images = await this.scrape(limit);
-        if (images.length === 0) return;
+        if (images.length === 0) {
+            await this.saveToFile();
+            return;
+        }
         this.lastResults.found += images.length;
         const dbHandler = new ScrapedImagesHandler();
         await dbHandler.connect();
@@ -99,6 +112,7 @@ export default class Scraper {
             this.lastResults.added += 1;
         }
         await dbHandler.disconnect();
+        await this.saveToFile();
     }
 
     /**
@@ -193,6 +207,47 @@ export default class Scraper {
         }
     }
 
+    private async saveToFile() {
+        try {
+            const file = await fs.open(this.SAVEFILE, "w");
+            const content = JSON.stringify(this.lastResults);
+            await file.write(content);
+            await file.close();
+        } catch (err) {
+            Logger.error(
+                `Error ocurred while saving scraping results ${String(err)}`
+            );
+        }
+    }
+
+    private async initFileSave() {
+        try {
+            await fs.access(this.SAVEFILE);
+        } catch (err) {
+            await this.saveToFile();
+            return;
+        }
+        let content: string = "";
+        try {
+            const file = await fs.open(this.SAVEFILE, "r");
+            content = (await file.readFile()).toString();
+            file.close();
+        } catch (err) {
+            Logger.error(
+                `Error ocurred while reading scraping results ${String(err)}`
+            );
+        }
+        const data = JSON.parse(content);
+        if (!this.isSameTypeObject(this.lastResults, data)) {
+            Logger.warning(
+                "Saved scraping data is not of valid type, overwriting"
+            );
+            await this.saveToFile();
+            return;
+        }
+        this.lastResults = data;
+    }
+
     /**
      * Removes duplicate values in array
      * @param array Array to reduce
@@ -220,6 +275,17 @@ export default class Scraper {
             added: 0,
             type: "none",
         };
+    }
+
+    private isSameTypeObject(a: object, b: Object): boolean {
+        const ka = Object.keys(a).sort();
+        const kb = Object.keys(b).sort();
+        if (JSON.stringify(ka) !== JSON.stringify(kb)) return false;
+        const ma = new Map(Object.entries(ka));
+        const mb = new Map(Object.entries(kb));
+        for (const k of ka)
+            if (typeof ma.get(k) !== typeof mb.get(k)) return false;
+        return true;
     }
 }
 
