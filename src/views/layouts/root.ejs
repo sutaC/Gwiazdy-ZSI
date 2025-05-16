@@ -4,6 +4,7 @@
         <%- include('../components/globalHead.ejs') %>
         <title>Gwiazdy ZSI</title>
         <link rel="stylesheet" href="/style/root.css" />
+        <script src="/js/root.js" defer></script>
     </head>
 
     <body>
@@ -100,5 +101,34 @@
                 >^</a
             >
         </footer>
+
+        <dialog id="dialogHelpWanted">
+            <h5>I WANT YOU TO ADMINISTER THIS SITE!</h5>
+
+            <p>
+                Potrzebna jest twoja pomoc w administrowaniu Gwiazdami ZSI!
+                Skończyłem właśnie szkołę, ale to nie koniec tej strony, pomóż
+                mi w utrzymaniu jej! Skontaktuj się ze mną aby dowiedzieć się
+                więcej:
+            </p>
+
+            <div class="wraper">
+                <a
+                    href="mailto:catus.pl@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="buttonlike"
+                    >Napisz maila</a
+                >
+                <a
+                    href="https://sutac.pl#contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="buttonlike"
+                    >Więcej form kontaktu</a
+                >
+                <button id="btnHelpWantedClose">Zamknij</button>
+            </div>
+        </dialog>
     </body>
 </html>

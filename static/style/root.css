@@ -162,6 +162,36 @@ footer > a.buttonlike {
     aspect-ratio: 1;
 }
 
+#dialogHelpWanted {
+    color: var(--text);
+    background-color: var(--secondary);
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border: none;
+    border-top: 1px solid var(--accent);
+    text-align: center;
+    box-shadow: -2px 0 2px 1px var(--accent);
+    padding: 0 1rem;
+    z-index: 1000;
+}
+
+#dialogHelpWanted > * {
+    max-width: 50ch;
+    margin: 1rem auto;
+    text-wrap: balance;
+}
+
+#dialogHelpWanted > h5 {
+    color: var(--accent);
+}
+
+#dialogHelpWanted > .wraper {
+    justify-content: center;
+    align-items: stretch;
+}
+
 @media (min-width: 750px) {
     header {
         border-radius: 0 0 2rem 0;
