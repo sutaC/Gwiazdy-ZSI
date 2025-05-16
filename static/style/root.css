@@ -183,8 +183,13 @@ footer > a.buttonlike {
     text-wrap: balance;
 }
 
-#dialogHelpWanted > h5 {
-    color: var(--accent);
+#dialogHelpWanted > img {
+    max-height: 55vh;
+    border: 2px solid var(--accent);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 4px 1px var(--accent);
+    border-radius: 1rem;
+    margin-bottom: 0;
 }
 
 #dialogHelpWanted > .wraper {
