@@ -162,6 +162,15 @@ footer > a.buttonlike {
     aspect-ratio: 1;
 }
 
+@keyframes slideIn {
+    from {
+        translate: 0 100%;
+    }
+    to {
+        translate: 0;
+    }
+}
+
 #dialogHelpWanted {
     color: var(--text);
     background-color: var(--secondary);
@@ -175,6 +184,7 @@ footer > a.buttonlike {
     box-shadow: -2px 0 2px 1px var(--accent);
     padding: 0 1rem;
     z-index: 1000;
+    animation: slideIn 250ms ease-out;
 }
 
 #dialogHelpWanted > * {

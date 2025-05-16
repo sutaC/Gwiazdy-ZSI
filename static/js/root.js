@@ -12,5 +12,5 @@ if (!Boolean(JSON.parse(localStorage.getItem("helpwantedclosed") ?? "false"))) {
         ?.addEventListener("click", () => {
             dialogHelpWanted.close();
         });
-    dialogHelpWanted.show();
+    setTimeout(() => dialogHelpWanted.show(), 1000);
 }
