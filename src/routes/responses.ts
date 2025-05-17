@@ -316,7 +316,7 @@ export const deleteImageDeleteLocal = async (req: Request, res: Response) => {
         return;
     }
     try {
-        upload.deleteImage(img.local);
+        await upload.deleteImage(img.local);
         db.deleteImgLocal(photoid);
     } catch (err) {
         Logger.error(String(err));
@@ -335,15 +335,15 @@ export const deleteImageDelete = async (
         return;
     }
     const photo = await db.getImgById(photoid);
-    if (photo === null) {
-        res.send("Nie można znaleźć zdjęcia do usunięcia");
+    if (!photo) {
+        res.send("To zdjęcie nie istnieje");
         return;
     }
     try {
-        if (photo.local) upload.deleteImage(photo.local);
+        if (photo.local) await upload.deleteImage(photo.local);
         await db.deleteImage(photoid);
     } catch (error) {
-        await Logger.error(error as string);
+        await Logger.error(String(error));
         res.send("Nie udało się usunąć zdjęcia");
         return;
     }
@@ -390,7 +390,7 @@ export const postImgUpdate = async (
     if (imgFile) {
         if (img?.local) {
             try {
-                upload.deleteImage(img.local);
+                await upload.deleteImage(img.local);
             } catch (err) {
                 Logger.error(String(err));
                 res.send("Nie udało się usunąć starego pliku");

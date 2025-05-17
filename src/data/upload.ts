@@ -24,5 +24,11 @@ export async function uploadImage(
  * @param filename Name of file to delete
  */
 export async function deleteImage(filename: string): Promise<void> {
-    await fs.rm(path.join(directory, "static/uploads/", filename));
+    const filePath = path.join(directory, "static/uploads/", filename);
+    try {
+        await fs.access(filePath);
+    } catch (err) {
+        return;
+    }
+    await fs.rm(filePath);
 }
