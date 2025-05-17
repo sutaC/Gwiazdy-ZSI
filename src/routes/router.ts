@@ -1,6 +1,21 @@
 import * as responses from "./responses.js";
 import * as auth from "./auth.js";
 import { Router } from "express";
+import multer from "multer";
+
+/**
+ * Image upload middleware
+ */
+const imageFileUpload = multer({
+    dest: "static/uploads/",
+    fileFilter: (req, file, cb) => {
+        cb(null, file.mimetype.startsWith("image"));
+    },
+    limits: {
+        files: 1,
+        fileSize: 5_000_000,
+    },
+}).any();
 
 /**
  * App router
@@ -31,6 +46,7 @@ router.get(
 router.post(
     "/img/:photoid/update",
     auth.authorizeApi as () => void,
+    imageFileUpload,
     responses.postImgUpdate as () => Promise<void>
 );
 
@@ -55,6 +71,7 @@ router.get(
 router.post(
     "/api/addImg",
     auth.authorizeApi as () => void,
+    imageFileUpload,
     responses.postApiAddImg as () => Promise<void>
 );
 
