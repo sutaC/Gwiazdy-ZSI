@@ -10,6 +10,8 @@
         <main>
             <h1>Edytuj zdjęcie <%= photo.id %></h1>
 
+            <p id="error"></p>
+
             <form
                 hx-boost="true"
                 hx-target="#error"
@@ -17,8 +19,6 @@
                 hx-confirm="Czy na pewno chcesz zaktualizować to zdjęcie?"
                 hx-encoding="multipart/form-data"
             >
-                <p id="error"></p>
-
                 <div class="field">
                     <label for="src">URL</label>
                     <input

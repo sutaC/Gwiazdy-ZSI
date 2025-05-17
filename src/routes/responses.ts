@@ -323,6 +323,9 @@ export const deleteImageDeleteLocal = async (req: Request, res: Response) => {
         res.send("Nie udało się usunąć starego pliku");
         return;
     }
+    res.send(
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+    );
 };
 
 export const deleteImageDelete = async (
@@ -406,7 +409,9 @@ export const postImgUpdate = async (
             return;
         }
     }
-    res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
+    res.send(
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+    );
 };
 
 export const getRandomImg = async (
