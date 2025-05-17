@@ -20,7 +20,7 @@ export const getRoot = (req: Request, res: Response): void => {
     } else {
         tagid = undefined;
     }
-    res.render("./layouts/root.ejs", { authorized, tagid });
+    res.render("./layouts/main.ejs", { authorized, tagid });
 };
 
 export const getStatistics = async (
@@ -266,7 +266,7 @@ export const getImg = async (req: Request, res: Response): Promise<void> => {
         db.getPreviousImg(photo.id),
     ]);
     res.setHeader("HX-Redirect", `/img/${photo.id}`);
-    res.render("./layouts/photos.ejs", {
+    res.render("./layouts/image.ejs", {
         photo,
         tags,
         nextImgId,
@@ -340,14 +340,9 @@ export const postImgUpdate = async (
     }
     if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
         src = trimImageResolution(src);
-        const isPresent = await db.isImagePresent(src);
-        if (isPresent) {
-            res.send("Zdjęcie z takim adresem URL już istnieje");
-            return;
-        }
     }
     try {
-        await db.updateImg(photoid, src ?? "", local ?? "");
+        await db.updateImg(photoid, src, local);
     } catch (error) {
         await Logger.error(error as string);
         res.send("Nie udało się zaktualizować zdjęcia");

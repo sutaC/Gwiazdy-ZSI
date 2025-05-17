@@ -1,6 +1,6 @@
 # Gwiazdy ZSI
 
-ZSI Stars is an original project aimed at storing and categorizing photos of teachers from ZSI. The application allows you to browse photos and search for them according to the teachers appearing in them.
+ZSI Stars is an original project aimed at storing and categorizing images of teachers from ZSI. The application allows you to browse images and search for them according to the teachers appearing in them.
 
 > Author: [_sutaC_](https://github.com/sutaC)
 

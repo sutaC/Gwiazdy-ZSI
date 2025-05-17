@@ -4,8 +4,8 @@
     "main": "./src/app.ts",
     "type": "module",
     "scripts": {
-        "start": "rm /tmp/tsx-0 -r -f && npx tsx .",
-        "dev": "rm /tmp/tsx-0 -r -f && npx tsx watch .",
+        "start": "tsx ./src/*",
+        "dev": "tsx watch ./src/*",
         "doc": "tsdoc --src=src/*,src/data/*,src/routes/* --dest=DOCS.md --repo=https://github.com/sutaC/Gwiazdy-ZSI --types",
         "db-open": "docker exec -it gwiazdy-zsi-database-1 mysql -u root -proot gwiazdy-zsi",
         "db-dump": "docker exec gwiazdy-zsi-database-1 mysqldump -u root -proot --databases gwiazdy-zsi --single-transaction",
