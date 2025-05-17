@@ -35,6 +35,12 @@ router.post(
 );
 
 router.delete(
+    "/img/:photoid/deleteLocal",
+    auth.authorizeApi as () => void,
+    responses.deleteImageDeleteLocal as () => Promise<void>
+);
+
+router.delete(
     "/img/:photoid/delete",
     auth.authorizeApi as () => void,
     responses.deleteImageDelete as () => Promise<void>

@@ -300,6 +300,31 @@ export const getImgUpdate = async (
     });
 };
 
+export const deleteImageDeleteLocal = async (req: Request, res: Response) => {
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid)) {
+        res.send("Nieprawidłowe id");
+        return;
+    }
+    const img = await db.getImgById(photoid);
+    if (!img?.local) {
+        res.send("Nie można usunąć pliku którego nie ma");
+        return;
+    }
+    if (!img?.src) {
+        res.send("Nie można usunąć pliku kiedy zdjęcie nie ma adresu url");
+        return;
+    }
+    try {
+        upload.deleteImage(img.local);
+        db.deleteImgLocal(photoid);
+    } catch (err) {
+        Logger.error(String(err));
+        res.send("Nie udało się usunąć starego pliku");
+        return;
+    }
+};
+
 export const deleteImageDelete = async (
     req: Request,
     res: Response
@@ -315,9 +340,7 @@ export const deleteImageDelete = async (
         return;
     }
     try {
-        if (photo.local) {
-            upload.deleteImage(photo.local);
-        }
+        if (photo.local) upload.deleteImage(photo.local);
         await db.deleteImage(photoid);
     } catch (error) {
         await Logger.error(error as string);
@@ -335,25 +358,36 @@ export const postImgUpdate = async (
     let src: string | undefined = req.body.src;
     const [imgFile] = req.files as Express.Multer.File[] | undefined[];
     if (!Number.isSafeInteger(photoid)) {
-        res.send("Brak wymaganych parametrów");
+        res.send("Nieprawidłowe id");
         return;
     }
-    if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
-        src = trimImageResolution(src);
-    }
-    try {
-        await db.updateImg(photoid, src);
-    } catch (error) {
-        Logger.error(String(error));
-        res.send("Nie udało się zaktualizować zdjęcia");
+    const img = await db.getImgById(photoid);
+    if (!src && !imgFile && !img?.local) {
+        res.send("Nie można usunąć linku oraz pliku naraz");
         return;
     }
     if (src) {
+        if (src.startsWith("https://www.zsi.kielce.pl/"))
+            src = trimImageResolution(src);
+        try {
+            await db.updateImg(photoid, src);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się zaktualizować zdjęcia");
+            return;
+        }
         // Deletes from scraped images to avoid potential duplicates
         await db.deleteScrapedImageBySrc(src);
+    } else {
+        try {
+            await db.deleteImgSrc(photoid);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się zaktualizować zdjęcia");
+            return;
+        }
     }
     if (imgFile) {
-        const img = await db.getImgById(photoid);
         if (img?.local) {
             try {
                 upload.deleteImage(img.local);

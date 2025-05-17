@@ -34,8 +34,11 @@
                 <div class="field">
                     <label for="imgFile">Plik</label>
                     <small
-                        >(Obecnie: <%= photo.local ?? "<i>brak</i>" %>)</small
-                    >
+                        >(Obecnie: <% if (photo.local) { %> <%= photo.local %>
+                        <% } else { %>
+                        <i>brak</i>
+                        <% } %> )
+                    </small>
                     <input
                         type="file"
                         name="imgFile"
@@ -46,6 +49,16 @@
 
                 <button type="submit">Zapisz</button>
             </form>
+
+            <% if (photo.local) { %>
+            <button
+                hx-delete="/img/<%= photo.id %>/deleteLocal"
+                hx-confirm="Czy na pewno chcesz trwale usunąć lokalny plik tego zdjęcia?"
+                hx-target="#error"
+            >
+                Usuń plik lokalny zdjęcia
+            </button>
+            <% } %>
 
             <button
                 hx-delete="/img/<%= photo.id %>/delete"

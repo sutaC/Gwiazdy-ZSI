@@ -204,6 +204,26 @@ export async function updateImg(
 }
 
 /**
+ * Sets image local as NULL
+ * @param id Image id
+ */
+export async function deleteImgLocal(id: number) {
+    const con = await getConnection();
+    await con.query("UPDATE images SET local = NULL WHERE id = ?;", [id]);
+    await con.end();
+}
+
+/**
+ * Sets image src as NULL
+ * @param id Image id
+ */
+export async function deleteImgSrc(id: number) {
+    const con = await getConnection();
+    await con.query("UPDATE images SET src = NULL WHERE id = ?;", [id]);
+    await con.end();
+}
+
+/**
  * Deletes image object and all its tag relations
  * @param id Image id
  */
