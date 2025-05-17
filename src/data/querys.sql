@@ -6,6 +6,10 @@ INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);
 UPDATE images SET src = ? WHERE id = ?;
 -- Update image local
 UPDATE images SET local = ? WHERE id = ?;
+-- Delete image src
+UPDATE images SET src = NULL WHERE id = ?;
+-- Delete image local
+UPDATE images SET local = NULL WHERE id = ?;
 -- Delete image
 DELETE FROM images WHERE id = ?;
 -- Get image by local

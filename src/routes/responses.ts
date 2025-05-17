@@ -11,7 +11,7 @@ import type { Request } from "$/routes/auth";
 import { trimImageResolution } from "$/data/scraper";
 
 // Responses
-export const getRoot = (req: Request, res: Response): void => {
+export const getMain = (req: Request, res: Response): void => {
     const authorized = req.authorized ?? false;
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
@@ -300,6 +300,34 @@ export const getImgUpdate = async (
     });
 };
 
+export const deleteImageDeleteLocal = async (req: Request, res: Response) => {
+    const photoid = Number.parseInt(req.params.photoid);
+    if (!Number.isSafeInteger(photoid)) {
+        res.send("Nieprawidłowe id");
+        return;
+    }
+    const img = await db.getImgById(photoid);
+    if (!img?.local) {
+        res.send("Nie można usunąć pliku którego nie ma");
+        return;
+    }
+    if (!img?.src) {
+        res.send("Nie można usunąć pliku kiedy zdjęcie nie ma adresu url");
+        return;
+    }
+    try {
+        await upload.deleteImage(img.local);
+        db.deleteImgLocal(photoid);
+    } catch (err) {
+        Logger.error(String(err));
+        res.send("Nie udało się usunąć starego pliku");
+        return;
+    }
+    res.send(
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+    );
+};
+
 export const deleteImageDelete = async (
     req: Request,
     res: Response
@@ -310,17 +338,15 @@ export const deleteImageDelete = async (
         return;
     }
     const photo = await db.getImgById(photoid);
-    if (photo === null) {
-        res.send("Nie można znaleźć zdjęcia do usunięcia");
+    if (!photo) {
+        res.send("To zdjęcie nie istnieje");
         return;
     }
     try {
-        if (photo.local) {
-            upload.deleteImage(photo.local);
-        }
+        if (photo.local) await upload.deleteImage(photo.local);
         await db.deleteImage(photoid);
     } catch (error) {
-        await Logger.error(error as string);
+        await Logger.error(String(error));
         res.send("Nie udało się usunąć zdjęcia");
         return;
     }
@@ -333,26 +359,59 @@ export const postImgUpdate = async (
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     let src: string | undefined = req.body.src;
-    const local: string | undefined = req.body.local;
+    const [imgFile] = req.files as Express.Multer.File[] | undefined[];
     if (!Number.isSafeInteger(photoid)) {
-        res.send("Brak wymaganych parametrów");
+        res.send("Nieprawidłowe id");
         return;
     }
-    if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
-        src = trimImageResolution(src);
-    }
-    try {
-        await db.updateImg(photoid, src, local);
-    } catch (error) {
-        await Logger.error(error as string);
-        res.send("Nie udało się zaktualizować zdjęcia");
+    const img = await db.getImgById(photoid);
+    if (!src && !imgFile && !img?.local) {
+        res.send("Nie można usunąć linku oraz pliku naraz");
         return;
     }
     if (src) {
+        if (src.startsWith("https://www.zsi.kielce.pl/"))
+            src = trimImageResolution(src);
+        try {
+            await db.updateImg(photoid, src);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się zaktualizować zdjęcia");
+            return;
+        }
         // Deletes from scraped images to avoid potential duplicates
         await db.deleteScrapedImageBySrc(src);
+    } else {
+        try {
+            await db.deleteImgSrc(photoid);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się zaktualizować zdjęcia");
+            return;
+        }
     }
-    res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
+    if (imgFile) {
+        if (img?.local) {
+            try {
+                await upload.deleteImage(img.local);
+            } catch (err) {
+                Logger.error(String(err));
+                res.send("Nie udało się usunąć starego pliku");
+                return;
+            }
+        }
+        try {
+            const local = await upload.uploadImage(imgFile);
+            await db.updateImg(photoid, undefined, local);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się dodać nowego pliku");
+            return;
+        }
+    }
+    res.send(
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+    );
 };
 
 export const getRandomImg = async (
@@ -397,7 +456,7 @@ export const postApiAddImg = async (
     let local: string | undefined = undefined;
     if (imgFile) {
         try {
-            local = upload.uploadImage(imgFile);
+            local = await upload.uploadImage(imgFile);
         } catch (error) {
             await Logger.error(error as string);
             res.send("Nie udało się zapisać pliku");

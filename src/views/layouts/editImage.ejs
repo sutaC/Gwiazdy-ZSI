@@ -10,14 +10,15 @@
         <main>
             <h1>Edytuj zdjęcie <%= photo.id %></h1>
 
+            <p id="error"></p>
+
             <form
                 hx-boost="true"
                 hx-target="#error"
                 hx-post="/img/<%= photo.id %>/update"
                 hx-confirm="Czy na pewno chcesz zaktualizować to zdjęcie?"
+                hx-encoding="multipart/form-data"
             >
-                <p id="error"></p>
-
                 <div class="field">
                     <label for="src">URL</label>
                     <input
@@ -31,19 +32,35 @@
                 </div>
 
                 <div class="field">
-                    <label for="local">Ścieżka pliku</label>
+                    <label for="imgFile">Plik</label>
+                    <small
+                        >(Obecnie: <% if (photo.local) { %> <%= photo.local %>
+                        <% } else { %>
+                        <i>brak</i>
+                        <% } %> )
+                    </small>
                     <input
-                        type="text"
-                        placeholder="Ścieżka pliku..."
-                        value="<%= photo.local %>"
-                        name="local"
-                        id="local"
-                        title="Nazwa pliku zapisanego na serwerze"
+                        type="file"
+                        name="imgFile"
+                        id="imgFile"
+                        title="Nowe zdjęcie w formie pliku"
+                        accept="image/*"
+                        size="5000000"
                     />
                 </div>
 
                 <button type="submit">Zapisz</button>
             </form>
+
+            <% if (photo.local) { %>
+            <button
+                hx-delete="/img/<%= photo.id %>/deleteLocal"
+                hx-confirm="Czy na pewno chcesz trwale usunąć lokalny plik tego zdjęcia?"
+                hx-target="#error"
+            >
+                Usuń plik lokalny zdjęcia
+            </button>
+            <% } %>
 
             <button
                 hx-delete="/img/<%= photo.id %>/delete"

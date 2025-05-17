@@ -1,7 +1,6 @@
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import dotenv from "dotenv";
-import multer from "multer";
 import path from "path";
 import router from "$/routes/router";
 import express, { type ErrorRequestHandler } from "express";
@@ -16,14 +15,6 @@ app.enable("trust proxy");
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
-app.use(
-    multer({
-        dest: "static/uploads/",
-        fileFilter: (req, file, cb) => {
-            cb(null, file.mimetype.startsWith("image"));
-        },
-    }).any()
-);
 
 /**
  * Root directory of project
