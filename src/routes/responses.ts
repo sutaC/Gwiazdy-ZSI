@@ -340,14 +340,9 @@ export const postImgUpdate = async (
     }
     if (src && src.startsWith("https://www.zsi.kielce.pl/")) {
         src = trimImageResolution(src);
-        const isPresent = await db.isImagePresent(src);
-        if (isPresent) {
-            res.send("Zdjęcie z takim adresem URL już istnieje");
-            return;
-        }
     }
     try {
-        await db.updateImg(photoid, src ?? "", local ?? "");
+        await db.updateImg(photoid, src, local);
     } catch (error) {
         await Logger.error(error as string);
         res.send("Nie udało się zaktualizować zdjęcia");

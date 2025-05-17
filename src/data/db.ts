@@ -187,15 +187,19 @@ export async function addImg(
  */
 export async function updateImg(
     id: number,
-    src: string,
-    local: string
+    src?: string,
+    local?: string
 ): Promise<void> {
     const con = await getConnection();
-    await con.query("UPDATE images SET src = ?, local = ? WHERE id = ?;", [
-        src,
-        local,
-        id,
-    ]);
+    if (typeof src === "string") {
+        await con.query("UPDATE images SET src = ? WHERE id = ?;", [src, id]);
+    }
+    if (typeof local === "string") {
+        await con.query("UPDATE images SET local = ? WHERE id = ?;", [
+            local,
+            id,
+        ]);
+    }
     await con.end();
 }
 
