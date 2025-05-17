@@ -11,7 +11,7 @@ import type { Request } from "$/routes/auth";
 import { trimImageResolution } from "$/data/scraper";
 
 // Responses
-export const getRoot = (req: Request, res: Response): void => {
+export const getMain = (req: Request, res: Response): void => {
     const authorized = req.authorized ?? false;
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
@@ -333,7 +333,7 @@ export const postImgUpdate = async (
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     let src: string | undefined = req.body.src;
-    const local: string | undefined = req.body.local;
+    const [imgFile] = req.files as Express.Multer.File[] | undefined[];
     if (!Number.isSafeInteger(photoid)) {
         res.send("Brak wymaganych parametrów");
         return;
@@ -342,15 +342,35 @@ export const postImgUpdate = async (
         src = trimImageResolution(src);
     }
     try {
-        await db.updateImg(photoid, src, local);
+        await db.updateImg(photoid, src);
     } catch (error) {
-        await Logger.error(error as string);
+        Logger.error(String(error));
         res.send("Nie udało się zaktualizować zdjęcia");
         return;
     }
     if (src) {
         // Deletes from scraped images to avoid potential duplicates
         await db.deleteScrapedImageBySrc(src);
+    }
+    if (imgFile) {
+        const img = await db.getImgById(photoid);
+        if (img?.local) {
+            try {
+                upload.deleteImage(img.local);
+            } catch (err) {
+                Logger.error(String(err));
+                res.send("Nie udało się usunąć starego pliku");
+                return;
+            }
+        }
+        try {
+            const local = await upload.uploadImage(imgFile);
+            await db.updateImg(photoid, undefined, local);
+        } catch (err) {
+            Logger.error(String(err));
+            res.send("Nie udało się dodać nowego pliku");
+            return;
+        }
     }
     res.send('<span style="color: green;">Zaktualizowano zdjęcie!</span>');
 };
@@ -397,7 +417,7 @@ export const postApiAddImg = async (
     let local: string | undefined = undefined;
     if (imgFile) {
         try {
-            local = upload.uploadImage(imgFile);
+            local = await upload.uploadImage(imgFile);
         } catch (error) {
             await Logger.error(error as string);
             res.send("Nie udało się zapisać pliku");

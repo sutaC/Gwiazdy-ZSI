@@ -11,7 +11,7 @@ const router = Router();
 router.use(auth.authenticate as () => Promise<void>);
 
 // --- Pages ---
-router.get("/", responses.getRoot as () => Promise<void>);
+router.get("/", responses.getMain as () => Promise<void>);
 
 router.get("/about", responses.getAbout as () => Promise<void>);
 

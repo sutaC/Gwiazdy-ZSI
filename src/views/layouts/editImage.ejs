@@ -15,6 +15,7 @@
                 hx-target="#error"
                 hx-post="/img/<%= photo.id %>/update"
                 hx-confirm="Czy na pewno chcesz zaktualizować to zdjęcie?"
+                hx-encoding="multipart/form-data"
             >
                 <p id="error"></p>
 
@@ -31,14 +32,15 @@
                 </div>
 
                 <div class="field">
-                    <label for="local">Ścieżka pliku</label>
+                    <label for="imgFile">Plik</label>
+                    <small
+                        >(Obecnie: <%= photo.local ?? "<i>brak</i>" %>)</small
+                    >
                     <input
-                        type="text"
-                        placeholder="Ścieżka pliku..."
-                        value="<%= photo.local %>"
-                        name="local"
-                        id="local"
-                        title="Nazwa pliku zapisanego na serwerze"
+                        type="file"
+                        name="imgFile"
+                        id="imgFile"
+                        title="Nowe zdjęcie w formie pliku"
                     />
                 </div>
 
