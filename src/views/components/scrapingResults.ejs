@@ -16,6 +16,9 @@
         <li>Limit stron: <%= limit %></li>
         <li>Znalezione zdjęcia: <%= found %></li>
         <li>Dodane nowe zdjęcia: <%= added %></li>
+        <% if (cachedSkip >= 0) { %>
+        <li>Artykuły pominięte przez caching: <%= cachedSkip %></li>
+        <% } %>
     </ul>
     <button hx-boost="true" hx-on:click="location.reload()">Odśwież</button>
 </div>

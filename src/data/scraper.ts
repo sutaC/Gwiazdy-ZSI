@@ -13,7 +13,9 @@ export default class Scraper {
         found: 0,
         added: 0,
         type: "brak",
+        cachedSkip: -1,
         nextAutoScraping: 0,
+        cachedArticles: [] as string[],
     };
     private readonly SAVEFILE: string;
 
@@ -35,7 +37,7 @@ export default class Scraper {
         this.lastResults.limit = limit ?? 0;
         this.lastResults.type = "manualny";
         try {
-            await this.scrapingJob(limit as number);
+            await this.scrapingJob(this.lastResults.limit);
         } catch (err) {
             Logger.error(`Error ocurred while scraping: ${String(err)}`);
         } finally {
@@ -104,7 +106,13 @@ export default class Scraper {
      * @returns Results of last scraping job
      */
     public getLastResults() {
-        return this.lastResults;
+        return {
+            type: this.lastResults.type,
+            added: this.lastResults.added,
+            found: this.lastResults.found,
+            limit: this.lastResults.limit,
+            cachedSkip: this.lastResults.cachedSkip,
+        };
     }
 
     // --- Private methods
@@ -123,7 +131,7 @@ export default class Scraper {
         try {
             await this.scrapingJob(1);
         } catch (err) {
-            Logger.error(err as string);
+            Logger.error(String(err));
         } finally {
             Logger.info("Finished automatic scraping job");
             this.jobActive = false;
@@ -155,9 +163,10 @@ export default class Scraper {
     private async scrape(limit?: number): Promise<string[]> {
         if (limit === undefined) limit = Infinity;
         if (limit < 0) throw Error("Cannot set negative limit");
+        if (limit === 1) this.lastResults.cachedSkip = 0;
         const imageUrls: string[] = [];
+        let articleUrls: string[] = [];
         let mainPage: Document;
-        let articleUrls: string[];
         let res: Response;
         for (let page = 1; page <= limit; page++) {
             if (page > 1) await this.sleep(2000);
@@ -176,13 +185,22 @@ export default class Scraper {
                 mainPage.querySelectorAll<HTMLAnchorElement>(
                     "main article .entry-header .entry-title a"
                 )
-            ).map((anchor) => anchor.href);
+            )
+                .map((anchor) => anchor.href)
+                .filter((url) => url.startsWith("https://www.zsi.kielce.pl/"));
             for (const url of articleUrls) {
-                if (!url.startsWith("https://www.zsi.kielce.pl/")) continue;
+                if (
+                    limit === 1 &&
+                    this.lastResults.cachedArticles.includes(url)
+                ) {
+                    this.lastResults.cachedSkip++;
+                    continue;
+                }
                 await this.sleep(2000);
                 await this.scrapeImageUrls(url, imageUrls);
             }
         }
+        if (limit === 1) this.lastResults.cachedArticles = articleUrls;
         this.trimImagesResolution(imageUrls);
         return this.removeDuplicates(imageUrls);
     }
@@ -201,7 +219,7 @@ export default class Scraper {
             const res = await fetch(articleUrl);
             articlePage = new JSDOM(await res.text()).window.document;
         } catch (err) {
-            console.error(err);
+            Logger.error(String(err));
             return;
         }
         const images =
@@ -305,6 +323,7 @@ export default class Scraper {
         this.lastResults.limit = 0;
         this.lastResults.found = 0;
         this.lastResults.added = 0;
+        this.lastResults.cachedSkip = -1;
         this.lastResults.type = "brak";
     }
 
