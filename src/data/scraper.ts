@@ -7,12 +7,13 @@ import { directory } from "$/app";
 
 export default class Scraper {
     private autoScrapingId: number | null = null;
-    private jobActive: boolean = false;
+    private jobStartTs: number | null = null;
     private lastResults = {
         limit: 0,
         found: 0,
         added: 0,
-        type: "brak",
+        timeElapsed: 0,
+        type: "",
         cachedSkip: -1,
         nextAutoScraping: 0,
         cachedArticles: [] as string[],
@@ -30,9 +31,8 @@ export default class Scraper {
      * @param limit Limit of read article pages (If unset scrapes all pages)
      */
     public async run(limit?: number): Promise<void> {
-        if (this.jobActive) return;
-        Logger.info("Started scraping job");
-        this.jobActive = true;
+        if (this.isRunning()) return;
+        this.jobStartTs = Date.now();
         this.reset();
         this.lastResults.limit = limit ?? 0;
         this.lastResults.type = "manualny";
@@ -41,8 +41,13 @@ export default class Scraper {
         } catch (err) {
             Logger.error(`Error ocurred while scraping: ${String(err)}`);
         } finally {
-            Logger.info("Finished scraping job");
-            this.jobActive = false;
+            this.lastResults.timeElapsed = Date.now() - this.jobStartTs;
+            this.jobStartTs = null;
+            Logger.info(
+                `Finished scraping job - Time elapsed: ${
+                    this.lastResults.timeElapsed / 1000
+                }s - Added imgs: ${this.lastResults.added}`
+            );
         }
     }
 
@@ -98,7 +103,7 @@ export default class Scraper {
      * @returns True if job is running
      */
     public isRunning(): boolean {
-        return this.jobActive;
+        return this.jobStartTs != null;
     }
 
     /**
@@ -112,19 +117,19 @@ export default class Scraper {
             found: this.lastResults.found,
             limit: this.lastResults.limit,
             cachedSkip: this.lastResults.cachedSkip,
+            timeElapsed: this.lastResults.timeElapsed,
         };
     }
 
     // --- Private methods
     private async autoScrapingJob() {
-        if (this.jobActive) {
+        if (this.isRunning()) {
             Logger.warning(
                 "Aborted automatic scraping due to active scraping job"
             );
             return;
         }
-        Logger.info("Started automatic scraping job");
-        this.jobActive = true;
+        this.jobStartTs = Date.now();
         this.reset();
         this.lastResults.limit = 1;
         this.lastResults.type = "automatyczny";
@@ -133,8 +138,13 @@ export default class Scraper {
         } catch (err) {
             Logger.error(String(err));
         } finally {
-            Logger.info("Finished automatic scraping job");
-            this.jobActive = false;
+            this.lastResults.timeElapsed = Date.now() - this.jobStartTs;
+            this.jobStartTs = null;
+            Logger.info(
+                `Finished automatic scraping job - Time elapsed: ${
+                    this.lastResults.timeElapsed / 1000
+                }s - Added imgs: ${this.lastResults.added}`
+            );
         }
     }
 
@@ -324,7 +334,8 @@ export default class Scraper {
         this.lastResults.found = 0;
         this.lastResults.added = 0;
         this.lastResults.cachedSkip = -1;
-        this.lastResults.type = "brak";
+        this.lastResults.type = "";
+        this.lastResults.timeElapsed = 0;
     }
 
     private isSameTypeObject(a: object, b: Object): boolean {

@@ -10,9 +10,11 @@
 </div>
 <% } else { %>
 <div class="result">
+    <% if (type) { %>
     <h3>Skrobanie zakończone</h3>
     <ul>
         <li>Rodzaj skrobania: <%= type %></li>
+        <li>Czas trwania: <%= (timeElapsed / 1000) %>s</li>
         <li>Limit stron: <%= limit %></li>
         <li>Znalezione zdjęcia: <%= found %></li>
         <li>Dodane nowe zdjęcia: <%= added %></li>
@@ -20,6 +22,9 @@
         <li>Artykuły pominięte przez caching: <%= cachedSkip %></li>
         <% } %>
     </ul>
+    <% } else { %>
+    <h3>Brak zapisu skrobania</h3>
+    <% } %>
     <button hx-boost="true" hx-on:click="location.reload()">Odśwież</button>
 </div>
 
