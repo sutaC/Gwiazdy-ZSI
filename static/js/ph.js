@@ -54,6 +54,7 @@
         (e.__SV = 1));
 })(document, window.posthog || []);
 posthog.init("phc_BNaN8l1tCF3nkIt77WcNIPF4Q0CySDk6RYr6x0fWOgK", {
-    api_host: "https://eu.i.posthog.com",
+    api_host: "https://ph.sutac.pl",
+    ui_host: "https://eu.posthog.com",
     person_profiles: "always",
 });
