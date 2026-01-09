@@ -155,11 +155,28 @@ footer {
     background: var(--secondary);
 }
 
-footer > a.buttonlike {
+footer a.buttonlike,
+footer button {
     width: 100%;
     max-width: 4rem;
     padding: 0.75em;
     aspect-ratio: 1;
+}
+
+#btnHelpWantedOpen {
+    position: relative;
+}
+#btnHelpWantedOpen::after {
+    content: "";
+    background-color: var(--accent);
+    box-shadow: inset 0 0 0.125rem #fff, 0 0 0.125rem #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    translate: 33% -33%;
 }
 
 @keyframes slideIn {

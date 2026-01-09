@@ -5,7 +5,7 @@
         <link rel="canonical" href="https://gwiazdyzsi.sutac.pl/" />
         <title>Gwiazdy ZSI</title>
         <link rel="stylesheet" href="/style/main.css" />
-        <!-- <script src="/js/main.js" defer></script> -->
+        <script src="/js/main.js" defer></script>
     </head>
 
     <body>
@@ -94,6 +94,8 @@
             <a href="/login" class="buttonlike">Zaloguj</a>
             <% } %>
 
+            <button id="btnHelpWantedOpen">Help Wanted</button>
+
             <a
                 href="#top-header"
                 class="buttonlike"
@@ -102,5 +104,6 @@
                 >^</a
             >
         </footer>
+        <%- include('../components/helpWanted.ejs') %>
     </body>
 </html>
