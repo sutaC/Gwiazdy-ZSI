@@ -72,6 +72,9 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
         maxAge: 10_800_000,
         signed: true,
         secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+        path: "/",
     });
     res.append("HX-Redirect", "/admin").sendStatus(303);
     await Logger.info(`Login as '${login}' by ip '${req.ip ?? "unknown"}'`);
