@@ -1,11 +1,11 @@
-services:
-    app:
-        command: ["npm", "run", "dev"]
-        depends_on:
-            - database
-        volumes:
-            - .:/app
-            - /app/node_modules
-    database:
-        ports:
-            - 3306:3306
+# services:
+#     app:
+#         command: ["npm", "run", "dev"]
+#         depends_on:
+#             - database
+#         volumes:
+#             - .:/app
+#             - /app/node_modules
+#     database:
+#         ports:
+#             - 3306:3306

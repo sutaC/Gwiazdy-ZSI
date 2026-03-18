@@ -1,8 +1,9 @@
-# Node
+# Dirs
 node_modules/
-# Data
 database/
+logs/
+# Files
+.git/
 *.env*
-*.log
 *.md
 *.sql

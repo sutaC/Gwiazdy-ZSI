@@ -3,8 +3,7 @@ node_modules/
 database/data/
 static/uploads/
 dist/
+logs/
 # Files
 *.env*
 !.env.example
-*.log
-scrapersave.json

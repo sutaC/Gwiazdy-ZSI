@@ -8,7 +8,7 @@ import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "./auth.js";
 import { trimImageResolution } from "../data/scraper.js";
-import { CREDITS_PATH, LOGS_PATH } from "../globals.js";
+import { LOGS_PATH } from "../globals.js";
 
 // Responses
 export const getMain = (req: Request, res: Response): void => {
@@ -40,14 +40,7 @@ export const getStatistics = async (
 };
 
 export const getAbout = async (req: Request, res: Response): Promise<void> => {
-    let credits = {
-        administrators: [],
-        contributors: [],
-    };
-    const data = await readFile(CREDITS_PATH);
-    const json = JSON.parse(data.toString());
-    if (json) credits = json;
-    res.render("./layouts/about.ejs", { credits });
+    res.render("./layouts/about.ejs");
 };
 
 // --- Admin panel ---

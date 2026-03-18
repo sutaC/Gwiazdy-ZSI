@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import { LOGS_PATH } from "../globals.js";
+import path from "path";
 
 /**
  * Logging static class

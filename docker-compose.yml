@@ -4,11 +4,11 @@ networks:
 services:
     app:
         build: .
-        command: ["npm", "run", "start"]
         depends_on:
             - database
         volumes:
             - /app/node_modules
+            - ./logs:/app/logs
         env_file:
             - .env
         ports:
