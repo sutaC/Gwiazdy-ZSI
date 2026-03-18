@@ -7,7 +7,7 @@ import { scraper } from "../app.js";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
 import type { Request } from "./auth.js";
-import { trimImageResolution } from "../data/scraper.js";
+import { trimImageResolution } from "../data/Scraper.js";
 import { LOGS_PATH } from "../globals.js";
 
 // Responses
@@ -646,7 +646,7 @@ export const postScraperScrape = async (
         res.sendStatus(409);
         return;
     }
-    scraper.run(limit);
+    scraper.run(limit ?? 0, "manual");
     res.status(202).render("./components/scrapingResults.ejs", {
         spinner: true,
     });

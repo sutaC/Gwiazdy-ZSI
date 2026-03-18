@@ -6,4 +6,3 @@ logs/
 .git/
 *.env*
 *.md
-*.sql

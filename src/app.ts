@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import router from "./routes/router.js";
 import express, { type ErrorRequestHandler } from "express";
 import Logger from "./data/Logger.js";
-import Scraper from "./data/scraper.js";
+import Scraper from "./data/Scraper.js";
 import { STATIC_PATH, VIEWS_PATH } from "./globals.js";
 
 const app = express();
@@ -18,9 +18,7 @@ app.use(express.static(STATIC_PATH));
 app.set("views", VIEWS_PATH);
 
 // Setup scraping job
-export const scraper = new Scraper(() => {
-    scraper.setAutoScraping(86400000); // 24h
-});
+export const scraper = new Scraper();
 // Attach router
 app.use(router);
 

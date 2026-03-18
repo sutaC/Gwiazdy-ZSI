@@ -19,3 +19,15 @@ services:
             - .env
         expose:
             - 3306
+    scraper_worker:
+        build: .
+        profiles:
+            - manual
+        command: ["node", "/app/dist/scraper_worker.js"]
+        depends_on:
+            - database
+        volumes:
+            - /app/node_modules
+            - ./logs:/app/logs
+        env_file:
+            - .env
