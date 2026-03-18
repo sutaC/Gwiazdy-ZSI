@@ -1,9 +1,8 @@
-import Logger from "./Logger";
-import path from "path";
+import Logger from "./Logger.js";
 import fs from "fs/promises";
 import { JSDOM } from "jsdom";
-import { ScrapedImagesHandler } from "./db";
-import { directory } from "$/app";
+import { ScrapedImagesHandler } from "./db.js";
+import { SCRAPERSAVE_PATH } from "../globals.js";
 
 export default class Scraper {
     private autoScrapingId: number | null = null;
@@ -18,10 +17,8 @@ export default class Scraper {
         nextAutoScraping: 0,
         cachedArticles: [] as string[],
     };
-    private readonly SAVEFILE: string;
 
     constructor(callback?: () => unknown) {
-        this.SAVEFILE = path.join(directory, "scrapersave.json");
         this.initFileSave().then(callback);
     }
 
@@ -46,7 +43,7 @@ export default class Scraper {
             Logger.info(
                 `Finished scraping job - Time elapsed: ${
                     this.lastResults.timeElapsed / 1000
-                }s - Added imgs: ${this.lastResults.added}`
+                }s - Added imgs: ${this.lastResults.added}`,
             );
         }
     }
@@ -125,7 +122,7 @@ export default class Scraper {
     private async autoScrapingJob() {
         if (this.isRunning()) {
             Logger.warning(
-                "Aborted automatic scraping due to active scraping job"
+                "Aborted automatic scraping due to active scraping job",
             );
             return;
         }
@@ -143,7 +140,7 @@ export default class Scraper {
             Logger.info(
                 `Finished automatic scraping job - Time elapsed: ${
                     this.lastResults.timeElapsed / 1000
-                }s - Added imgs: ${this.lastResults.added}`
+                }s - Added imgs: ${this.lastResults.added}`,
             );
         }
     }
@@ -184,7 +181,7 @@ export default class Scraper {
                 res = await fetch(`https://www.zsi.kielce.pl/page/${page}/`);
                 if (!res.ok)
                     throw new Error(
-                        `Page ${page} recieved status ${res.status}`
+                        `Page ${page} recieved status ${res.status}`,
                     );
                 mainPage = new JSDOM(await res.text()).window.document;
             } catch (err) {
@@ -193,8 +190,8 @@ export default class Scraper {
             }
             articleUrls = Array.from(
                 mainPage.querySelectorAll<HTMLAnchorElement>(
-                    "main article .entry-header .entry-title a"
-                )
+                    "main article .entry-header .entry-title a",
+                ),
             )
                 .map((anchor) => anchor.href)
                 .filter((url) => url.startsWith("https://www.zsi.kielce.pl/"));
@@ -222,7 +219,7 @@ export default class Scraper {
      */
     private async scrapeImageUrls(
         articleUrl: string,
-        outImageUrls: string[]
+        outImageUrls: string[],
     ): Promise<void> {
         let articlePage: Document;
         try {
@@ -270,38 +267,38 @@ export default class Scraper {
 
     private async saveToFile() {
         try {
-            const file = await fs.open(this.SAVEFILE, "w");
+            const file = await fs.open(SCRAPERSAVE_PATH, "w");
             const content = JSON.stringify(this.lastResults);
             await file.write(content);
             await file.close();
         } catch (err) {
             Logger.error(
-                `Error ocurred while saving scraping results ${String(err)}`
+                `Error ocurred while saving scraping results ${String(err)}`,
             );
         }
     }
 
     private async initFileSave() {
         try {
-            await fs.access(this.SAVEFILE);
+            await fs.access(SCRAPERSAVE_PATH);
         } catch (err) {
             await this.saveToFile();
             return;
         }
         let content: string = "";
         try {
-            const file = await fs.open(this.SAVEFILE, "r");
+            const file = await fs.open(SCRAPERSAVE_PATH, "r");
             content = (await file.readFile()).toString();
             file.close();
         } catch (err) {
             Logger.error(
-                `Error ocurred while reading scraping results ${String(err)}`
+                `Error ocurred while reading scraping results ${String(err)}`,
             );
         }
         const data = JSON.parse(content);
         if (!this.isSameTypeObject(this.lastResults, data)) {
             Logger.warning(
-                "Saved scraping data is not of valid type, overwriting"
+                "Saved scraping data is not of valid type, overwriting",
             );
             await this.saveToFile();
             return;

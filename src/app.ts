@@ -1,12 +1,11 @@
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import dotenv from "dotenv";
-import path from "path";
-import router from "$/routes/router";
+import router from "./routes/router.js";
 import express, { type ErrorRequestHandler } from "express";
-import { fileURLToPath } from "url";
-import Logger from "$/data/Logger";
-import Scraper from "./data/scraper";
+import Logger from "./data/Logger.js";
+import Scraper from "./data/scraper.js";
+import { STATIC_PATH, VIEWS_PATH } from "./globals.js";
 
 const app = express();
 dotenv.config();
@@ -15,16 +14,8 @@ app.enable("trust proxy");
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET));
-
-/**
- * Root directory of project
- */
-export const directory = path.join(
-    path.dirname(fileURLToPath(import.meta.url)),
-    ".."
-);
-app.use(express.static(path.join(directory, "/static")));
-app.set("views", path.join(directory, "/src/views"));
+app.use(express.static(STATIC_PATH));
+app.set("views", VIEWS_PATH);
 
 // Setup scraping job
 export const scraper = new Scraper(() => {
@@ -48,7 +39,7 @@ app.use((req, res) => {
 });
 
 // --- Deploy ---
-const port = process.env.PORT ?? 3000;
+const port = 3000;
 app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
 });

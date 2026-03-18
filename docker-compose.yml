@@ -4,22 +4,15 @@ networks:
 services:
     app:
         build: .
-        # Warning! scraping does NOT work in hot reload mode
-        # entrypoint: ["npm", "run", "dev"] # DEV (Uncomment to turn on hot reloading)
+        command: ["npm", "run", "start"]
         depends_on:
             - database
         volumes:
-            - .:/app
             - /app/node_modules
-        environment:
-            - PORT=4100
-            - SECRET=47453756456554697 # Secret for cookie parsing
-            - DB_HOST=database
-            - DB_USER=server
-            - DB_PASS=password
-            - DB_NAME=gwiazdy-zsi
+        env_file:
+            - .env
         ports:
-            - 4100:4100
+            - 3000:3000
         networks:
             - app-net
     database:
@@ -27,14 +20,9 @@ services:
         volumes:
             - ./database/init/:/docker-entrypoint-initdb.d/:ro
             - ./database/data:/var/lib/mysql
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_USER=server
-            - MYSQL_PASSWORD=password
-            - MYSQL_DATABASE=gwiazdy-zsi
+        env_file:
+            - .env
         expose:
             - 3306
-        # ports: # DEV (Required for this \/)
-        # - 3306:3306 # DEV (Uncomment to be able to connect to database from outside of docker network)
         networks:
             - app-net

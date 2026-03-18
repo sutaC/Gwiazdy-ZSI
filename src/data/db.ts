@@ -47,9 +47,9 @@ export interface ScrapedImage {
 async function getConnection(): Promise<mysql.Connection> {
     const con = await mysql.createConnection({
         host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        database: process.env.DB_NAME,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DATABASE,
     });
     if (!con) throw new Error("Could not connect to database");
     return con;
@@ -77,13 +77,13 @@ export async function getImgById(id: number): Promise<Image | null> {
  */
 export async function getImgsByTagId(
     tagid: number,
-    list: number
+    list: number,
 ): Promise<Image[]> {
     const con = await getConnection();
     const limit = (list - 1) * 5;
     const [data] = (await con.query(
         "SELECT images.* FROM images JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id_teachers = ? LIMIT ?, 5;",
-        [tagid, limit]
+        [tagid, limit],
     )) as unknown as Image[][] | undefined[][];
     await con.end();
     if (!data[0]) return [];
@@ -99,7 +99,7 @@ export async function getNextImg(id: number): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
         "SELECT id FROM images WHERE id > ? LIMIT 1;",
-        [id]
+        [id],
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return data?.id ?? null;
@@ -114,7 +114,7 @@ export async function getPreviousImg(id: number): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
         "SELECT id FROM images WHERE id < ? ORDER BY id DESC LIMIT 1;",
-        [Number(id)]
+        [Number(id)],
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return data?.id ?? null;
@@ -127,7 +127,7 @@ export async function getPreviousImg(id: number): Promise<number | null> {
 export async function getRandomImg(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        "SELECT id FROM images ORDER BY RAND() LIMIT 1;"
+        "SELECT id FROM images ORDER BY RAND() LIMIT 1;",
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return data?.id ?? null;
@@ -140,7 +140,7 @@ export async function getRandomImg(): Promise<number | null> {
 export async function getRandomUntaggedImg(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        "SELECT images.id FROM images LEFT JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id IS NULL ORDER BY RAND() LIMIT 1;"
+        "SELECT images.id FROM images LEFT JOIN imagesteachers ON images.id = imagesteachers.id_images WHERE imagesteachers.id IS NULL ORDER BY RAND() LIMIT 1;",
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return data?.id ?? null;
@@ -155,7 +155,7 @@ export async function getRandomUntaggedImg(): Promise<number | null> {
  */
 export async function addImg(
     src?: string,
-    local?: string
+    local?: string,
 ): Promise<number | null> {
     if (src == undefined && local == undefined) {
         throw new Error("Cannot insert image witchout src or local.");
@@ -163,7 +163,7 @@ export async function addImg(
     const con = await getConnection();
     await con.query(
         "INSERT INTO images (id, src, local) VALUES (NULL, ?, ?);",
-        [src ?? "", local ?? ""]
+        [src ?? "", local ?? ""],
     );
     let data: { id: number } | undefined;
     if (src) {
@@ -188,7 +188,7 @@ export async function addImg(
 export async function updateImg(
     id: number,
     src?: string,
-    local?: string
+    local?: string,
 ): Promise<void> {
     const con = await getConnection();
     if (typeof src === "string") {
@@ -243,12 +243,12 @@ export async function deleteImage(id: number): Promise<void> {
  */
 export async function addTag(
     imageId: number,
-    tagId: number
+    tagId: number,
 ): Promise<Teacher | null> {
     const con = await getConnection();
     await con.query(
         "INSERT INTO imagesteachers (id, id_images, id_teachers) VALUES (NULL, ?, ?);",
-        [imageId, tagId]
+        [imageId, tagId],
     );
     const [[data]] = (await con.query("SELECT * FROM teachers WHERE id = ?;", [
         tagId,
@@ -266,7 +266,7 @@ export async function deleteTag(imageId: number, tagId: number): Promise<void> {
     const con = await getConnection();
     await con.query(
         "DELETE FROM imagesteachers WHERE id_images = ? AND id_teachers = ?;",
-        [imageId, tagId]
+        [imageId, tagId],
     );
     await con.end();
 }
@@ -279,7 +279,7 @@ export async function deleteTag(imageId: number, tagId: number): Promise<void> {
 export async function getTags(): Promise<Teacher[]> {
     const con = await getConnection();
     const [data] = (await con.query(
-        "SELECT * FROM teachers ORDER BY name;"
+        "SELECT * FROM teachers ORDER BY name;",
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
     if (!data[0]?.id) return [];
@@ -296,7 +296,7 @@ export async function addToTags(name: string): Promise<number | null> {
     await con.query("INSERT INTO teachers (id, name) VALUES (NULL, ?)", [name]);
     const [[data]] = (await con.query(
         "SELECT id FROM teachers WHERE name = ? LIMIT 1;",
-        [name]
+        [name],
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return data?.id ?? null;
@@ -333,7 +333,7 @@ export async function getSelectedTeachers(id: number): Promise<Teacher[]> {
     const con = await getConnection();
     const [data] = (await con.query(
         "SELECT teachers.* FROM images LEFT JOIN imagesteachers ON images.id = imagesteachers.id_images LEFT JOIN teachers ON imagesteachers.id_teachers = teachers.id WHERE images.id = ?;",
-        [id]
+        [id],
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
     if (!data[0]?.id) return [];
@@ -349,7 +349,7 @@ export async function searchTeachers(prompt: string): Promise<Teacher[]> {
     const con = await getConnection();
     const [data] = (await con.query(
         'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") LIMIT 3;',
-        [prompt]
+        [prompt],
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
     if (!data[0]?.id) return [];
@@ -364,12 +364,12 @@ export async function searchTeachers(prompt: string): Promise<Teacher[]> {
  */
 export async function searchUnselectedTeachers(
     imageId: number,
-    prompt: string
+    prompt: string,
 ): Promise<Teacher[]> {
     const con = await getConnection();
     const [data] = (await con.query(
         'SELECT * FROM teachers WHERE name LIKE CONCAT("%", ?, "%") GROUP BY id HAVING NOT id IN ( SELECT teachers.id FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers WHERE imagesteachers.id_images = ? ) LIMIT 3;',
-        [prompt, imageId]
+        [prompt, imageId],
     )) as unknown as Teacher[][] | undefined[][];
     await con.end();
     if (!data[0]?.id) return [];
@@ -400,7 +400,7 @@ export async function getUser(login: string): Promise<string | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
         "SELECT password FROM users WHERE login = ?;",
-        [login]
+        [login],
     )) as unknown as { password: string }[][] | undefined[][];
     await con.end();
     return data?.password ?? null;
@@ -415,7 +415,7 @@ export async function getUserByToken(token: string): Promise<string | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
         "SELECT login FROM users WHERE token = ?;",
-        [token]
+        [token],
     )) as unknown as { login: string }[][] | undefined[][];
     await con.end();
     return data?.login ?? null;
@@ -428,7 +428,7 @@ export async function getUserByToken(token: string): Promise<string | null> {
  */
 export async function updateUserToken(
     login: string,
-    token: string
+    token: string,
 ): Promise<void> {
     const con = await getConnection();
     await con.query("UPDATE users SET token = ? WHERE login = ?;", [
@@ -445,7 +445,7 @@ export async function updateUserToken(
  */
 export async function updateUserPassword(
     login: string,
-    password: string
+    password: string,
 ): Promise<void> {
     const con = await getConnection();
     await con.query("UPDATE users SET password = ? WHERE login = ?;", [
@@ -464,7 +464,7 @@ export async function addUser(login: string, password: string): Promise<void> {
     const con = await getConnection();
     await con.query(
         "INSERT INTO users (id, login, password, token) VALUES (NULL, ?, ?, NULL);",
-        [login, password]
+        [login, password],
     );
     await con.end();
 }
@@ -487,7 +487,7 @@ export async function deleteUser(login: string): Promise<void> {
 export async function getImageAmount(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        'SELECT COUNT(*) AS "amount" FROM images;'
+        'SELECT COUNT(*) AS "amount" FROM images;',
     )) as unknown as { amount: number }[][] | undefined[][];
     await con.end();
     return data?.amount ?? null;
@@ -500,7 +500,7 @@ export async function getImageAmount(): Promise<number | null> {
 export async function getImageWithTagAmount(): Promise<number | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        'SELECT COUNT(DISTINCT id_images) AS "amount" FROM imagesteachers;'
+        'SELECT COUNT(DISTINCT id_images) AS "amount" FROM imagesteachers;',
     )) as unknown as { amount: number }[][] | undefined[][];
     await con.end();
     return data?.amount ?? null;
@@ -513,7 +513,7 @@ export async function getImageWithTagAmount(): Promise<number | null> {
 export async function getImageAmountOnTeachers(): Promise<TeacherCount[]> {
     const con = await getConnection();
     const [data] = (await con.query(
-        'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "amount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY amount DESC, name ASC;'
+        'SELECT teachers.name, COUNT(imagesteachers.id_teachers) AS "amount" FROM teachers JOIN imagesteachers ON teachers.id = imagesteachers.id_teachers GROUP BY imagesteachers.id_teachers ORDER BY amount DESC, name ASC;',
     )) as unknown as TeacherCount[][] | undefined[][];
     await con.end();
     if (!data[0]) return [];
@@ -557,7 +557,7 @@ export class ScrapedImagesHandler {
             throw Error("There is no running database connection");
         const [data] = (await this.connection.query(
             "SELECT id FROM scrapedimages WHERE src = ? UNION SELECT id FROM images WHERE src = ? LIMIT 1;",
-            [src, src]
+            [src, src],
         )) as unknown as { id: number }[][];
         return data.length !== 0;
     }
@@ -571,7 +571,7 @@ export class ScrapedImagesHandler {
             throw Error("There is no running database connection");
         await this.connection.query(
             "INSERT INTO scrapedimages (id, src, rejected) VALUES (NULL, ?, '0');",
-            [src]
+            [src],
         );
     }
 }
@@ -595,7 +595,7 @@ export async function setScrapedImageAsRejected(id: number): Promise<void> {
 export async function getRandomScrapedImage(): Promise<ScrapedImage | null> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        "SELECT id, src FROM scrapedimages WHERE rejected = 0 ORDER BY RAND() LIMIT 1;"
+        "SELECT id, src FROM scrapedimages WHERE rejected = 0 ORDER BY RAND() LIMIT 1;",
     )) as unknown as ScrapedImage[][];
     await con.end();
     return data ?? null;
@@ -608,7 +608,7 @@ export async function getRandomScrapedImage(): Promise<ScrapedImage | null> {
 export async function getScrapedImageAmount(): Promise<number> {
     const con = await getConnection();
     const [[data]] = (await con.query(
-        "SELECT COUNT(*) as 'count' FROM scrapedimages WHERE rejected = 0;"
+        "SELECT COUNT(*) as 'count' FROM scrapedimages WHERE rejected = 0;",
     )) as unknown as { count: number }[][];
     await con.end();
     return data.count;
@@ -620,23 +620,23 @@ export async function getScrapedImageAmount(): Promise<number> {
  * @returns Id of image in `images` table or null when image could not be added
  */
 export async function transferScrapedImageToImages(
-    id: number
+    id: number,
 ): Promise<number | null> {
     const con = await getConnection();
     const [[dataSrc]] = (await con.query(
         "SELECT src FROM scrapedimages WHERE id = ?;",
-        [id]
+        [id],
     )) as unknown as { src: string }[][] | undefined[][];
     if (!dataSrc?.src) return null;
     const src = dataSrc.src;
     await con.query(
         "INSERT INTO images (id, src, local) VALUES (NULL, ?, NULL);",
-        [src]
+        [src],
     );
     await con.query("DELETE FROM scrapedimages WHERE id = ?;", [id]);
     const [[dataId]] = (await con.query(
         "SELECT id FROM images WHERE src = ?;",
-        [src]
+        [src],
     )) as unknown as { id: number }[][] | undefined[][];
     await con.end();
     return dataId?.id ?? null;
@@ -661,7 +661,7 @@ export async function isImagePresent(src: string): Promise<boolean> {
     const con = await getConnection();
     const [data] = (await con.query(
         "SELECT id FROM images WHERE src = ? LIMIT 1;",
-        [src]
+        [src],
     )) as unknown as { id: number }[][];
     await con.end();
     return data.length !== 0;
