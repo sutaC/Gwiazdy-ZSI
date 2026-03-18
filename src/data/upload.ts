@@ -1,6 +1,6 @@
-import { directory } from "$/app";
 import fs from "fs/promises";
 import path from "path";
+import { ROOT_PATH, UPLOADS_PATH } from "../globals.js";
 
 /**
  * Uploads file to server
@@ -8,13 +8,13 @@ import path from "path";
  * @returns New file name
  */
 export async function uploadImage(
-    uploadFile: Express.Multer.File
+    uploadFile: Express.Multer.File,
 ): Promise<string> {
     const name =
         crypto.randomUUID() + "." + uploadFile.originalname.split(".").pop();
     await fs.rename(
-        path.join(directory, uploadFile.path),
-        path.join(directory, "static/uploads/", name)
+        path.join(ROOT_PATH, uploadFile.path),
+        path.join(UPLOADS_PATH, name),
     );
     return name;
 }
@@ -24,7 +24,7 @@ export async function uploadImage(
  * @param filename Name of file to delete
  */
 export async function deleteImage(filename: string): Promise<void> {
-    const filePath = path.join(directory, "static/uploads/", filename);
+    const filePath = path.join(UPLOADS_PATH, filename);
     try {
         await fs.access(filePath);
     } catch (err) {

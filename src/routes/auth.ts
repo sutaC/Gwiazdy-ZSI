@@ -1,4 +1,4 @@
-import * as db from "$/data/db";
+import * as db from "../data/db.js";
 import { createHash } from "crypto";
 import { Response, Request as ExRequest } from "express";
 
@@ -15,7 +15,7 @@ export interface Request extends ExRequest {
 export async function authenticate(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): Promise<void> {
     const { token } = req.signedCookies;
     req.authorized = null;
@@ -52,7 +52,7 @@ export async function authenticate(
 export function authorizePageRootAdmin(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (req.authorized !== "admin") {
         res.status(403).render("./layouts/error.ejs", { error: { code: 403 } });
@@ -68,7 +68,7 @@ export function authorizePageRootAdmin(
 export function authorizeApiRootAdmin(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (req.authorized !== "admin") {
         res.sendStatus(403);
@@ -84,7 +84,7 @@ export function authorizeApiRootAdmin(
 export function authorizePage(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (!req.authorized) {
         res.status(401).render("./layouts/error.ejs", { error: { code: 401 } });
@@ -100,7 +100,7 @@ export function authorizePage(
 export function authorizeApi(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (!req.authorized) {
         res.sendStatus(401);
@@ -116,7 +116,7 @@ export function authorizeApi(
 export function authorizePageToAdmin(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (req.authorized) {
         res.status(101).redirect("/admin");
@@ -132,11 +132,11 @@ export function authorizePageToAdmin(
 export function authorizeApiToAdmin(
     req: Request,
     res: Response,
-    next: () => void
+    next: () => void,
 ): void {
     if (req.authorized) {
         res.status(303).send(
-            '<script>window.location.replace("/admin")</script>'
+            '<script>window.location.replace("/admin")</script>',
         );
         return;
     }
@@ -162,7 +162,7 @@ export function hashString(string: string): string {
  */
 export async function authenticateUser(
     login: string,
-    password: string
+    password: string,
 ): Promise<string | null> {
     const dbPassword = await db.getUser(login);
     if (!dbPassword) return "Nieprawidłowy login lub hasło";

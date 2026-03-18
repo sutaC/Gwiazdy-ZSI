@@ -1,12 +1,10 @@
-import Logger from "./Logger";
-import path from "path";
+import Logger from "./Logger.js";
 import fs from "fs/promises";
 import { JSDOM } from "jsdom";
-import { ScrapedImagesHandler } from "./db";
-import { directory } from "$/app";
+import { ScrapedImagesHandler } from "./db.js";
+import { SCRAPERSAVE_PATH } from "../globals.js";
 
 export default class Scraper {
-    private autoScrapingId: number | null = null;
     private jobStartTs: number | null = null;
     private lastResults = {
         limit: 0,
@@ -18,24 +16,26 @@ export default class Scraper {
         nextAutoScraping: 0,
         cachedArticles: [] as string[],
     };
-    private readonly SAVEFILE: string;
 
-    constructor(callback?: () => unknown) {
-        this.SAVEFILE = path.join(directory, "scrapersave.json");
-        this.initFileSave().then(callback);
+    constructor() {
+        this.loadFileSave();
     }
 
     // --- Public methods
     /**
      * Creates job of async scraping image urls from `www.zsi.kielce.pl`. Onlu one jon can be running.
      * @param limit Limit of read article pages (If unset scrapes all pages)
+     * @param type Type of scraping ('manual' or 'auto')
      */
-    public async run(limit?: number): Promise<void> {
+    public async run(
+        limit: number = 0,
+        type: "manual" | "auto" = "manual",
+    ): Promise<void> {
         if (this.isRunning()) return;
         this.jobStartTs = Date.now();
         this.reset();
-        this.lastResults.limit = limit ?? 0;
-        this.lastResults.type = "manualny";
+        this.lastResults.limit = limit;
+        this.lastResults.type = type;
         try {
             await this.scrapingJob(this.lastResults.limit);
         } catch (err) {
@@ -44,58 +44,11 @@ export default class Scraper {
             this.lastResults.timeElapsed = Date.now() - this.jobStartTs;
             this.jobStartTs = null;
             Logger.info(
-                `Finished scraping job - Time elapsed: ${
+                `Finished ${type} scraping job - Time elapsed: ${
                     this.lastResults.timeElapsed / 1000
-                }s - Added imgs: ${this.lastResults.added}`
+                }s - Added imgs: ${this.lastResults.added}`,
             );
         }
-    }
-
-    /**
-     * Sets automatic scraping
-     * @param interval Interval of automatic scraping in ms
-     */
-    public setAutoScraping(interval: number): void {
-        // Auto scraping fn
-        const fn = async () => {
-            await this.autoScrapingJob();
-            this.lastResults.nextAutoScraping = Date.now() + interval;
-            this.saveToFile();
-        };
-        // Set fn
-        if (this.lastResults.nextAutoScraping === 0) {
-            this.lastResults.nextAutoScraping = Date.now() + interval;
-            this.saveToFile();
-            setInterval(fn, interval);
-            return;
-        }
-        const now = Date.now();
-        if (now >= this.lastResults.nextAutoScraping) {
-            fn().then(() => {
-                this.lastResults.nextAutoScraping = now + interval;
-                this.saveToFile();
-                setInterval(fn, interval);
-            });
-        } else if (this.lastResults.nextAutoScraping - now >= interval) {
-            this.lastResults.nextAutoScraping = now + interval;
-            this.saveToFile();
-            setInterval(fn, interval);
-        } else {
-            setTimeout(() => {
-                fn().then(() => {
-                    setInterval(fn, interval);
-                });
-            }, this.lastResults.nextAutoScraping - now);
-        }
-        this.saveToFile();
-    }
-
-    /**
-     * Clears automatic scraping
-     */
-    public clearAutoScraping(): void {
-        if (this.autoScrapingId === null) return;
-        clearInterval(this.autoScrapingId);
     }
 
     /**
@@ -110,7 +63,8 @@ export default class Scraper {
      * Gets results of last scraping job
      * @returns Results of last scraping job
      */
-    public getLastResults() {
+    public async getLastResults() {
+        await this.loadFileSave();
         return {
             type: this.lastResults.type,
             added: this.lastResults.added,
@@ -122,10 +76,10 @@ export default class Scraper {
     }
 
     // --- Private methods
-    private async autoScrapingJob() {
+    public async autoScrapingJob() {
         if (this.isRunning()) {
             Logger.warning(
-                "Aborted automatic scraping due to active scraping job"
+                "Aborted automatic scraping due to active scraping job",
             );
             return;
         }
@@ -143,7 +97,7 @@ export default class Scraper {
             Logger.info(
                 `Finished automatic scraping job - Time elapsed: ${
                     this.lastResults.timeElapsed / 1000
-                }s - Added imgs: ${this.lastResults.added}`
+                }s - Added imgs: ${this.lastResults.added}`,
             );
         }
     }
@@ -184,7 +138,7 @@ export default class Scraper {
                 res = await fetch(`https://www.zsi.kielce.pl/page/${page}/`);
                 if (!res.ok)
                     throw new Error(
-                        `Page ${page} recieved status ${res.status}`
+                        `Page ${page} recieved status ${res.status}`,
                     );
                 mainPage = new JSDOM(await res.text()).window.document;
             } catch (err) {
@@ -193,8 +147,8 @@ export default class Scraper {
             }
             articleUrls = Array.from(
                 mainPage.querySelectorAll<HTMLAnchorElement>(
-                    "main article .entry-header .entry-title a"
-                )
+                    "main article .entry-header .entry-title a",
+                ),
             )
                 .map((anchor) => anchor.href)
                 .filter((url) => url.startsWith("https://www.zsi.kielce.pl/"));
@@ -222,7 +176,7 @@ export default class Scraper {
      */
     private async scrapeImageUrls(
         articleUrl: string,
-        outImageUrls: string[]
+        outImageUrls: string[],
     ): Promise<void> {
         let articlePage: Document;
         try {
@@ -270,38 +224,38 @@ export default class Scraper {
 
     private async saveToFile() {
         try {
-            const file = await fs.open(this.SAVEFILE, "w");
+            const file = await fs.open(SCRAPERSAVE_PATH, "w");
             const content = JSON.stringify(this.lastResults);
             await file.write(content);
             await file.close();
         } catch (err) {
             Logger.error(
-                `Error ocurred while saving scraping results ${String(err)}`
+                `Error ocurred while saving scraping results ${String(err)}`,
             );
         }
     }
 
-    private async initFileSave() {
+    private async loadFileSave() {
         try {
-            await fs.access(this.SAVEFILE);
+            await fs.access(SCRAPERSAVE_PATH);
         } catch (err) {
             await this.saveToFile();
             return;
         }
         let content: string = "";
         try {
-            const file = await fs.open(this.SAVEFILE, "r");
+            const file = await fs.open(SCRAPERSAVE_PATH, "r");
             content = (await file.readFile()).toString();
             file.close();
         } catch (err) {
             Logger.error(
-                `Error ocurred while reading scraping results ${String(err)}`
+                `Error ocurred while reading scraping results ${String(err)}`,
             );
         }
         const data = JSON.parse(content);
         if (!this.isSameTypeObject(this.lastResults, data)) {
             Logger.warning(
-                "Saved scraping data is not of valid type, overwriting"
+                "Saved scraping data is not of valid type, overwriting",
             );
             await this.saveToFile();
             return;

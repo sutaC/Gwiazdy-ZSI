@@ -81,50 +81,57 @@
                         Kontrybutorzy i kontrybutariuszki
                     </h3>
 
-                    <% if (credits.contributors.length == 0) { %>
                     <small class="creditsEmptyMsg"
                         >Nie ma jeszcze żadnych kontrybutorów, ale możesz zostać
                         pierwszym!</small
                     >
-                    <% } %>
 
+                    <%#
                     <ul class="credits">
-                        <% for(const contr of credits.contributors) { %>
                         <li>
                             <a
                                 class="highlight"
-                                href="<%= contr.url %>"
+                                href="--url--"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                ><%= contr.name %></a
+                                >--name--</a
                             >
                         </li>
-                        <% } %>
                     </ul>
+                    %>
                 </div>
 
                 <div aria-labelledby="hAdministrators">
                     <h3 id="hAdministrators">Administracja</h3>
 
-                    <% if (credits.administrators.length == 0) { %>
-                    <small class="creditsEmptyMsg"
-                        >Nie ma jeszcze administratorów, ale możesz zostać
-                        pierwszym!</small
-                    >
-                    <% } %>
-
                     <ul class="credits">
-                        <% for(const admin of credits.administrators) { %>
                         <li>
                             <a
-                                href="<%= admin.url %>"
+                                href="https://github.com/krynekt"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="highlight"
-                                ><%= admin.name %></a
+                                >krynekt</a
                             >
                         </li>
-                        <% } %>
+                        <li>
+                            <a
+                                href="https://github.com/solewap"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="highlight"
+                                >Solewap</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://github.com/Khajiitos"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="highlight"
+                                >Khajiitos</a
+                            >
+                        </li>
                     </ul>
                 </div>
             </section>

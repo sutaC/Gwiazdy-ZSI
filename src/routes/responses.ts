@@ -1,14 +1,14 @@
-import path from "path";
-import * as upload from "$/data/upload";
-import * as db from "$/data/db";
-import { hashString, authenticateUser, validatePassword } from "$/routes/auth";
-import Logger from "$/data/Logger";
+import * as upload from "../data/upload.js";
+import * as db from "../data/db.js";
+import { hashString, authenticateUser, validatePassword } from "./auth.js";
+import Logger from "../data/Logger.js";
 import { randomUUID } from "crypto";
-import { directory, scraper } from "$/app";
+import { scraper } from "../app.js";
 import { readFile, access } from "fs/promises";
 import type { Response } from "express";
-import type { Request } from "$/routes/auth";
-import { trimImageResolution } from "$/data/scraper";
+import type { Request } from "./auth.js";
+import { trimImageResolution } from "../data/Scraper.js";
+import { LOGS_PATH } from "../globals.js";
 
 // Responses
 export const getMain = (req: Request, res: Response): void => {
@@ -25,7 +25,7 @@ export const getMain = (req: Request, res: Response): void => {
 
 export const getStatistics = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const [ranks, imagesAmount, imagesWithTagsAmount] = await Promise.all([
         db.getImageAmountOnTeachers(),
@@ -40,14 +40,7 @@ export const getStatistics = async (
 };
 
 export const getAbout = async (req: Request, res: Response): Promise<void> => {
-    let credits = {
-        administrators: [],
-        contributors: [],
-    };
-    const data = await readFile(`${directory}/src/data/credits.json`);
-    const json = JSON.parse(data.toString());
-    if (json) credits = json;
-    res.render("./layouts/about.ejs", { credits });
+    res.render("./layouts/about.ejs");
 };
 
 // --- Admin panel ---
@@ -61,7 +54,7 @@ export const postLogin = async (req: Request, res: Response): Promise<void> => {
     if (error) {
         res.send(error);
         await Logger.info(
-            `Failed login attempt for '${login}' by ip '${req.ip ?? "unknown"}'`
+            `Failed login attempt for '${login}' by ip '${req.ip ?? "unknown"}'`,
         );
         return;
     }
@@ -127,7 +120,7 @@ export const postReset = async (req: Request, res: Response): Promise<void> => {
     }
     await db.updateUserPassword(login, hashString(newPassword));
     res.send(
-        '<span style="color: green;">Zmiana hasła przebiegła pomyślnie!</span>'
+        '<span style="color: green;">Zmiana hasła przebiegła pomyślnie!</span>',
     );
 };
 
@@ -135,21 +128,19 @@ export const getLogs = async (req: Request, res: Response): Promise<void> => {
     // Sends raw file
     if (req.query.type === "raw") {
         try {
-            await access(path.join(directory, Logger.LOGFILE));
+            await access(LOGS_PATH);
         } catch (err) {
             await Logger.error(`Could not open server logs:\n${err}`);
             res.send("");
             return;
         }
-        res.sendFile(Logger.LOGFILE, { root: directory });
+        res.sendFile(LOGS_PATH);
         return;
     }
     // Load logs
     let logs: string = "";
     try {
-        logs = (
-            await readFile(path.join(directory, Logger.LOGFILE))
-        ).toString();
+        logs = (await readFile(LOGS_PATH)).toString();
     } catch (err) {
         await Logger.error(`Could not open server logs: ${err}`);
         logs = "";
@@ -165,15 +156,13 @@ export const getLogs = async (req: Request, res: Response): Promise<void> => {
 
 export const deleteLogs = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     await Logger.clear();
     await Logger.info("Cleared logs");
     let logs: string = "";
     try {
-        logs = (
-            await readFile(path.join(directory, Logger.LOGFILE))
-        ).toString();
+        logs = (await readFile(LOGS_PATH)).toString();
     } catch (err) {
         await Logger.error(`Could not open server logs: ${err}`);
         logs = "";
@@ -188,7 +177,7 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 
 export const postAddAdminUser = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const { login, password, repeatPassword } = req.body;
     if (!login || !password || !repeatPassword) {
@@ -230,7 +219,7 @@ export const postAddAdminUser = async (
 
 export const deleteDeleteUser = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const { login } = req.params;
     if (!login) {
@@ -280,7 +269,7 @@ export const getImg = async (req: Request, res: Response): Promise<void> => {
 
 export const getImgUpdate = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     if (!Number.isSafeInteger(photoid)) {
@@ -327,13 +316,13 @@ export const deleteImageDeleteLocal = async (req: Request, res: Response) => {
         return;
     }
     res.send(
-        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>',
     );
 };
 
 export const deleteImageDelete = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     if (!Number.isSafeInteger(photoid)) {
@@ -358,7 +347,7 @@ export const deleteImageDelete = async (
 
 export const postImgUpdate = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     let src: string | undefined = req.body.src;
@@ -413,13 +402,13 @@ export const postImgUpdate = async (
         }
     }
     res.send(
-        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>'
+        '<hr><span style="color: green;">Zaktualizowano zdjęcie!</span><button onclick="location.reload()">Odśwież</button><hr>',
     );
 };
 
 export const getRandomImg = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     let photoid: number | null = null;
     if (req.query.untagged === "true") {
@@ -440,7 +429,7 @@ export const getAddImg = (req: Request, res: Response): void => {
 
 export const postApiAddImg = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     let imgUrl = req.body.imgUrl as string | undefined;
     const [imgFile] = req.files as Express.Multer.File[] | undefined[];
@@ -493,7 +482,7 @@ export const getTags = async (req: Request, res: Response): Promise<void> => {
 
 export const patchUpdateInTags = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const id = Number.parseInt(req.params.id);
     const name: string | undefined = req.body.name;
@@ -510,7 +499,7 @@ export const patchUpdateInTags = async (
 
 export const deleteDeleteFromTags = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const id = Number.parseInt(req.params.id);
     if (!Number.isSafeInteger(id)) {
@@ -524,7 +513,7 @@ export const deleteDeleteFromTags = async (
 
 export const putAddToTags = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const name: string | undefined = req.body.name;
     if (!name) {
@@ -560,7 +549,7 @@ export const putImgTag = async (req: Request, res: Response): Promise<void> => {
 
 export const deleteImgTag = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const photoid = Number.parseInt(req.params.photoid);
     const tagid = Number.parseInt(req.params.tagid);
@@ -604,7 +593,7 @@ export const getTag = async (req: Request, res: Response): Promise<void> => {
 
 export const getImageTaglist = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const tagid = Number.parseInt(req.params.tagid);
     if (!Number.isSafeInteger(tagid)) {
@@ -629,7 +618,7 @@ export const getImageTaglist = async (
 
 export const getScraper = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const imageCount = await db.getScrapedImageAmount();
     let image: db.ScrapedImage | null = null;
@@ -646,7 +635,7 @@ export const getScraper = async (
 
 export const postScraperScrape = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const limit = Number.parseInt(req.body.pages);
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 150) {
@@ -657,7 +646,7 @@ export const postScraperScrape = async (
         res.sendStatus(409);
         return;
     }
-    scraper.run(limit);
+    scraper.run(limit ?? 0, "manual");
     res.status(202).render("./components/scrapingResults.ejs", {
         spinner: true,
     });
@@ -665,7 +654,7 @@ export const postScraperScrape = async (
 
 export const getScraperStatus = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     if (scraper.isRunning()) {
         res.sendStatus(204);
@@ -679,7 +668,7 @@ export const getScraperStatus = async (
 
 export const getScraperImage = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const imageCount = await db.getScrapedImageAmount();
     let image: db.ScrapedImage | null = null;
@@ -695,7 +684,7 @@ export const getScraperImage = async (
 
 export const deleteScraperImageId = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const id = Number.parseInt(req.params.id);
     if (!Number.isSafeInteger(id)) {
@@ -708,7 +697,7 @@ export const deleteScraperImageId = async (
 
 export const postScraperImageId = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     const id = Number.parseInt(req.params.id);
     if (!Number.isSafeInteger(id)) {
@@ -721,6 +710,6 @@ export const postScraperImageId = async (
         return;
     }
     res.send(
-        `Dodano nowe zdjęcie o id <a href="/img/${newId}" target="_blank">${newId}</a>`
+        `Dodano nowe zdjęcie o id <a href="/img/${newId}" target="_blank">${newId}</a>`,
     );
 };

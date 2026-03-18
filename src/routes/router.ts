@@ -40,88 +40,88 @@ router.get("/img/:photoid", responses.getImg as () => Promise<void>);
 router.get(
     "/img/:photoid/update",
     auth.authorizePage as () => Promise<void>,
-    responses.getImgUpdate as () => Promise<void>
+    responses.getImgUpdate as () => Promise<void>,
 );
 
 router.post(
     "/img/:photoid/update",
     auth.authorizeApi as () => void,
     imageFileUpload,
-    responses.postImgUpdate as () => Promise<void>
+    responses.postImgUpdate as () => Promise<void>,
 );
 
 router.delete(
     "/img/:photoid/deleteLocal",
     auth.authorizeApi as () => void,
-    responses.deleteImageDeleteLocal as () => Promise<void>
+    responses.deleteImageDeleteLocal as () => Promise<void>,
 );
 
 router.delete(
     "/img/:photoid/delete",
     auth.authorizeApi as () => void,
-    responses.deleteImageDelete as () => Promise<void>
+    responses.deleteImageDelete as () => Promise<void>,
 );
 
 router.get(
     "/addImg",
     auth.authorizePage as () => Promise<void>,
-    responses.getAddImg as () => Promise<void>
+    responses.getAddImg as () => Promise<void>,
 );
 
 router.post(
     "/api/addImg",
     auth.authorizeApi as () => void,
     imageFileUpload,
-    responses.postApiAddImg as () => Promise<void>
+    responses.postApiAddImg as () => Promise<void>,
 );
 
 // --- Admin page ---
 router.get(
     "/login",
     auth.authorizePageToAdmin as () => Promise<void>,
-    responses.getLogin as () => Promise<void>
+    responses.getLogin as () => Promise<void>,
 );
 
 router.post(
     "/login",
     auth.authorizeApiToAdmin as () => void,
-    responses.postLogin as () => Promise<void>
+    responses.postLogin as () => Promise<void>,
 );
 
 router.get(
     "/admin",
     auth.authorizePage as () => Promise<void>,
-    responses.getAdmin as () => Promise<void>
+    responses.getAdmin as () => Promise<void>,
 );
 
 router.get(
     "/logout",
     auth.authorizePage as () => Promise<void>,
-    responses.getLogout as () => Promise<void>
+    responses.getLogout as () => Promise<void>,
 );
 
 router.get(
     "/reset",
     auth.authorizePage as () => Promise<void>,
-    responses.getReset as () => Promise<void>
+    responses.getReset as () => Promise<void>,
 );
 
 router.post(
     "/reset",
     auth.authorizeApi as () => void,
-    responses.postReset as () => Promise<void>
+    responses.postReset as () => Promise<void>,
 );
 
 router.get(
     "/logs",
     auth.authorizePage as () => Promise<void>,
-    responses.getLogs as () => Promise<void>
+    responses.getLogs as () => Promise<void>,
 );
 
 router.delete(
     "/logs",
     auth.authorizePage as () => Promise<void>,
-    responses.deleteLogs as () => Promise<void>
+    responses.deleteLogs as () => Promise<void>,
 );
 
 // --- Root Admin access ---
@@ -129,46 +129,46 @@ router.get(
     "/users",
     auth.authorizePage as () => Promise<void>,
     auth.authorizePageRootAdmin as () => Promise<void>,
-    responses.getUsers as () => Promise<void>
+    responses.getUsers as () => Promise<void>,
 );
 
 router.post(
     "/addAdminUser",
     auth.authorizeApi as () => void,
     auth.authorizeApiRootAdmin as () => void,
-    responses.postAddAdminUser as () => Promise<void>
+    responses.postAddAdminUser as () => Promise<void>,
 );
 
 router.delete(
     "/deleteUser/:login",
     auth.authorizePage as () => Promise<void>,
     auth.authorizeApiRootAdmin as () => void,
-    responses.deleteDeleteUser as () => Promise<void>
+    responses.deleteDeleteUser as () => Promise<void>,
 );
 
 // --- Tags ---
 router.get(
     "/tags",
     auth.authorizePage as () => Promise<void>,
-    responses.getTags as () => Promise<void>
+    responses.getTags as () => Promise<void>,
 );
 
 router.put(
     "/tags",
     auth.authorizeApi as () => void,
-    responses.putAddToTags as () => Promise<void>
+    responses.putAddToTags as () => Promise<void>,
 );
 
 router.patch(
     "/tags/:id",
     auth.authorizeApi as () => void,
-    responses.patchUpdateInTags as () => Promise<void>
+    responses.patchUpdateInTags as () => Promise<void>,
 );
 
 router.delete(
     "/tags/:id",
     auth.authorizeApi as () => void,
-    responses.deleteDeleteFromTags as () => Promise<void>
+    responses.deleteDeleteFromTags as () => Promise<void>,
 );
 
 router.get("/api/tag", responses.getTag as () => Promise<void>);
@@ -176,24 +176,24 @@ router.get("/api/tag", responses.getTag as () => Promise<void>);
 router.put(
     "/api/img/:photoid/tag/:tagid",
     auth.authorizeApi as () => void,
-    responses.putImgTag as () => Promise<void>
+    responses.putImgTag as () => Promise<void>,
 );
 
 router.delete(
     "/api/img/:photoid/tag/:tagid",
     auth.authorizeApi as () => void,
-    responses.deleteImgTag as () => Promise<void>
+    responses.deleteImgTag as () => Promise<void>,
 );
 
 router.get(
     "/api/img/:photoid/tag",
     auth.authorizeApi as () => void,
-    responses.getImgTag as () => Promise<void>
+    responses.getImgTag as () => Promise<void>,
 );
 
 router.get(
     "/api/imagetaglist/:tagid",
-    responses.getImageTaglist as () => Promise<void>
+    responses.getImageTaglist as () => Promise<void>,
 );
 
 // --- Scraper ---
@@ -201,37 +201,37 @@ router.get(
 router.get(
     "/scraper",
     auth.authorizePage as () => void,
-    responses.getScraper as () => Promise<void>
+    responses.getScraper as () => Promise<void>,
 );
 
 router.get(
     "/scraper/status",
     auth.authorizeApiRootAdmin as () => void,
-    responses.getScraperStatus as () => Promise<void>
+    responses.getScraperStatus as () => Promise<void>,
 );
 
 router.post(
     "/scraper/scrape",
     auth.authorizeApiRootAdmin as () => void,
-    responses.postScraperScrape as () => Promise<void>
+    responses.postScraperScrape as () => Promise<void>,
 );
 
 router.get(
     "/scraper/img",
     auth.authorizeApi as () => void,
-    responses.getScraperImage as () => Promise<void>
+    responses.getScraperImage as () => Promise<void>,
 );
 
 router.delete(
     "/scraper/img/:id",
     auth.authorizeApi as () => void,
-    responses.deleteScraperImageId as () => Promise<void>
+    responses.deleteScraperImageId as () => Promise<void>,
 );
 
 router.post(
     "/scraper/img/:id",
     auth.authorizeApi as () => void,
-    responses.postScraperImageId as () => Promise<void>
+    responses.postScraperImageId as () => Promise<void>,
 );
 
 // ---

@@ -1,11 +1,11 @@
 import fs from "fs/promises";
+import { LOGS_PATH } from "../globals.js";
+import path from "path";
 
 /**
  * Logging static class
  */
 export default class Logger {
-    public static readonly LOGFILE = "logs.log";
-
     /**
      * Saves log to file
      * @param message Message to log
@@ -15,7 +15,7 @@ export default class Logger {
         message = message.toString().replaceAll("\n", " ");
         const date = new Date();
         const log = `${date.toISOString()} | ${type} | ${message}\n`;
-        await fs.appendFile(this.LOGFILE, log);
+        await fs.appendFile(LOGS_PATH, log);
     }
 
     /**
@@ -46,6 +46,6 @@ export default class Logger {
      * Deletes all saved logs
      */
     public static async clear(): Promise<void> {
-        await fs.writeFile(this.LOGFILE, "");
+        await fs.writeFile(LOGS_PATH, "");
     }
 }

@@ -1,8 +1,9 @@
-# Node
-node_modules
-# Data
-.env
-*.log
-database/data
-static/uploads
-scrapersave.json
+# Dirs
+node_modules/
+database/data/
+static/uploads/
+dist/
+logs/
+# Files
+*.env*
+!.env.example

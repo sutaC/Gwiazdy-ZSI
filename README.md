@@ -23,30 +23,124 @@ ZSI Stars is an original project aimed at storing and categorizing images of tea
 1. Docker
 2. PostHog
 
-## How to start app?
+## Self hosting
 
-1. Have installed `docker` and `docker compose` on your machine
+### Requiraments
 
-2. If necessary change application configuration in [docker-compose.yml](docker-compose.yml) file (For example uncommenting `dev` options)
+- Docker
+- Docker Compose
+- Cron (optional, required for automated scraping in production)
 
-3. In root directory run `docker compose up`
+### Environment configuration
 
-    > If you don't want to see database logs run `docker compose --attach app`
+An environment file is required for the application to run.
 
-4. To log in as the default user after loading the database, use the following credentials:
+1. Copy the example file:
 
-    - _Username:_ **admin**
+```bash
+cp .env.example .env
+```
 
-    - _Password:_ **Passw0rd;**
+2. Fill in required values described in .env.example
+
+### Develompment
+
+Development uses Docker with:
+
+- bind-mounted source code
+
+- live reload for the web app and workers
+
+---
+
+**To run dev:**
+
+1. Build image:
+
+```bash
+docker build -t gwiazdy-zsi .
+```
+
+2. Start the app (dev mode):
+
+```bash
+docker compose up
+```
+
+1. Scraper worker (manual)
+
+```bash
+docker compose --profile manual run --rm scraper_worker
+```
+
+### Production
+
+Production uses the same image with stricter settings.
+
+---
+
+**To run production:**
+
+1. Build image:
+
+```bash
+docker build -t gwiazdy-zsi .
+```
+
+2. Setup cron jobs:
+
+```bash
+./scripts/setup_cron.sh
+```
+
+> Schedules the scraper worker to run once per day via cron.
+
+3. Start the app:
+
+```bash
+docker compose -f docker-compose.yml up
+```
+
+### Default user
+
+To log in as the default user after loading the database, use the following credentials:
+
+- _Username:_ **admin**
+- _Password:_ **Passw0rd;**
+
+### Removing production systems
+
+To completely remove the production setup, use the provided helper scripts:
+
+- `remove_cron.sh`
+    > Removes the scheduled cron job responsible for running the scraper worker.
+
+---
+
+**Recommended order:**
+
+1. Stop the running containers:
+
+```bash
+docker compose down
+```
+
+2. Remove cron jobs:
+
+```bash
+./scripts/remove_cron.sh
+```
+
+After these steps, the production environment will be fully removed.
 
 ## Database handling
 
--   To open database cli run `npm run db-open`
--   To dump database run `npm run db-dump`
+- To open database cli run `npm run db-open`
+- To dump database run `npm run db-dump`
     > If you want to direct db dump to file use:
     > ` npm run --silent db-dump > /path/to/file.sql`
--   To dump database schema for db init run `npm run db-dump:schema`
--   To dump database data for db init run `npm run db-dump:data`
+- To dump database schema for db init run `npm run db-dump:schema`
+- To dump database data for db init run `npm run db-dump:data`
 
 ## Documentation
 

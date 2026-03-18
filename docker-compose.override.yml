@@ -1,0 +1,13 @@
+services:
+    app:
+        command: ["npx", "tsx", "watch", "/app/src/app.ts"]
+        volumes:
+            - /app/node_modules
+            - ./logs:/app/logs
+            - ./src:/app/src
+            - ./static/uploads:/app/static/uploads
+        environment:
+            - NODE_ENV:development
+    database:
+        ports:
+            - 3306:3306
