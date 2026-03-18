@@ -6,6 +6,7 @@ services:
         volumes:
             - /app/node_modules
             - ./logs:/app/logs
+            - ./static/uploads:/app/static/uploads
         env_file:
             - .env
         ports:

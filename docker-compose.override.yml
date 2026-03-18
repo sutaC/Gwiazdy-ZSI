@@ -5,6 +5,7 @@ services:
             - /app/node_modules
             - ./logs:/app/logs
             - ./src:/app/src
+            - ./static/uploads:/app/static/uploads
         environment:
             - NODE_ENV:development
     database:
