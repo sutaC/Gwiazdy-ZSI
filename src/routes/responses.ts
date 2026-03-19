@@ -661,7 +661,7 @@ export const getScraperStatus = async (
         return;
     }
     res.render("./components/scrapingResults.ejs", {
-        ...scraper.getLastResults(),
+        results: scraper.getLastResults(),
         spinner: false,
     });
 };

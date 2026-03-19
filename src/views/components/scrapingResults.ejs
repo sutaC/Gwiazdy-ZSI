@@ -10,16 +10,16 @@
 </div>
 <% } else { %>
 <div class="result">
-    <% if (type) { %>
+    <% if (results) { %>
     <h3>Skrobanie zakończone</h3>
     <ul>
-        <li>Rodzaj skrobania: <%= type %></li>
-        <li>Czas trwania: <%= (timeElapsed / 1000) %>s</li>
-        <li>Limit stron: <%= limit %></li>
-        <li>Znalezione zdjęcia: <%= found %></li>
-        <li>Dodane nowe zdjęcia: <%= added %></li>
-        <% if (cachedSkip >= 0) { %>
-        <li>Artykuły pominięte przez caching: <%= cachedSkip %></li>
+        <li>Rodzaj skrobania: <%= results.type %></li>
+        <li>Czas trwania: <%= (results.timeElapsed / 1000) %>s</li>
+        <li>Limit stron: <%= results.limit %></li>
+        <li>Znalezione zdjęcia: <%= results.found %></li>
+        <li>Dodane nowe zdjęcia: <%= results.added %></li>
+        <% if (results?.cachedSkip >= 0) { %>
+        <li>Artykuły pominięte przez caching: <%= results.cachedSkip %></li>
         <% } %>
     </ul>
     <% } else { %>
