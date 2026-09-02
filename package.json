@@ -24,7 +24,7 @@
         "express": "^4.22.2",
         "jsdom": "^26.0.0",
         "multer": "^2.2.0",
-        "mysql2": "^3.9.8"
+        "mysql2": "^3.23.1"
     },
     "devDependencies": {
         "@types/compression": "^1.7.5",
