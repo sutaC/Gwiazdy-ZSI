@@ -12,7 +12,7 @@ services:
         ports:
             - 3000:3000
     database:
-        image: mysql:8.4
+        image: mysql:latest
         volumes:
             - ./database/init/:/docker-entrypoint-initdb.d/:ro
             - ./database/data:/var/lib/mysql
