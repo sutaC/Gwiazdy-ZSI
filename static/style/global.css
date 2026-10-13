@@ -139,6 +139,35 @@ a.buttonlike {
     font-weight: bold;
 }
 
+.imagetab {
+    max-width: 100%;
+    padding: 1em;
+    margin: auto;
+    margin-bottom: 1em;
+    border-radius: 1em;
+    background-color: var(--secondary);
+}
+
+.imagetab > img {
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 0.5em;
+    border: 2px solid var(--accent);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 4px 1px var(--accent);
+    cursor: zoom-in;
+}
+
+.imagetab > a {
+    display: block;
+    text-decoration: underline;
+    transition: all 100ms ease-out;
+}
+
+.imagetab > a:hover {
+    translate: 0 -2px;
+}
+
 .mobile {
     display: block;
 }

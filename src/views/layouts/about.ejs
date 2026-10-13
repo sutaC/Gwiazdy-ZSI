@@ -1,135 +1,66 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Więcej informacji</title>
-        <link rel="stylesheet" href="/style/about.css" />
-    </head>
 
-    <body>
-        <header>
-            <h1>Więcej informacji</h1>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Twórcy</title>
+  <link rel="stylesheet" href="/style/about.css" />
+</head>
 
-        <main>
-            <section aria-labelledby="hGwiazdy">
-                <h2 id="hGwiazdy">Gwiazdy ZSI?</h2>
-                <p class="description">
-                    Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie
-                    oraz oznaczenie zdjęć nauczycieli z ZSI. Zdjęcia można
-                    wyszukiwać poprzez znajdujących się na nich nauczycieli, co
-                    tworzy solidną bazę obrazków. Autor strony nie odpowiada za
-                    zamieszczone zdjęcia, jedynie za ich skatalogowwanie.
-                </p>
-            </section>
+<body>
+  <header>
+    <h1>Twórcy</h1>
+  </header>
 
-            <section aria-labelledby="hContact">
-                <h2 id="hContact">Kontakt</h2>
+  <main>
+    <section aria-labelledby="hAuthor">
+      <h2 id="hAuthor">Autor</h2>
 
-                <p class="description">
-                    Chcesz wziąć udział w tworzeniu Gwiazd ZSI? Odwiedź
-                    <a
-                        href="https://github.com/sutaC/Gwiazdy-ZSI"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="highlight"
-                        >Gwiazdy ZSI na GitHub</a
-                    >
-                    i zobacz co możesz zrobić!
-                </p>
+      <div class="imagetab">
+        <img src="https://github.com/sutaC.png" alt="sutaC" loading="lazy" hx-boost="true" hx-on:click="window.open('https://github.com/sutaC', '_blank')">
+        <a href="https://github.com/sutaC" target="_blank" rel="noopener noreferrer">sutaC</a>
+      </div>
+    </section>
+    <section aria-labelledby="hCredits">
+      <h2 id="hCredits">Wyróżnienia</h2>
 
-                <p class="description">
-                    Chciałbyś aby na stronie znalazło się wiecej zdjęć twojego
-                    ulubionego nauczyciela? Skontaktuj się ze mną, a możesz
-                    zostać administratorem! Napisz na
-                    <a
-                        href="mailto:contact@sutac.pl"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="highlight"
-                        >mojego maila</a
-                    >, albo sprawdź inne formy kontaktu ze mna na
-                    <a
-                        href="https://sutac.pl#contact"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="highlight"
-                        >mojej stronie</a
-                    >.
-                </p>
-            </section>
+      <div class="credits">
+        <div class="imagetab">
+          <img src="https://github.com/solewap.png" alt="solewap" loading="lazy" hx-boost="true" hx-on:click="window.open('https://github.com/solewap', '_blank')">
+          <a href="https://github.com/solewap" target="_blank" rel="noopener noreferrer">solewap</a>
+        </div>
+        <div class="imagetab">
+          <img src="https://github.com/Khajiitos.png" alt="Khajiitos" loading="lazy" hx-boost="true" hx-on:click="window.open('https://github.com/Khajiitos', '_blank')">
+          <a href="https://github.com/Khajiitos" target="_blank" rel="noopener noreferrer">Khajiitos</a>
+        </div>
+      </div>
+    </section>
+    <section aria-labelledby="hContact">
+      <h2 id="hContact">Kontakt</h2>
 
-            <section aria-labelledby="hCredits">
-                <h2 id="hCredits">Zasługi</h2>
-                <div aria-labelledby="hOwner">
-                    <h3 id="hOwner">Projekt stworzony i utrzymywany przez:</h3>
-                    <ul class="credits">
-                        <li>
-                            <a
-                                href="http://github.com/sutaC"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="highlight"
-                                >sutaC</a
-                            >
-                        </li>
-                    </ul>
-                </div>
+      <div class="imagetab">
+        <img src="/images/iwantyoutoadministergwiazdyzsi.png" alt="I want you to administer gwiazdy zsi" loading="lazy" hx-boost="true" hx-on:click="window.open('https://github.com/sutaC', '_blank')">
+        <a href="#hContact">Ty</a>
+      </div>
 
-                <div aria-labelledby="hContributors">
-                    <h3 id="hContributors">
-                        Kontrybutorzy i kontrybutariuszki
-                    </h3>
+      <p class="contactDesc">
+        Chesz pomóc w utrzymywaniu Gwiazd ZSI?<br />
+        <u>Zostań administartorem</u> i zarządzaj zdjęciami lub<br />
+        <u>dołącz do kontrybutariuszy</u> na GitHub i dodaj własny feature!<br />
+        Skontaktuj się ze mną aby dowiedzieć się więcej albo stwórz PR:
+      </p>
 
-                    <small class="creditsEmptyMsg"
-                        >Nie ma jeszcze żadnych kontrybutorów, ale możesz zostać
-                        pierwszym!</small
-                    >
+      <div class="contact">
+        <a href="https://github.com/sutaC/Gwiazdy-ZSI" target="_blank" rel="noopener noreferrer" class="buttonlike">GitHub</a>
+        <a href="mailto:contact@sutac.pl" class="buttonlike">Email</a>
+        <a href="https://sutac.pl#contact" target="_blank" rel="noopener noreferrer" class="buttonlike">Kontakt</a>
+      </div>
+    </section>
+  </main>
 
-                    <%#
-                    <ul class="credits">
-                        <li>
-                            <a
-                                class="highlight"
-                                href="--url--"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                >--name--</a
-                            >
-                        </li>
-                    </ul>
-                    %>
-                </div>
+  <footer>
+    <a href="/" class="buttonlike" id="btnReturn">Powrót</a>
+  </footer>
+</body>
 
-                <div aria-labelledby="hAdministrators">
-                    <h3 id="hAdministrators">Administracja</h3>
-
-                    <ul class="credits">
-                        <li>
-                            <a
-                                href="https://github.com/solewap"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="highlight"
-                                >Solewap</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="https://github.com/Khajiitos"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="highlight"
-                                >Khajiitos</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <a href="/" class="buttonlike">Powrót</a>
-        </footer>
-    </body>
 </html>
