@@ -660,8 +660,9 @@ export const getScraperStatus = async (
         res.sendStatus(204);
         return;
     }
+    const results = await scraper.getLastResults();
     res.render("./components/scrapingResults.ejs", {
-        results: scraper.getLastResults(),
+        results,
         spinner: false,
     });
 };
