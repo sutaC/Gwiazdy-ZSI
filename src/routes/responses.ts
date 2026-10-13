@@ -600,17 +600,28 @@ export const getImageTaglist = async (
         res.sendStatus(400);
         return;
     }
+    const tag = await db.getTag(tagid);
+    if (!tag) {
+        res.sendStatus(404);
+        return;
+    }
     let list = 1;
     if (typeof req.query.list === "string") {
         list = Number.parseInt(req.query.list);
         if (!Number.isSafeInteger(list)) list = 1;
     }
-    if (list < 1) {
-        list = 1;
-    }
+    if (list < 1) list = 1;
+    if (list === 1) await db.addSearch(tagid);
     const imagetabs = await db.getImgsByTagId(tagid, list);
     if (imagetabs.length === 0) {
-        res.send('<small class="light">Nie znaleziono więcej zdjęć...</small>');
+        if (list === 1)
+            res.send(
+                '<small class="light">Nie znaleziono żadnych zdjęć...</small>',
+            );
+        else
+            res.send(
+                '<small class="light">Nie znaleziono więcej zdjęć...</small>',
+            );
         return;
     }
     res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });

@@ -43,6 +43,16 @@ export interface ScrapedImage {
     src: string;
 }
 
+/**
+ * Search object interface
+ * @property {string} name - Tag name
+ * @property {number} count - Amount of searches
+ */
+export interface Search {
+    name: string;
+    count: number;
+}
+
 // --- Functions ---
 async function getConnection(): Promise<mysql.Connection> {
     const con = await mysql.createConnection({
@@ -287,6 +297,19 @@ export async function getTags(): Promise<Teacher[]> {
 }
 
 /**
+ * Get tag object by id
+ * @returns Tag object
+ */
+export async function getTag(id: number): Promise<Teacher | null> {
+    const con = await getConnection();
+    const [data] = (await con.query("SELECT * FROM teachers WHERE id = ?;", [
+        id,
+    ])) as unknown as Teacher[][] | undefined[][];
+    await con.end();
+    return data ? (data[0] as Teacher) : null;
+}
+
+/**
  * Adds tag object
  * @param name Tag name
  * @returns New tag id
@@ -374,6 +397,44 @@ export async function searchUnselectedTeachers(
     await con.end();
     if (!data[0]?.id) return [];
     return data as Teacher[];
+}
+
+// --- Searches ---
+/**
+ * Adds search for tag
+ * @param id Tag id
+ */
+export async function addSearch(id: number): Promise<void> {
+    const con = await getConnection();
+    await con.query(
+        "INSERT INTO searches (timestamp, id_teachers) VALUES (UTC_TIMESTAMP(), ?);",
+        [id],
+    );
+    await con.end();
+}
+
+/**
+ * Gets top 3 searches
+ * @returns Top 3 searches
+ */
+export async function getTopSearches(): Promise<Search[]> {
+    const con = await getConnection();
+    const [data] = await con.query(
+        "SELECT t.name, COUNT(*) AS count FROM searches AS s JOIN teachers AS t ON s.id_teachers = t.id GROUP BY t.id ORDER BY t.name, count DESC LIMIT 3;",
+    );
+    await con.end();
+    return data as Search[];
+}
+
+/**
+ * Deletes searches older than 30 days
+ */
+export async function deleteOldSearches(): Promise<void> {
+    const con = await getConnection();
+    await con.query(
+        "DELETE FROM searches WHERE timestamp < NOW() - INTERVAL 30 DAY;",
+    );
+    await con.end();
 }
 
 // --- Users ---
