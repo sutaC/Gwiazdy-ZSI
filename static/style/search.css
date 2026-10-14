@@ -1,0 +1,156 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-wrap: balance;
+    background: var(--secondary);
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 0 0 2rem 2rem;
+    display: grid;
+    gap: 1em;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+        "return toggle"
+        "search search";
+    align-items: center;
+}
+
+header .return {
+    width: fit-content;
+    height: fit-content;
+    grid-area: return;
+}
+
+header .toggle {
+    grid-area: toggle;
+    display: flex;
+    background: var(--background);
+    border: 2px solid var(--primary);
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 12rem;
+    justify-self: end;
+    height: fit-content;
+}
+
+header .toggle input {
+    display: none;
+}
+
+header .toggle label {
+    padding: 0.5em 1.5em;
+    border: 1px solid transparent;
+    font-size: 0.8rem;
+    background: var(--background);
+    text-align: center;
+    align-content: center;
+    cursor: pointer;
+    transition: all 100ms ease-out;
+    flex: 1;
+    border-radius: 0.5rem;
+    opacity: 0.75;
+}
+
+header .toggle input:not(:checked) + label:hover {
+    opacity: 1;
+}
+
+header .toggle input:checked + label {
+    opacity: 1;
+    border-color: var(--accent);
+    box-shadow: 0 0 4px 1px var(--accent);
+    z-index: 1;
+}
+
+header .search {
+    grid-area: search;
+    max-width: 50rem;
+}
+
+header:has(.toggle input#radioTag:checked) .search .idsearch {
+    display: none;
+}
+header:has(.toggle input#radioId:checked) .search .tagsearch {
+    display: none;
+}
+
+.search-field {
+    position: relative;
+}
+
+.search-field:has(.search-results:not(:empty)) input {
+    border-radius: 0.5em 0.5em 0 0;
+}
+
+.search-results {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    translate: 0 calc(100% - 2px);
+    z-index: 10;
+    width: 100%;
+    border: 1px solid var(--accent);
+    border-radius: 0 0 0.5em 0.5em;
+    box-shadow: 0.5rem 0 0.5rem black;
+}
+
+.search-results:empty {
+    display: none;
+}
+
+.tagtab {
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    cursor: pointer;
+    box-shadow: none;
+    transition: all 100ms ease-out;
+}
+
+.tagtab:is(:hover, :focus) {
+    box-shadow: 0 2px var(--accent);
+    color: var(--accent);
+}
+
+.tagtab:last-of-type {
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+main {
+    text-align: center;
+    padding: 1.5rem;
+    max-width: fit-content;
+    align-self: center;
+    flex-grow: 1;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 0.5em;
+    background: var(--secondary);
+    margin-top: 5rem;
+}
+
+#btnTop {
+    display: none; /* changed by js */
+    min-width: 4rem;
+    padding: 0.75em;
+    aspect-ratio: 1;
+    position: fixed;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    fill: var(--text);
+    place-content: center;
+    transition: all 100ms ease-out;
+}
+
+@media (min-width: 750px) {
+    header {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas: "return search toggle";
+    }
+}

@@ -1,109 +1,75 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <link rel="canonical" href="https://gwiazdyzsi.sutac.pl/" />
-        <title>Gwiazdy ZSI</title>
-        <link rel="stylesheet" href="/style/main.css" />
-        <script src="/js/main.js" defer></script>
-    </head>
 
-    <body>
-        <header id="top-header">
-            <h1>Gwiazdy ZSI</h1>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI</title>
+  <link rel="stylesheet" href="/style/main.css" />
+</head>
 
-        <div class="section-wrap">
-            <aside>
-                <nav>
-                    <a href="/about" class="nav-tile btn-tile about"
-                        >Więcej informacji</a
-                    >
+<body>
+  <header id="top-header">
+    <h1>Gwiazdy ZSI</h1>
+  </header>
 
-                    <a href="/statistics" class="nav-tile btn-tile tag-ranking"
-                        >Statystyki</a
-                    >
+  <div class="section-wrap">
+    <aside>
+      <nav>
+        <a href="/about" class="buttonlike nav-tile about"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z" />
+          </svg> Twórcy</a>
+        <a href="/statistics" class="buttonlike nav-tile ranking"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M160-200h160v-320H160v320Zm240 0h160v-560H400v560Zm240 0h160v-240H640v240ZM80-120v-480h240v-240h320v320h240v400H80Z" />
+          </svg> Statystyki</a>
 
-                    <a href="/randomimg" class="nav-tile btn-tile random-image"
-                        >Losowe zdjęcie</a
-                    >
+        <% if(authorized){ %>
+        <a href="/admin" class="buttonlike nav-tile admin"> <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M287-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM80-160v-112q0-33 17-62t47-44q51-26 115-44t141-18h14q6 0 12 2-8 18-13.5 37.5T404-360h-4q-71 0-127.5 18T180-306q-9 5-14.5 14t-5.5 20v32h252q6 21 16 41.5t22 38.5H80Zm560 40-12-60q-12-5-22.5-10.5T584-204l-58 18-40-68 46-40q-2-14-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T628-460l12-60h80l12 60q12 5 22.5 11t21.5 15l58-20 40 70-46 40q2 12 2 25t-2 25l46 40-40 68-58-18q-11 8-21.5 13.5T732-180l-12 60h-80Zm96.5-143.5Q760-287 760-320t-23.5-56.5Q713-400 680-400t-56.5 23.5Q600-353 600-320t23.5 56.5Q647-240 680-240t56.5-23.5Zm-280-320Q480-607 480-640t-23.5-56.5Q433-720 400-720t-56.5 23.5Q320-673 320-640t23.5 56.5Q367-560 400-560t56.5-23.5ZM400-640Zm12 400Z" />
+          </svg> Admin</a>
+        <% } else { %>
+        <a href="/login" class="buttonlike nav-tile admin"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M287-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM80-160v-112q0-33 17-62t47-44q51-26 115-44t141-18h14q6 0 12 2-8 18-13.5 37.5T404-360h-4q-71 0-127.5 18T180-306q-9 5-14.5 14t-5.5 20v32h252q6 21 16 41.5t22 38.5H80Zm560 40-12-60q-12-5-22.5-10.5T584-204l-58 18-40-68 46-40q-2-14-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T628-460l12-60h80l12 60q12 5 22.5 11t21.5 15l58-20 40 70-46 40q2 12 2 25t-2 25l46 40-40 68-58-18q-11 8-21.5 13.5T732-180l-12 60h-80Zm96.5-143.5Q760-287 760-320t-23.5-56.5Q713-400 680-400t-56.5 23.5Q600-353 600-320t23.5 56.5Q647-240 680-240t56.5-23.5Zm-280-320Q480-607 480-640t-23.5-56.5Q433-720 400-720t-56.5 23.5Q320-673 320-640t23.5 56.5Q367-560 400-560t56.5-23.5ZM400-640Zm12 400Z" />
+          </svg> Zaloguj</a>
+        <% } %>
 
-                    <form
-                        class="nav-tile find-id"
-                        hx-boost="true"
-                        hx-params="none"
-                        hx-on::config-request="event.detail.path = `/img/${event.target.photoid.value}`"
-                        hx-on::response-error="alert('Nie znaleziono zdjęcia z tym id'); this.photoid.value = ''"
-                    >
-                        <label for="searchPhotoid">Wyszukaj po id:</label>
-                        <div class="wraper">
-                            <input
-                                type="number"
-                                id="searchPhotoid"
-                                name="photoid"
-                                placeholder="707..."
-                                required
-                                min="0"
-                                autocomplete="off"
-                            />
-                            <button type="submit">Szukaj</button>
-                        </div>
-                    </form>
+        <a href="/randomimg" class="buttonlike nav-tile random"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z" />
+          </svg> Losowe zdjęcie</a>
+        <a href="/search" class="buttonlike nav-tile search"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg> Szukaj</a>
+      </nav>
+    </aside>
 
-                    <div class="nav-tile find-tags">
-                        <label for="promptInput">Wyszukaj po etykiecie:</label>
-                        <div class="search-field">
-                            <input
-                                type="text"
-                                id="promptInput"
-                                name="prompt"
-                                placeholder="Artur..."
-                                hx-get="/api/tag"
-                                hx-trigger="keyup changed delay:250ms, search"
-                                hx-target="next #results"
-                                autocomplete="off"
-                                maxlength="32"
-                            />
+    <main>
 
-                            <div id="results" class="search-results"></div>
-                        </div>
-                    </div>
-                </nav>
-            </aside>
+      <div class="hero">
+        <img src="/images/favicon.svg" alt="Logo">
+        <p>
+          Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć nauczycieli z ZSI. Zdjęcia można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowanie.
+        </p>
+      </div>
 
-            <main id="imagetablist">
-                <% if (tagid !== undefined) { %>
-                <small
-                    hx-get="/api/imagetaglist/<%= tagid %>"
-                    hx-trigger="load"
-                    hx-swap="outerHTML"
-                    >Ładowanie zdjęć...</small
-                >
-                <% } else { %>
-                <small class="light"
-                    >Wyszukaj etykietę aby wyświetlić zdjęcia...</small
-                >
-                <% } %>
-            </main>
+      <div class="toptags">
+        <h2>Najpopularniejsze wyszukiwania</h2>
+        <small class="light">przez ostatnie 30 dni</small>
+
+        <% for( const {id, name, count} of toptags ) { %>
+        <div class="toptag">
+          <a href="/search?tagid=<%= id %>"><%= name %></a>
+          <div class="bar" style="--_amount: <%= Math.floor((count / searchcount) * 100)%>%;"></div>
+          <small class="light"><%= count %> wyszukiwań</small>
         </div>
+        <% } %>
+        <% if (!toptags.length) { %>
+        <p>Brak wyszukiwań do pokazania...</p>
+        <% } %>
+      </div>
 
-        <footer>
-            <% if(authorized){ %>
-            <a href="/admin" class="buttonlike">Profil</a>
-            <% } else { %>
-            <a href="/login" class="buttonlike">Zaloguj</a>
-            <% } %>
+    </main>
+  </div>
 
-            <button id="btnHelpWantedOpen">Help Wanted</button>
+  <footer><small>Made by <a href="http://github.com/sutaC" class="highlight" target="_blank" rel="noopener noreferrer">sutaC</a></small></footer>
+</body>
 
-            <a
-                href="#top-header"
-                class="buttonlike"
-                aria-label="Powróć na początek strony"
-                title="Powróć na początek strony"
-                >^</a
-            >
-        </footer>
-        <%- include('../components/helpWanted.ejs') %>
-    </body>
 </html>

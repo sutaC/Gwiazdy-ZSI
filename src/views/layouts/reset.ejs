@@ -1,52 +1,34 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Zresetuj hasło</title>
-        <link rel="stylesheet" href="/style/forms.css" />
-    </head>
 
-    <body>
-        <main>
-            <h1>Zresetuj hasło</h1>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Zresetuj hasło</title>
+  <link rel="stylesheet" href="/style/forms.css" />
+</head>
 
-            <p id="error"></p>
+<body>
+  <main>
+    <h1>Zresetuj hasło</h1>
 
-            <form
-                hx-boost="true"
-                action="/reset"
-                method="post"
-                hx-target="#error"
-                hx-confirm="Czy na pewno chcesz zresetować hasło?"
-            >
-                <div class="field">
-                    <label for="newPassword">Nowe hasło</label>
-                    <input
-                        type="password"
-                        name="newPassword"
-                        id="newPassword"
-                        placeholder="Nowe hasło..."
-                        autocomplete="new-password"
-                        required
-                    />
-                </div>
+    <p id="error"></p>
 
-                <div class="field">
-                    <label for="repeatPassword">Powtórz hasło</label>
-                    <input
-                        type="password"
-                        name="repeatPassword"
-                        id="repeatPassword"
-                        placeholder="Powtórz hasło..."
-                        autocomplete="new-password"
-                        required
-                    />
-                </div>
+    <form hx-boost="true" action="/reset" method="post" hx-target="#error" hx-confirm="Czy na pewno chcesz zresetować hasło?">
+      <div class="field">
+        <label for="newPassword">Nowe hasło</label>
+        <input type="password" name="newPassword" id="newPassword" placeholder="Nowe hasło..." autocomplete="new-password" required />
+      </div>
 
-                <button type="submit">Zapisz</button>
-            </form>
+      <div class="field">
+        <label for="repeatPassword">Powtórz hasło</label>
+        <input type="password" name="repeatPassword" id="repeatPassword" placeholder="Powtórz hasło..." autocomplete="new-password" required />
+      </div>
 
-            <a href="/admin" class="buttonlike">Powrót</a>
-        </main>
-    </body>
+      <button type="submit">Zapisz</button>
+    </form>
+
+    <a href="/admin" class="buttonlike">Powrót</a>
+  </main>
+</body>
+
 </html>

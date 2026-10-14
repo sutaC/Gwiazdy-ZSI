@@ -2,8 +2,6 @@ h1 {
     color: var(--accent);
 }
 
-/* --- */
-
 header {
     text-wrap: balance;
     background: var(--secondary);
@@ -12,194 +10,134 @@ header {
     border-radius: 0 0 2rem 2rem;
 }
 
-.desc {
-    margin: auto;
-    max-width: 50ch;
-}
-
 nav {
-    margin: 1em 0 1em;
+    margin: 1rem 0;
     padding: 0 1em;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-        "about ranking random"
-        "id id id"
-        "tags tags tags";
+        "about ranking"
+        "admin admin"
+        "random search";
     gap: 1em;
     justify-content: center;
 }
 
-.nav-tile {
+nav .nav-tile {
     z-index: 1;
-    background: var(--secondary);
-    padding: 1em;
-    border-radius: 1em;
-    transition: all 100ms ease-out;
+    padding: 1.5em;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+nav .nav-tile svg {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 2px var(--accent));
 }
 
 .nav-tile:is(:hover, :focus-within) {
     scale: 1.025;
 }
 
-.nav-tile.btn-tile {
-    display: grid;
-    place-items: center;
-    text-align: center;
-}
-
-.nav-tile.tag-ranking {
+.nav-tile.ranking {
     grid-area: ranking;
 }
 
-.nav-tile.random-image {
+.nav-tile.random {
     grid-area: random;
-    aspect-ratio: 1;
 }
 
-.nav-tile.find-id {
-    grid-area: id;
-}
-
-.nav-tile.find-tags {
-    grid-area: tags;
+.nav-tile.search {
+    grid-area: search;
 }
 
 .nav-tile.about {
     grid-area: about;
 }
 
-.search-field {
-    position: relative;
-}
-
-.search-field:has(.search-results:not(:empty)) input {
-    border-radius: 0.5em 0.5em 0 0;
-}
-
-.search-results {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    translate: 0 calc(100% - 2px);
-    z-index: 10;
-    width: 100%;
-    border: 1px solid var(--accent);
-    border-radius: 0 0 0.5em 0.5em;
-}
-
-.search-results:empty {
-    display: none;
-}
-
-.tagtab {
-    display: block;
-    width: 100%;
-    border-radius: 0;
-    cursor: pointer;
-    box-shadow: none;
-    transition: all 100ms ease-out;
-}
-
-.tagtab:is(:hover, :focus) {
-    box-shadow: 0 2px var(--accent);
-    color: var(--accent);
-}
-
-.tagtab:last-of-type {
-    border-radius: 0 0 0.5em 0.5em;
+.nav-tile.admin {
+    grid-area: admin;
 }
 
 main {
     position: relative;
     width: 100%;
     padding: 1em;
-    padding-bottom: 30%;
+    padding-bottom: 20%;
     z-index: 0;
     text-align: center;
 }
 
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+.hero {
+    background-color: var(--secondary);
+    padding: 0.5em 4em 2em;
+    border-radius: 1rem;
+    max-width: 50rem;
+    margin: 1rem auto;
+}
+
+.hero img {
+    margin: 1rem;
+    width: 5rem;
+    aspect-ratio: 1;
+    filter: drop-shadow(0 0 2px var(--accent));
+}
+
+.toptags {
+    max-width: 50rem;
+    padding: 1rem;
+    border: 1px solid var(--primary);
+    border-radius: 1rem;
+    margin: 1rem auto;
+}
+
+.toptags h2 {
+    font-size: 2rem;
+}
+
+.toptag {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-top: 1px solid var(--secondary);
+}
+
+.toptag a {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    text-decoration: underline;
+    transition: all 100ms ease-out;
+}
+
+.toptag a:hover {
+    translate: 0 -1px;
+}
+
+.toptag .bar {
+    --_amount: 0; /* Overwritten inline */
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 1.5em;
+    border: 2px solid var(--primary);
+    border-radius: 0.5rem;
+    margin: 0.5rem auto 0.25rem;
+    max-width: 30rem;
+    background: linear-gradient(
+        to right,
+        #382158 0%,
+        var(--accent) calc(max(var(--_amount, 0), 10%) - 10%),
+        transparent max(var(--_amount, 0), 10%)
+    );
+}
+
+footer {
+    width: 100%;
+    text-align: center;
     padding: 0.5em;
     background: var(--secondary);
-}
-
-footer a.buttonlike,
-footer button {
-    width: 100%;
-    max-width: 4rem;
-    padding: 0.75em;
-    aspect-ratio: 1;
-}
-
-#btnHelpWantedOpen {
-    position: relative;
-}
-#btnHelpWantedOpen::after {
-    content: "";
-    background-color: var(--accent);
-    box-shadow:
-        inset 0 0 0.125rem #fff,
-        0 0 0.125rem #fff;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20%;
-    aspect-ratio: 1;
-    border-radius: 100%;
-    translate: 33% -33%;
-}
-
-@keyframes slideIn {
-    from {
-        translate: 0 100%;
-    }
-    to {
-        translate: 0;
-    }
-}
-
-#dialogHelpWanted {
-    color: var(--text);
-    background-color: var(--secondary);
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    border: none;
-    border-top: 1px solid var(--accent);
-    text-align: center;
-    box-shadow: -2px 0 2px 1px var(--accent);
-    padding: 0 1rem;
-    z-index: 1000;
-    animation: slideIn 250ms ease-out;
-}
-
-#dialogHelpWanted > * {
-    max-width: 50ch;
-    margin: 1rem auto;
-    text-wrap: balance;
-}
-
-#dialogHelpWanted > img {
-    max-height: 55vh;
-    border: 2px solid var(--accent);
-    border-radius: 0.5rem;
-    box-shadow: 0 0 4px 1px var(--accent);
-    border-radius: 1rem;
-    margin-bottom: 0;
-}
-
-#dialogHelpWanted > .wraper {
-    justify-content: center;
-    align-items: stretch;
 }
 
 @media (min-width: 750px) {
@@ -219,18 +157,13 @@ footer button {
     nav {
         position: sticky;
         top: 1em;
-
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-areas:
-            "about"
-            "ranking"
-            "random"
-            "id"
-            "tags";
-    }
-
-    .nav-tile.random-image {
-        aspect-ratio: 0;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        flex-direction: column;
+        padding-inline: 0;
+        width: 30vw;
+        max-width: 20rem;
     }
 
     main {
@@ -238,14 +171,5 @@ footer button {
         min-height: 85vh;
         padding-bottom: 5em;
         z-index: 0;
-    }
-
-    footer {
-        left: auto;
-        right: 0;
-        width: fit-content;
-        flex-direction: column-reverse;
-        gap: 0.75rem;
-        background-color: transparent;
     }
 }

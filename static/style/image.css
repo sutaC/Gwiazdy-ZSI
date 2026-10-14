@@ -1,38 +1,22 @@
-img {
-    max-width: 100%;
-}
-
-h1 {
-    font-size: 3.158rem;
-    margin: 0.125rem 0;
-}
-
-/* --- */
-
 body {
-    padding-bottom: 5%;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
-    padding: 1em;
+    padding: 0.25rem 1rem 1rem;
     border-radius: 0 0 2rem 2rem;
     text-align: center;
     background: var(--secondary);
 }
 
-nav {
-    width: 100%;
-    text-align: center;
-}
-
-.tag-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    justify-content: center;
+header h1 {
+    font-size: 3.158rem;
+    margin: 0.125rem 0;
 }
 
 .tags {
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,6 +64,7 @@ nav {
     width: 100%;
     border: 1px solid var(--accent);
     border-radius: 0 0 0.5em 0.5em;
+    box-shadow: 0.25rem 0 0.25rem black;
 }
 
 .search-results:empty {
@@ -113,39 +98,66 @@ nav {
 }
 
 main {
-    display: grid;
-    place-items: center;
-    margin: 1rem;
-    padding-bottom: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
+    flex-grow: 1;
+    padding: 0 2rem;
+}
+
+main nav {
+    position: sticky;
+    bottom: 0.5rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 1rem auto 0;
+    width: 20rem;
+    border: 1px solid var(--primary);
+    background: var(--background);
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 4px 1px var(--primary);
+}
+
+main nav a.buttonlike {
+    padding: 1.5em;
+    flex: 1;
 }
 
 main img {
+    max-width: 100%;
     max-height: 100vh;
     border: 2px solid var(--accent);
     border-radius: 1rem;
     box-shadow: 0 0 4px 1px var(--accent);
     cursor: zoom-in;
+    margin: auto;
+    text-align: center;
 }
 
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    position: relative;
     width: 100%;
-    padding: 1em;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: baseline;
-    gap: 1rem;
-    border-radius: 2rem 2rem 0 0;
     text-align: center;
+    padding: 0.5em;
     background: var(--secondary);
+    margin-top: 1.5rem;
 }
 
-footer a.buttonlike {
-    min-width: 3rem;
-    padding: 0.125em;
-    aspect-ratio: 1;
+#btnReturn {
+    position: absolute;
+    left: 1rem;
+    text-decoration: underline;
+    transition: all 100ms ease-out;
+    opacity: 0.75;
+}
+
+#btnReturn:hover {
+    translate: 0 -1px;
+    opacity: 1;
 }
 
 @media (min-width: 750px) {
@@ -161,23 +173,5 @@ footer a.buttonlike {
 
     .tags {
         max-width: 33%;
-    }
-
-    main {
-        padding-bottom: 5%;
-    }
-
-    footer {
-        padding-inline: 25%;
-    }
-
-    footer > * {
-        flex: 33%;
-    }
-
-    footer a.buttonlike {
-        width: 100%;
-        padding: 1em;
-        aspect-ratio: 0;
     }
 }

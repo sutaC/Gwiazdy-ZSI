@@ -45,10 +45,12 @@ export interface ScrapedImage {
 
 /**
  * Search object interface
+ * @property {string} id - Tag id
  * @property {string} name - Tag name
  * @property {number} count - Amount of searches
  */
 export interface Search {
+    id: number;
     name: string;
     count: number;
 }
@@ -420,10 +422,23 @@ export async function addSearch(id: number): Promise<void> {
 export async function getTopSearches(): Promise<Search[]> {
     const con = await getConnection();
     const [data] = await con.query(
-        "SELECT t.name, COUNT(*) AS count FROM searches AS s JOIN teachers AS t ON s.id_teachers = t.id GROUP BY t.id ORDER BY t.name, count DESC LIMIT 3;",
+        "SELECT t.id, t.name, COUNT(*) AS count FROM searches AS s JOIN teachers AS t ON s.id_teachers = t.id GROUP BY t.id ORDER BY count DESC LIMIT 3;",
     );
     await con.end();
     return data as Search[];
+}
+
+/**
+ * Counts all searches
+ * @returns Amount of all searches
+ */
+export async function getSearchCount(): Promise<number> {
+    const con = await getConnection();
+    const [[data]] = (await con.query(
+        "SELECT COUNT(*) AS count FROM searches;",
+    )) as unknown as { count: number }[][] | undefined[][];
+    await con.end();
+    return data?.count ?? 0;
 }
 
 /**

@@ -11,8 +11,16 @@ import { trimImageResolution } from "../data/Scraper.js";
 import { LOGS_PATH } from "../globals.js";
 
 // Responses
-export const getMain = (req: Request, res: Response): void => {
+export const getMain = async (req: Request, res: Response): Promise<void> => {
     const authorized = req.authorized ?? false;
+    const [toptags, searchcount] = await Promise.all([
+        db.getTopSearches(),
+        db.getSearchCount(),
+    ]);
+    res.render("./layouts/main.ejs", { authorized, toptags, searchcount });
+};
+
+export const getSearch = (req: Request, res: Response): void => {
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
         tagid = Number.parseInt(req.query.tagid);
@@ -20,7 +28,7 @@ export const getMain = (req: Request, res: Response): void => {
     } else {
         tagid = undefined;
     }
-    res.render("./layouts/main.ejs", { authorized, tagid });
+    res.render("./layouts/search.ejs", { tagid });
 };
 
 export const getStatistics = async (

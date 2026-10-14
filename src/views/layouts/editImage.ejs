@@ -1,95 +1,64 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Edytuj zdjęcie <%= photo.id %></title>
-        <link rel="stylesheet" href="/style/forms.css" />
-    </head>
 
-    <body>
-        <main>
-            <h1>Edytuj zdjęcie <%= photo.id %></h1>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Edytuj zdjęcie <%= photo.id %></title>
+  <link rel="stylesheet" href="/style/forms.css" />
+</head>
 
-            <p id="error"></p>
+<body>
+  <main>
+    <h1>Edytuj zdjęcie <%= photo.id %></h1>
 
-            <form
-                hx-boost="true"
-                hx-target="#error"
-                hx-post="/img/<%= photo.id %>/update"
-                hx-confirm="Czy na pewno chcesz zaktualizować to zdjęcie?"
-                hx-encoding="multipart/form-data"
-            >
-                <div class="field">
-                    <label for="src">URL</label>
-                    <input
-                        type="text"
-                        placeholder="URL..."
-                        value="<%= photo.src %>"
-                        name="src"
-                        id="src"
-                        title="URL do zdjęcia w Internecie"
-                    />
-                </div>
+    <p id="error"></p>
 
-                <div class="field">
-                    <label for="imgFile">Plik</label>
-                    <small
-                        >(Obecnie: <% if (photo.local) { %> <%= photo.local %>
-                        <% } else { %>
-                        <i>brak</i>
-                        <% } %> )
-                    </small>
-                    <input
-                        type="file"
-                        name="imgFile"
-                        id="imgFile"
-                        title="Nowe zdjęcie w formie pliku"
-                        accept="image/*"
-                        size="5000000"
-                    />
-                </div>
+    <form hx-boost="true" hx-target="#error" hx-post="/img/<%= photo.id %>/update" hx-confirm="Czy na pewno chcesz zaktualizować to zdjęcie?" hx-encoding="multipart/form-data">
+      <div class="field">
+        <label for="src">URL</label>
+        <input type="text" placeholder="URL..." value="<%= photo.src %>" name="src" id="src" title="URL do zdjęcia w Internecie" />
+      </div>
 
-                <button type="submit">Zapisz</button>
-            </form>
+      <div class="field">
+        <label for="imgFile">Plik</label>
+        <small>(Obecnie: <% if (photo.local) { %> <%= photo.local %>
+          <% } else { %>
+          <i>brak</i>
+          <% } %> )
+        </small>
+        <input type="file" name="imgFile" id="imgFile" title="Nowe zdjęcie w formie pliku" accept="image/*" size="5000000" />
+      </div>
 
-            <% if (photo.local) { %>
-            <button
-                hx-delete="/img/<%= photo.id %>/deleteLocal"
-                hx-confirm="Czy na pewno chcesz trwale usunąć lokalny plik tego zdjęcia?"
-                hx-target="#error"
-            >
-                Usuń plik lokalny zdjęcia
-            </button>
-            <% } %>
+      <button type="submit">Zapisz</button>
+    </form>
 
-            <button
-                hx-delete="/img/<%= photo.id %>/delete"
-                hx-confirm="Czy na pewno chcesz trwale usunąć to zdjęcie?"
-                hx-target="#error"
-            >
-                Usuń zdjęcie
-            </button>
+    <% if (photo.local) { %>
+    <button hx-delete="/img/<%= photo.id %>/deleteLocal" hx-confirm="Czy na pewno chcesz trwale usunąć lokalny plik tego zdjęcia?" hx-target="#error">
+      Usuń plik lokalny zdjęcia
+    </button>
+    <% } %>
 
-            <nav>
-                <% if (prevImgId !== null) { %>
-                <a href="/img/<%= prevImgId %>/update">Poprzednie zdjęcie</a>
-                <% } else { %>
-                <a href="#" style="visibility: hidden" aria-hidden="true"
-                    >Poprzednie zdjęcie</a
-                >
-                <% } %>
-                <a href="/img/<%= photo.id %>">Otwórz zdjęcie</a>
-                <% if (nextImgId !== null) { %>
-                <a href="/img/<%= nextImgId %>/update">Następne zdjęcie</a>
-                <% } else { %>
-                <a href="#" style="visibility: hidden" aria-hidden="true"
-                    >Następne zdjęcie</a
-                >
-                <% } %>
-            </nav>
+    <button hx-delete="/img/<%= photo.id %>/delete" hx-confirm="Czy na pewno chcesz trwale usunąć to zdjęcie?" hx-target="#error">
+      Usuń zdjęcie
+    </button>
 
-            <p>Podgląd zdjęcia:</p>
-            <%- include("../components/imgDisplay.ejs", {photo}) %>
-        </main>
-    </body>
+    <nav>
+      <% if (prevImgId !== null) { %>
+      <a href="/img/<%= prevImgId %>/update">Poprzednie zdjęcie</a>
+      <% } else { %>
+      <a href="#" style="visibility: hidden" aria-hidden="true">Poprzednie zdjęcie</a>
+      <% } %>
+      <a href="/img/<%= photo.id %>">Otwórz zdjęcie</a>
+      <% if (nextImgId !== null) { %>
+      <a href="/img/<%= nextImgId %>/update">Następne zdjęcie</a>
+      <% } else { %>
+      <a href="#" style="visibility: hidden" aria-hidden="true">Następne zdjęcie</a>
+      <% } %>
+    </nav>
+
+    <p>Podgląd zdjęcia:</p>
+    <%- include("../components/imgDisplay.ejs", {photo}) %>
+  </main>
+</body>
+
 </html>

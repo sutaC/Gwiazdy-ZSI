@@ -1,100 +1,60 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Zdjęcie <%= photo.id %></title>
-        <link rel="stylesheet" href="/style/image.css" />
-    </head>
 
-    <body>
-        <header>
-            <nav class="wraper">
-                <a href="/" class="buttonlike">Strona główna</a>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Zdjęcie <%= photo.id %></title>
+  <link rel="stylesheet" href="/style/image.css" />
+</head>
 
-                <% if(authorized){ %>
-                <a href="/img/<%= photo.id %>/update" class="buttonlike"
-                    >Edytuj</a
-                >
-                <% } %>
-            </nav>
+<body>
+  <header>
 
-            <h1>Id zdjęcia: <%= photo.id %></h1>
+    <h1>Id zdjęcia: <%= photo.id %></h1>
 
-            <div class="tag-section">
-                <div id="tags" class="tags">
-                    <% if (tags.length > 0) { %> <%-
-                    include('../components/taglist.ejs', {tags, photoid:
-                    photo.id, checked: true, authorized}) %><% } %>
-                </div>
+    <div id="tags" class="tags">
+      <% if (tags.length > 0) { %>
+      <%- include('../components/taglist.ejs', {tags, photoid: photo.id, checked: true, authorized}) %>
+      <% } %>
+    </div>
 
-                <% if(authorized){ %>
+    <% if(authorized){ %>
+    <div class="wraper">
+      <div class="search-field">
+        <input type="text" id="promptInput" name="prompt" placeholder="Dodaj tag..." hx-get="/api/img/<%= photo.id %>/tag" hx-trigger="keydown changed consume delay:250ms, search" hx-target="next #results" />
+        <div id="results" class="search-results"></div>
+      </div>
+      <a href="/img/<%= photo.id %>/update" class="buttonlike">Edytuj</a>
+    </div>
+    <% } %>
+  </header>
 
-                <div class="search-field">
-                    <input
-                        type="text"
-                        id="promptInput"
-                        name="prompt"
-                        placeholder="Wyszukaj..."
-                        hx-get="/api/img/<%= photo.id %>/tag"
-                        hx-trigger="keydown changed consume delay:250ms, search"
-                        hx-target="next #results"
-                    />
-                    <div id="results" class="search-results"></div>
-                </div>
+  <main>
 
-                <% } %>
-            </div>
-        </header>
+    <%- include("../components/imgDisplay.ejs", {photo}) %>
 
-        <main><%- include("../components/imgDisplay.ejs", {photo}) %></main>
+    <nav class="wraper">
+      <% if (prevImgId !== null) { %>
+      <a href="/img/<%= prevImgId %>" class="buttonlike" hx-boost="true" hx-trigger="click, keydown[key=='ArrowLeft'] consume from:body" hx-replace-url="true" title="(ArrowLeft)">&leftarrow;</a>
+      <% } else { %>
+      <a href="#" class="buttonlike" style="visibility: hidden" aria-hidden="true">&leftarrow;</a>
+      <% } %>
 
-        <footer>
-            <% if (prevImgId !== null) { %>
-            <a
-                href="/img/<%= prevImgId %>"
-                class="buttonlike"
-                hx-boost="true"
-                hx-trigger="click, keydown[key=='ArrowLeft'] consume from:body"
-                hx-replace-url="true"
-                title="(ArrowLeft)"
-                >&leftarrow;</a
-            >
-            <% } else { %>
-            <a
-                href="#"
-                class="buttonlike"
-                style="visibility: hidden"
-                aria-hidden="true"
-                >&leftarrow;</a
-            >
-            <% } %>
-            <a
-                href="/randomimg"
-                class="buttonlike"
-                hx-boost="true"
-                hx-trigger="click, keydown[key==' '] consume from:body"
-                title="(Space)"
-                >Losuj</a
-            >
-            <% if (nextImgId !== null) { %>
-            <a
-                href="/img/<%= nextImgId %>"
-                class="buttonlike"
-                hx-boost="true"
-                hx-trigger="click, keydown[key=='ArrowRight'] consume from:body"
-                hx-replace-url="true"
-                title="(ArrowRight)"
-                >&rightarrow;</a
-            >
-            <% } else { %>
-            <a
-                href="#"
-                class="buttonlike"
-                style="visibility: hidden"
-                aria-hidden="true"
-                >&rightarrow;</a
-            >
-            <% } %>
-        </footer>
-    </body>
+      <a href="/randomimg" class="buttonlike" hx-boost="true" hx-trigger="click, keydown[key==' '] consume from:body" title="(Space)">Losuj</a>
+
+      <% if (nextImgId !== null) { %>
+      <a href="/img/<%= nextImgId %>" class="buttonlike" hx-boost="true" hx-trigger="click, keydown[key=='ArrowRight'] consume from:body" hx-replace-url="true" title="(ArrowRight)">&rightarrow;</a>
+      <% } else { %>
+      <a href="#" class="buttonlike" style="visibility: hidden" aria-hidden="true">&rightarrow;</a>
+      <% } %>
+    </nav>
+  </main>
+
+  <footer>
+    <a href="/" id="btnReturn">Powrót</a>
+    <small>Made by <a href="http://github.com/sutaC" class="highlight" target="_blank" rel="noopener noreferrer">sutaC</a></small>
+  </footer>
+
+</body>
+
 </html>
