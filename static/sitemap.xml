@@ -23,7 +23,12 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://gwiazdyzsi.sutac.pl/login</loc>
+  <loc>https://gwiazdyzsi.sutac.pl/search</loc>
+  <lastmod>2024-06-25T11:39:28+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://gwiazdyzsi.sutac.pl/</loc>
   <lastmod>2024-06-25T11:39:28+00:00</lastmod>
   <priority>0.60</priority>
 </url>

@@ -1,17 +1,11 @@
 <% for( const imagetab of imagetabs) { %>
 
 <div class="imagetab">
-    <%- include("../components/imgDisplay.ejs", {photo: {src: imagetab.src,
+  <%- include("../components/imgDisplay.ejs", {photo: {src: imagetab.src,
     local: imagetab.local}}) %>
-    <a href="/img/<%= imagetab.id %>">Id: <%= imagetab.id %></a>
+  <a href="/img/<%= imagetab.id %>">Id: <%= imagetab.id %></a>
 </div>
 
 <% } %>
 
-<small
-    class="light"
-    hx-get="/api/imagetaglist/<%= tagid %>?list=<%= Number(list) + 1 %>"
-    hx-swap="outerHTML"
-    hx-trigger="revealed"
-    >Ładowanie...</small
->
+<small class="light" hx-get="/api/imagetaglist/<%= tagid %>?list=<%= Number(list) + 1 %>" hx-swap="outerHTML" hx-trigger="revealed">Ładowanie...</small>

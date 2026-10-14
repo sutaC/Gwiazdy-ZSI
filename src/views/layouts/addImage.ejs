@@ -1,51 +1,34 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Dodaj zdjęcie</title>
-        <link rel="stylesheet" href="/style/forms.css" />
-    </head>
 
-    <body>
-        <main>
-            <h1>Dodaj zdjęcie</h1>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Dodaj zdjęcie</title>
+  <link rel="stylesheet" href="/style/forms.css" />
+</head>
 
-            <form
-                hx-post="/api/addImg"
-                hx-boost="true"
-                hx-target="#error"
-                hx-confirm="Czy na pewno chesz dodać to zdjęcie?"
-                hx-encoding="multipart/form-data"
-            >
-                <p id="error"></p>
+<body>
+  <main>
+    <h1>Dodaj zdjęcie</h1>
 
-                <div class="field">
-                    <label for="imgUrl">URL</label>
-                    <input
-                        type="text"
-                        name="imgUrl"
-                        id="imgUrl"
-                        placeholder="URL..."
-                        title="URL do zdjęcia w Internecie"
-                    />
-                </div>
+    <form hx-post="/api/addImg" hx-boost="true" hx-target="#error" hx-confirm="Czy na pewno chesz dodać to zdjęcie?" hx-encoding="multipart/form-data">
+      <p id="error"></p>
 
-                <div class="field">
-                    <label for="imgFile">Plik</label>
-                    <input
-                        type="file"
-                        name="imgFile"
-                        id="imgFile"
-                        title="Zdjęcie w formie pliku"
-                        accept="image/*"
-                        size="5000000"
-                    />
-                </div>
+      <div class="field">
+        <label for="imgUrl">URL</label>
+        <input type="text" name="imgUrl" id="imgUrl" placeholder="URL..." title="URL do zdjęcia w Internecie" />
+      </div>
 
-                <button type="submit">Dodaj</button>
-            </form>
+      <div class="field">
+        <label for="imgFile">Plik</label>
+        <input type="file" name="imgFile" id="imgFile" title="Zdjęcie w formie pliku" accept="image/*" size="5000000" />
+      </div>
 
-            <a href="/admin" class="buttonlike">Powrót</a>
-        </main>
-    </body>
+      <button type="submit">Dodaj</button>
+    </form>
+
+    <a href="/admin" class="buttonlike">Powrót</a>
+  </main>
+</body>
+
 </html>

@@ -11,8 +11,16 @@ import { trimImageResolution } from "../data/Scraper.js";
 import { LOGS_PATH } from "../globals.js";
 
 // Responses
-export const getMain = (req: Request, res: Response): void => {
+export const getMain = async (req: Request, res: Response): Promise<void> => {
     const authorized = req.authorized ?? false;
+    const [toptags, searchcount] = await Promise.all([
+        db.getTopSearches(),
+        db.getSearchCount(),
+    ]);
+    res.render("./layouts/main.ejs", { authorized, toptags, searchcount });
+};
+
+export const getSearch = (req: Request, res: Response): void => {
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
         tagid = Number.parseInt(req.query.tagid);
@@ -20,7 +28,7 @@ export const getMain = (req: Request, res: Response): void => {
     } else {
         tagid = undefined;
     }
-    res.render("./layouts/main.ejs", { authorized, tagid });
+    res.render("./layouts/search.ejs", { tagid });
 };
 
 export const getStatistics = async (
@@ -600,17 +608,28 @@ export const getImageTaglist = async (
         res.sendStatus(400);
         return;
     }
+    const tag = await db.getTag(tagid);
+    if (!tag) {
+        res.sendStatus(404);
+        return;
+    }
     let list = 1;
     if (typeof req.query.list === "string") {
         list = Number.parseInt(req.query.list);
         if (!Number.isSafeInteger(list)) list = 1;
     }
-    if (list < 1) {
-        list = 1;
-    }
+    if (list < 1) list = 1;
+    if (list === 1) await db.addSearch(tagid);
     const imagetabs = await db.getImgsByTagId(tagid, list);
     if (imagetabs.length === 0) {
-        res.send('<small class="light">Nie znaleziono więcej zdjęć...</small>');
+        if (list === 1)
+            res.send(
+                '<small class="light">Nie znaleziono żadnych zdjęć...</small>',
+            );
+        else
+            res.send(
+                '<small class="light">Nie znaleziono więcej zdjęć...</small>',
+            );
         return;
     }
     res.render("./components/imagetablist.ejs", { imagetabs, tagid, list });
@@ -660,8 +679,9 @@ export const getScraperStatus = async (
         res.sendStatus(204);
         return;
     }
+    const results = await scraper.getLastResults();
     res.render("./components/scrapingResults.ejs", {
-        results: scraper.getLastResults(),
+        results,
         spinner: false,
     });
 };

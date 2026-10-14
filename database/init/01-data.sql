@@ -24,6 +24,17 @@ INSERT INTO `imagesteachers` VALUES (227,326,48),(7,327,38),(14,327,71),(9,328,3
 /*!40000 ALTER TABLE `imagesteachers` ENABLE KEYS */;
 UNLOCK TABLES;
 
+LOCK TABLES `scrapedimages` WRITE;
+/*!40000 ALTER TABLE `scrapedimages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scrapedimages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `searches` WRITE;
+/*!40000 ALTER TABLE `searches` DISABLE KEYS */;
+INSERT INTO `searches` VALUES (1,'2026-10-13 16:17:13',2),(2,'2026-10-13 16:18:03',2),(3,'2026-10-13 16:18:48',48),(4,'2026-10-13 16:18:59',1),(5,'2026-10-13 16:19:31',28),(6,'2026-10-13 16:21:53',71),(7,'2026-10-13 16:30:16',1),(8,'2026-10-13 16:30:18',1),(9,'2026-10-13 16:30:19',1);
+/*!40000 ALTER TABLE `searches` ENABLE KEYS */;
+UNLOCK TABLES;
+
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
 INSERT INTO `teachers` VALUES (1,'Arciszewski Artur'),(2,'Bem Jarosław'),(3,'Bogacz Nina'),(4,'Charabin Ewa'),(5,'Chmiel Wioletta'),(6,'Dubik Anna'),(7,'Dutkiewicz Iwona'),(8,'Gałczyńska-Karasek Marta'),(9,'Giedyk Miroslaw'),(10,'Gierada Agnieszka'),(11,'Ginter Anna'),(12,'Grabda Agnieszka'),(13,'Grimm Katarzyna'),(14,'Hipsz Jarosław'),(15,'Jagiełło Hanna'),(16,'Jakubczyk Monika'),(17,'Janaszek Piotr'),(18,'Jaszczyk Agnieszka'),(19,'Kaczmarczyk Monika'),(20,'Klicka Irminia'),(21,'Kogut Michał'),(22,'Kołodziejski Sławomir'),(23,'Kosacka Magdalena'),(24,'Kosmala Dorota'),(25,'Kostucha Michał'),(26,'Kowal Agnieszka'),(27,'Kowalczyk Katarzyna'),(28,'Kozieł Tomasz'),(29,'Kozłowska Marta'),(30,'Kubasiewicz Jolanta'),(31,'Lenart Agnieszka'),(32,'Lis Izabela'),(33,'Ludwinek Aleksandra'),(34,'Łachowska Klaudia'),(35,'Łazarski Mariusz'),(36,'Majer Jacek'),(37,'Matusiak Marek'),(38,'Mazur Sebastian'),(39,'Mądzik- Błosińska Ewa'),(40,'Misiowiec Grzegorz'),(41,'Misiowiec Kinga'),(42,'Mierzwa Marek'),(43,'Miszczyk Paulina'),(44,'Mgłosiek Joanna'),(45,'Mochocka Dorota'),(46,'Niekurzak Kamil'),(47,'Nikodem Lucyna'),(48,'Nikodem Mariusz'),(49,'Orliński Artur'),(50,'Papucki Sebastian'),(51,'Paszek-Misztal Anna'),(52,'Raduszewski Marek'),(53,'Robak Agnieszka'),(54,'Rokosz Jarosław'),(55,'Równicki Hubert'),(56,'Ruszczak Ewa'),(57,'Rysińska Elżbieta'),(58,'Snoch Tomasz'),(59,'Stochmal Magdalena'),(60,'Symula Beata'),(61,'Szczerba-Folfas Katarzyna'),(62,'Szwajca Tamara'),(63,'Śliwa Anna'),(64,'Ślusarczyk Małgorzata'),(65,'Tamborska Marlena'),(66,'Tuchowski Berna'),(67,'Tylec Joanna'),(68,'Tomicki Łukasz'),(69,'Urbańska Małgorzata'),(70,'Wawrzoła Sylwester'),(71,'Wilczkowska Małgorzata'),(72,'Winkler Joanna'),(73,'Winkler Rafał'),(74,'Wołonkiewicz Mirosław');

@@ -1,15 +1,8 @@
 <% tagtabs.forEach(tagtab=> { %>
 
-<button
-    class="tagtab"
-    hx-get="/api/imagetaglist/<%= tagtab.id %>"
-    hx-trigger="click"
-    hx-target="#imagetablist"
-    hx-on::after-request='document.querySelector("#promptInput").value = "";
-                document.querySelector("#results").innerHTML = ""'
-    hx-push-url="/?tagid=<%= tagtab.id %>"
->
-    <%= tagtab.name %>
+<button class="tagtab" hx-get="/api/imagetaglist/<%= tagtab.id %>" hx-trigger="click" hx-target="#imagetablist" hx-on::after-request='document.querySelector("#promptInput").value = "";
+                document.querySelector("#results").innerHTML = ""' hx-push-url="/search?tagid=<%= tagtab.id %>">
+  <%= tagtab.name %>
 </button>
 
 <% }); %>

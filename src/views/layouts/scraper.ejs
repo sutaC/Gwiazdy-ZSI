@@ -1,72 +1,54 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Skrobak</title>
-        <link rel="stylesheet" href="/style/scraper.css" />
-    </head>
 
-    <body>
-        <header>
-            <h1>Skrobak</h1>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Skrobak</title>
+  <link rel="stylesheet" href="/style/scraper.css" />
+</head>
 
-        <main>
-            <h2>Zebrane zdjęcia</h2>
-            <%- include("../components/scrapedImageController.ejs", {imageCount,
+<body>
+  <header>
+    <h1>Skrobak</h1>
+  </header>
+
+  <main>
+    <h2>Zebrane zdjęcia</h2>
+    <%- include("../components/scrapedImageController.ejs", {imageCount,
             image}) %>
-        </main>
+  </main>
 
-        <% if (user==="admin" ) { %>
-        <section aria-labelledby="hScrapingImages" class="scraping">
-            <h2 id="hScrapingImages">Skrobanie zdjęć</h2>
-            <form
-                hx-boost="true"
-                hx-confirm="Na pewno chcesz skrobać zdjęcia? Może to zająć chwilę, zależnie od liczby wybranych stron..."
-                hx-post="/scraper/scrape"
-                hx-target="next .result"
-                hx-swap="outerHTML"
-                hx-on::after-request="this.querySelector('button').disabled = true;"
-            >
-                <div class="field">
-                    <label for="pages">Liczba stron do zeskrobania</label>
-                    <input
-                        type="number"
-                        name="pages"
-                        id="pages"
-                        placeholder="1..."
-                        min="1"
-                        max="150"
-                        required
-                    />
-                </div>
+  <% if (user==="admin" ) { %>
+  <section aria-labelledby="hScrapingImages" class="scraping">
+    <h2 id="hScrapingImages">Skrobanie zdjęć</h2>
+    <form hx-boost="true" hx-confirm="Na pewno chcesz skrobać zdjęcia? Może to zająć chwilę, zależnie od liczby wybranych stron..." hx-post="/scraper/scrape" hx-target="next .result" hx-swap="outerHTML" hx-on::after-request="this.querySelector('button').disabled = true;">
+      <div class="field">
+        <label for="pages">Liczba stron do zeskrobania</label>
+        <input type="number" name="pages" id="pages" placeholder="1..." min="1" max="150" required />
+      </div>
 
-                <% if (scrapingRunning) { %>
-                <button type="submit" disabled>Skrób</button>
-                <% } else { %>
-                <button type="submit">Skrób</button>
-                <% } %>
-            </form>
+      <% if (scrapingRunning) { %>
+      <button type="submit" disabled>Skrób</button>
+      <% } else { %>
+      <button type="submit">Skrób</button>
+      <% } %>
+    </form>
 
-            <% if (scrapingRunning) { %> <%-
+    <% if (scrapingRunning) { %> <%-
             include("../components/scrapingResults.ejs", {spinner: true}) %> <%
             } else { %>
-            <div class="result">
-                <button
-                    hx-boost="true"
-                    hx-get="/scraper/status"
-                    hx-swap="outerHTML"
-                    hx-target="closest .result"
-                >
-                    Pokaż poprzednie rezultaty
-                </button>
-            </div>
-            <% } %>
-        </section>
-        <% } %>
+    <div class="result">
+      <button hx-boost="true" hx-get="/scraper/status" hx-swap="outerHTML" hx-target="closest .result">
+        Pokaż poprzednie rezultaty
+      </button>
+    </div>
+    <% } %>
+  </section>
+  <% } %>
 
-        <footer>
-            <a href="/admin" class="buttonlike">Powrót</a>
-        </footer>
-    </body>
+  <footer>
+    <a href="/admin" class="buttonlike">Powrót</a>
+  </footer>
+</body>
+
 </html>

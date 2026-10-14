@@ -1,49 +1,34 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Zaloguj się</title>
-        <link rel="stylesheet" href="/style/forms.css" />
-    </head>
 
-    <body>
-        <main>
-            <h1>Zaloguj się</h1>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Zaloguj się</title>
+  <link rel="stylesheet" href="/style/forms.css" />
+</head>
 
-            <form
-                action="/login"
-                method="post"
-                hx-boost="true"
-                hx-target="#error"
-            >
-                <small id="error"></small>
+<body>
+  <main>
+    <h1>Zaloguj się</h1>
 
-                <div class="field">
-                    <label for="login">Login</label>
-                    <input
-                        type="text"
-                        id="login"
-                        name="login"
-                        placeholder="Login..."
-                        required
-                    />
-                </div>
+    <form action="/login" method="post" hx-boost="true" hx-target="#error">
+      <small id="error"></small>
 
-                <div class="field">
-                    <label for="password">Hasło</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Hasło..."
-                        required
-                    />
-                </div>
+      <div class="field">
+        <label for="login">Login</label>
+        <input type="text" id="login" name="login" placeholder="Login..." required />
+      </div>
 
-                <button type="submit">Zaloguj</button>
-            </form>
+      <div class="field">
+        <label for="password">Hasło</label>
+        <input type="password" id="password" name="password" placeholder="Hasło..." required />
+      </div>
 
-            <a href="/" class="buttonlike">Powrót</a>
-        </main>
-    </body>
+      <button type="submit">Zaloguj</button>
+    </form>
+
+    <a href="/" class="buttonlike">Powrót</a>
+  </main>
+</body>
+
 </html>

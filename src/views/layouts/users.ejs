@@ -1,99 +1,62 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Użytkownicy</title>
-        <link rel="stylesheet" href="/style/users.css" />
-    </head>
 
-    <body>
-        <header id="top-header">
-            <h1>Użytkownicy</h1>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Użytkownicy</title>
+  <link rel="stylesheet" href="/style/users.css" />
+</head>
 
-        <section class="users">
-            <h2>Lista użytkowników</h2>
+<body>
+  <header id="top-header">
+    <h1>Użytkownicy</h1>
+  </header>
 
-            <% for (const user of users) { %>
-            <div class="user">
-                <p><%= user.login %></p>
-                <% if(user.login !=="admin" ){ %>
-                <button
-                    class="delete"
-                    hx-delete="/deleteUser/<%= user.login %>"
-                    hx-confirm="Czy na pewno chcesz usunąć użytkownika <%= user.login %>?"
-                    hx-target="closest .user"
-                >
-                    Usuń użytkownika
-                </button>
-                <% } %>
-            </div>
-            <% } %>
-        </section>
+  <section class="users">
+    <h2>Lista użytkowników</h2>
 
-        <main>
-            <h2>Dodaj użytkownika</h2>
+    <% for (const user of users) { %>
+    <div class="user">
+      <p><%= user.login %></p>
+      <% if(user.login !=="admin" ){ %>
+      <button class="delete" hx-delete="/deleteUser/<%= user.login %>" hx-confirm="Czy na pewno chcesz usunąć użytkownika <%= user.login %>?" hx-target="closest .user">
+        Usuń użytkownika
+      </button>
+      <% } %>
+    </div>
+    <% } %>
+  </section>
 
-            <small id="error"></small>
+  <main>
+    <h2>Dodaj użytkownika</h2>
 
-            <form
-                hx-boost="true"
-                action="/addAdminUser"
-                method="post"
-                hx-target="#error"
-                hx-confirm="Czy na pewno chcesz dodać nowego użytkownika?"
-                hx-push-url="false"
-            >
-                <div class="field">
-                    <label for="login">Login</label>
-                    <input
-                        type="text"
-                        name="login"
-                        id="login"
-                        placeholder="Login..."
-                        autocomplete="username"
-                        required
-                    />
-                </div>
+    <small id="error"></small>
 
-                <div class="field">
-                    <label for="password">Hasło</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Hasło..."
-                        autocomplete="new-password"
-                        required
-                    />
-                </div>
+    <form hx-boost="true" action="/addAdminUser" method="post" hx-target="#error" hx-confirm="Czy na pewno chcesz dodać nowego użytkownika?" hx-push-url="false">
+      <div class="field">
+        <label for="login">Login</label>
+        <input type="text" name="login" id="login" placeholder="Login..." autocomplete="username" required />
+      </div>
 
-                <div class="field">
-                    <label for="repeatPassword">Powtórz hasło</label>
-                    <input
-                        type="password"
-                        name="repeatPassword"
-                        id="repeatPassword"
-                        placeholder="Powtórz hasło..."
-                        autocomplete="new-password"
-                        required
-                    />
-                </div>
+      <div class="field">
+        <label for="password">Hasło</label>
+        <input type="password" name="password" id="password" placeholder="Hasło..." autocomplete="new-password" required />
+      </div>
 
-                <button type="submit">Dodaj</button>
-            </form>
-        </main>
+      <div class="field">
+        <label for="repeatPassword">Powtórz hasło</label>
+        <input type="password" name="repeatPassword" id="repeatPassword" placeholder="Powtórz hasło..." autocomplete="new-password" required />
+      </div>
 
-        <footer>
-            <a href="/admin" class="buttonlike">Powrót</a>
+      <button type="submit">Dodaj</button>
+    </form>
+  </main>
 
-            <a
-                href="#top-header"
-                class="buttonlike"
-                aria-label="Powróć na początek strony"
-                title="Powróć na początek strony"
-                >^</a
-            >
-        </footer>
-    </body>
+  <footer>
+    <a href="/admin" class="buttonlike">Powrót</a>
+
+    <a href="#top-header" class="buttonlike" aria-label="Powróć na początek strony" title="Powróć na początek strony">^</a>
+  </footer>
+</body>
+
 </html>

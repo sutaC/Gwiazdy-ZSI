@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Błąd <%= error.code ?? 500 %></title>
-        <link rel="stylesheet" href="/style/error.css" />
-    </head>
 
-    <body>
-        <main>
-            <h1>Ojejku!</h1>
-            <p><%= error.messsage ?? `Wystąpił błąd ${error.code ?? 500}` %></p>
-            <img
-                src="https://http.cat/<%= error.code ?? 500 %>"
-                alt="Błąd <%= error.code ?? 500 %>"
-            />
-            <a class="buttonlike" href="/">Powrót</a>
-        </main>
-    </body>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Błąd <%= error.code ?? 500 %></title>
+  <link rel="stylesheet" href="/style/error.css" />
+</head>
+
+<body>
+  <main>
+    <h1>Ojejku!</h1>
+    <p><%= error.messsage ?? `Wystąpił błąd ${error.code ?? 500}` %></p>
+    <img src="https://http.cat/<%= error.code ?? 500 %>" alt="Błąd <%= error.code ?? 500 %>" />
+    <a class="buttonlike" href="/">Powrót</a>
+  </main>
+</body>
+
 </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Szukaj</title>
+  <link rel="stylesheet" href="/style/search.css" />
+  <link rel="canonical" href="https://gwiazdyzsi.sutac.pl/search">
+  <script src="/js/search.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <a href="/" class="buttonlike return">Powrót</a>
+
+    <div class="search">
+      <form hx-boost="true" class="idsearch" hx-params="none" hx-on::config-request="event.detail.path = `/img/${event.target.photoid.value}`" hx-on::response-error="alert('Nie znaleziono zdjęcia z tym id'); this.photoid.value = ''">
+        <label for="searchPhotoid">Wyszukaj po id:</label>
+        <div class="wraper">
+          <input type="number" id="searchPhotoid" name="photoid" placeholder="707..." required min="0" autocomplete="off" />
+          <button type="submit">Szukaj</button>
+        </div>
+      </form>
+
+      <div class="tagsearch">
+        <label for="promptInput">Wyszukaj po etykiecie:</label>
+        <div class="search-field">
+          <input type="text" id="promptInput" name="prompt" placeholder="Artur..." hx-get="/api/tag" hx-trigger="keyup changed delay:250ms, search" hx-target="next #results" autocomplete="off" maxlength="32" />
+          <div id="results" class="search-results"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toggle">
+      <input type="radio" name="radioSearch" id="radioTag" checked><label for="radioTag">Etykieta</label>
+      <input type="radio" name="radioSearch" id="radioId"><label for="radioId">ID</label>
+    </div>
+  </header>
+
+  <main id="imagetablist">
+    <% if (tagid !== undefined) { %>
+    <small hx-get="/api/imagetaglist/<%= tagid %>" hx-trigger="load" hx-swap="outerHTML">Ładowanie zdjęć...</small>
+    <% } else { %>
+    <p>Znalezione zdjęcia pojawią się tutaj!</p>
+    <% } %>
+  </main>
+
+  <a href="#" class="buttonlike" id="btnTop" aria-label="Scroll to top"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+      <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" />
+    </svg></a>
+
+  <footer><small>Made by <a href="http://github.com/sutaC" class="highlight" target="_blank" rel="noopener noreferrer">sutaC</a></small></footer>
+</body>
+
+</html>

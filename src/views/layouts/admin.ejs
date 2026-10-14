@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Strona administracyjna</title>
-        <link rel="stylesheet" href="/style/admin.css" />
-    </head>
 
-    <body>
-        <header>
-            <h1>Strona administracyjna</h1>
-            <p>Witaj <%= user %>! Jesteś teraz autoryzowany.</p>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Strona administracyjna</title>
+  <link rel="stylesheet" href="/style/admin.css" />
+</head>
 
-        <nav>
-            <a href="/">Przejdź do strony głównej</a>
-            <a
-                href="/logout"
-                class="highlight"
-                hx-boost="true"
-                hx-confirm="Czy na pewno chcesz się wylogować?"
-                >Wyloguj</a
-            >
-            <a href="/tags">Etykiety</a>
-            <a href="/addImg">Dodaj zdjęcie</a>
-            <a href="/randomimg?untagged=true">Losowe nieoznaczone zdjęcie</a>
+<body>
+  <header>
+    <h1>Strona administracyjna</h1>
+    <p>Witaj <%= user %>! Jesteś teraz autoryzowany.</p>
+  </header>
 
-            <% if (imagesAvaliable) { %>
-            <a href="/scraper" class="reminder">Skrobak</a>
-            <% } else { %>
-            <a href="/scraper">Skrobak</a>
-            <% } %>
+  <nav>
+    <a href="/">Przejdź do strony głównej</a>
+    <a href="/logout" class="highlight" hx-boost="true" hx-confirm="Czy na pewno chcesz się wylogować?">Wyloguj</a>
+    <a href="/tags">Etykiety</a>
+    <a href="/addImg">Dodaj zdjęcie</a>
+    <a href="/randomimg?untagged=true">Losowe nieoznaczone zdjęcie</a>
 
-            <a href="/logs">Logi serwera</a>
-            <a href="/reset">Zresetuj hasło</a>
+    <% if (imagesAvaliable) { %>
+    <a href="/scraper" class="reminder">Skrobak</a>
+    <% } else { %>
+    <a href="/scraper">Skrobak</a>
+    <% } %>
 
-            <% if (user==="admin" ) { %>
-            <a href="/users">Użytkownicy</a>
-            <% } %>
-        </nav>
-    </body>
+    <a href="/logs">Logi serwera</a>
+    <a href="/reset">Zresetuj hasło</a>
+
+    <% if (user==="admin" ) { %>
+    <a href="/users">Użytkownicy</a>
+    <% } %>
+  </nav>
+</body>
+
 </html>

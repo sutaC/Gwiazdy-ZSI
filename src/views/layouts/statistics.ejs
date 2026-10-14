@@ -1,74 +1,47 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <%- include('../components/globalHead.ejs') %>
-        <title>Gwiazdy ZSI | Statystyki</title>
-        <link rel="stylesheet" href="/style/statistics.css" />
-    </head>
 
-    <body>
-        <header id="top-header">
-            <h1>Statystyki</h1>
-        </header>
+<head>
+  <%- include('../components/globalHead.ejs') %>
+  <title>Gwiazdy ZSI | Statystyki</title>
+  <link rel="stylesheet" href="/style/statistics.css" />
+</head>
 
-        <section aria-labelledby="quantity" class="quantity">
-            <h2 id="quantity">Ilość zdjęć</h2>
+<body>
+  <header id="top-header">
+    <h1>Statystyki</h1>
+  </header>
 
-            <p>Łącznie <%= imagesAmount %> zdjęć</p>
-            <div class="bar">
-                <small
-                    class="taged"
-                    style="
-                        --_amount: <%=
-                            Math.floor(
-                                (imagesWithTagsAmount / imagesAmount) * 100
-                            )
-                            %>%;
-                    "
-                    >Oznaczone: <%= imagesWithTagsAmount %>
-                </small>
-                <small
-                    class="notTaged"
-                    style="
-                        --_amount: <%=
-                            Math.floor(
-                                (
-                                        (imagesAmount - imagesWithTagsAmount) /
-                                            imagesAmount
-                                    ) * 100
-                            )
-                            %>%;
-                    "
-                >
-                    Nieoznaczone: <%= (imagesAmount - imagesWithTagsAmount) %>
-                </small>
-            </div>
-        </section>
+  <section aria-labelledby="quantity" class="quantity">
+    <h2 id="quantity">Ilość zdjęć</h2>
 
-        <main aria-labelledby="ranking">
-            <h2 id="ranking">Ranking etykiet</h2>
+    <p>Łącznie <%= imagesAmount %> zdjęć</p>
+    <div class="bar">
+      <small class="taged" style="--_amount: <%= Math.floor((imagesWithTagsAmount / imagesAmount) * 100)%>%;">Oznaczone: <%= imagesWithTagsAmount %>
+      </small>
+      <small class="notTaged" style="--_amount: <%= Math.floor((imagesWithTagsAmount / imagesAmount) * 100)%>%;">
+        Nieoznaczone: <%= (imagesAmount - imagesWithTagsAmount) %>
+      </small>
+    </div>
+  </section>
 
-            <% ranks.forEach((rank, idx)=> { %>
+  <main aria-labelledby="ranking">
+    <h2 id="ranking">Ranking etykiet</h2>
 
-            <div class="rank">
-                <div><%= idx + 1 %>.</div>
-                <div class="name"><%= rank.name %></div>
-                <div><%= rank.amount %></div>
-            </div>
+    <% ranks.forEach((rank, idx)=> { %>
 
-            <% }); %>
-        </main>
+    <div class="rank">
+      <div><%= idx + 1 %>.</div>
+      <div class="name"><%= rank.name %></div>
+      <div><%= rank.amount %></div>
+    </div>
 
-        <footer>
-            <a href="/" class="buttonlike">Powrót</a>
+    <% }); %>
+  </main>
 
-            <a
-                href="#top-header"
-                class="buttonlike"
-                aria-label="Powróć na początek strony"
-                title="Powróć na początek strony"
-                >^</a
-            >
-        </footer>
-    </body>
+  <a href="/" class="buttonlike" id="btnReturn">Powrót</a>
+
+  <footer><small>Made by <a href="http://github.com/sutaC" class="highlight" target="_blank" rel="noopener noreferrer">sutaC</a></small></footer>
+</body>
+
 </html>

@@ -28,6 +28,8 @@ router.use(auth.authenticate as () => Promise<void>);
 // --- Pages ---
 router.get("/", responses.getMain as () => Promise<void>);
 
+router.get("/search", responses.getSearch as () => Promise<void>);
+
 router.get("/about", responses.getAbout as () => Promise<void>);
 
 router.get("/statistics", responses.getStatistics as () => Promise<void>);
