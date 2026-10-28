@@ -20,6 +20,37 @@ export const getMain = async (req: Request, res: Response): Promise<void> => {
     res.render("./layouts/main.ejs", { authorized, toptags, searchcount });
 };
 
+export const getApiGhStars = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
+    try {
+        const response = await fetch(
+            "https://api.github.com/repos/sutaC/Gwiazdy-ZSI/stargazers/count",
+            {
+                headers: {
+                    Accept: "application/vnd.github+json",
+                    "User-Agent": "Gwiazdy-ZSI-Website",
+                },
+                signal: AbortSignal.timeout(5000),
+            },
+        );
+        if (!response.ok) {
+            res.statusMessage = "GitHub API request failed";
+            res.status(502).send("?");
+            return;
+        }
+        const data = await response.json();
+        res.set("Cache-Control", "public, max-age=60");
+        res.send(`${data.count ?? "?"}`);
+    } catch (error) {
+        console.error("GitHub API error:", error);
+        res.statusMessage = "Unable to fetch star count";
+        res.status(502).send("?");
+        return;
+    }
+};
+
 export const getSearch = (req: Request, res: Response): void => {
     let tagid: number | undefined;
     if (typeof req.query.tagid === "string") {
@@ -621,6 +652,7 @@ export const getImageTaglist = async (
     if (list < 1) list = 1;
     if (list === 1) await db.addSearch(tagid);
     const imagetabs = await db.getImgsByTagId(tagid, list);
+    res.set("Cache-Control", "public, max-age=60");
     if (imagetabs.length === 0) {
         if (list === 1)
             res.send(

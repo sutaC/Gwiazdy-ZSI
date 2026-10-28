@@ -2,6 +2,11 @@ h1 {
     color: var(--accent);
 }
 
+svg {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 2px var(--accent));
+}
+
 header {
     text-wrap: balance;
     background: var(--secondary);
@@ -32,11 +37,6 @@ nav .nav-tile {
     justify-content: center;
     align-items: center;
     gap: 0.5em;
-}
-
-nav .nav-tile svg {
-    fill: var(--accent);
-    filter: drop-shadow(0 0 2px var(--accent));
 }
 
 .nav-tile:is(:hover, :focus-within) {
@@ -87,7 +87,11 @@ main {
     filter: drop-shadow(0 0 2px var(--accent));
 }
 
-.toptags {
+section h2 {
+    font-size: 2rem;
+}
+
+.ghstars {
     max-width: 50rem;
     padding: 1rem;
     border: 1px solid var(--primary);
@@ -95,8 +99,31 @@ main {
     margin: 1rem auto;
 }
 
-.toptags h2 {
-    font-size: 2rem;
+.starsdisplay {
+    margin: 0.5rem 0;
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+    align-items: baseline;
+}
+
+#starscount {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.starsdisplay svg {
+    width: 1.5em;
+    height: 1.5em;
+    align-self: center;
+}
+
+.toptags {
+    max-width: 50rem;
+    padding: 1rem;
+    border: 1px solid var(--primary);
+    border-radius: 1rem;
+    margin: 1rem auto;
 }
 
 .toptag {

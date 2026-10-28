@@ -28,6 +28,8 @@ router.use(auth.authenticate as () => Promise<void>);
 // --- Pages ---
 router.get("/", responses.getMain as () => Promise<void>);
 
+router.get("/api/gh-stars", responses.getApiGhStars as () => Promise<void>);
+
 router.get("/search", responses.getSearch as () => Promise<void>);
 
 router.get("/about", responses.getAbout as () => Promise<void>);
@@ -199,7 +201,6 @@ router.get(
 );
 
 // --- Scraper ---
-
 router.get(
     "/scraper",
     auth.authorizePage as () => void,

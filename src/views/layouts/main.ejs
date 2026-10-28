@@ -43,15 +43,15 @@
 
     <main>
 
-      <div class="hero">
+      <section class="hero" aria-label="Opis projektu">
         <img src="/images/favicon.svg" alt="Logo">
         <p>
           Gwiazdy ZSI to autorski projekt mający na celu zgromadzenie oraz oznaczenie zdjęć nauczycieli z ZSI. Zdjęcia można wyszukiwać poprzez znajdujących się na nich nauczycieli, co tworzy solidną bazę obrazków. Autor strony nie odpowiada za zamieszczone zdjęcia, jedynie za ich skatalogowanie.
         </p>
-      </div>
+      </section>
 
-      <div class="toptags">
-        <h2>Najpopularniejsze wyszukiwania</h2>
+      <section class="toptags" aria-labelledby="hTopTags">
+        <h2 id="hTopTags">Najpopularniejsze wyszukiwania</h2>
         <small class="light">przez ostatnie 30 dni</small>
 
         <% for( const {id, name, count} of toptags ) { %>
@@ -64,7 +64,20 @@
         <% if (!toptags.length) { %>
         <p>Brak wyszukiwań do pokazania...</p>
         <% } %>
-      </div>
+      </section>
+
+      <section class="ghstars" aria-labelledby="hGhStars">
+        <h2 id="hGhStars">Podoba ci się ten projekt?</h2>
+        <p>Zostaw gwiazdkę na <a href="https://github.com/sutaC/Gwiazdy-ZSI" target="_blank" rel="noopener noreferrer" class="highlight">GitHub</a>, to wiele dla mnie znaczy!</p>
+        <div class="starsdisplay">
+          <span>Gwiazdki:</span>
+          <span id="starscount" hx-get="/api/gh-stars" hx-trigger="load" hx-swap="innerHTML">?</span>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="m384-334 96-74 96 74-36-122 90-64H518l-38-124-38 124H330l90 64-36 122ZM233-120l93-304L80-600h304l96-320 96 320h304L634-424l93 304-247-188-247 188Zm247-369Z" />
+          </svg>
+          </svg>
+        </div>
+      </section>
 
     </main>
   </div>
